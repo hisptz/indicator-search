@@ -11,11 +11,6 @@ export function storeData(state: StoreData, action: any): StoreData {
         currentpe.currentperiod = action.payload;
         return currentpe;
 
-      case store_actions.SET_SELECTED_OU:
-        const currentStore = _.cloneDeep(state);
-        currentStore.currentorgunit = action.payload;
-        return currentStore;
-
       default:
         return state;
     }

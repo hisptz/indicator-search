@@ -9,10 +9,12 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {reducers} from '../store/reducers/reducers';
 import {getInitialState} from '../store/application.state';
 import {DataStoreEffect} from '../store/effects/dataStore.effect';
+import { FirstLoadComponent } from './first-load/first-load.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FirstLoadComponent
   ],
   imports: [
     BrowserModule,

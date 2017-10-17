@@ -7,8 +7,63 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <style>
+    @font-face{font-family:Scorecard-Averta;font-style:normal;font-weight:400;src:url(assets/fonts/averta-regular.woff2) format('woff2')}
+    @font-face{font-family:Scorecard-Averta;font-style:normal;font-weight:700;src:url(assets/fonts/averta-bold.woff2) format('woff2')}
+    body *{
+      font-family: Scorecard-Averta, sans-serif, appleLogo;
+    }
+    .text-center{
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-  <app-root></app-root>
+  <app-root>
+    <div class="container-fluid" style="margin-top: 80px">
+      <div class="text-center" style="margin-bottom: 40px">
+        <img src="assets/img/dictionary.png" style="height: 200px; width: 200px">
+      </div>
+      <h1 class="text-center" style="margin-bottom: 30px">INDICATOR DICTIONARY</h1>
+
+      <div class="container">
+        <p class="lead text-center">
+          Let's Search and Understand Your Indicators:
+        </p>
+        <div class="card-deck"  style="margin-left: 30px; margin-right: 60px">
+          <div class="card" style="border: 0px">
+            <div class="card-body">
+              <p class="card-text text-center">
+                <i class="fa fa-search" style="font-size: 37px"></i>
+              </p>
+              <h4 class="card-title text-center">Search</h4>
+            </div>
+          </div>
+          <div class="card" style="border: 0px">
+            <div class="card-body">
+              <p class="card-text text-center">
+                <i class="fa fa-book" style="font-size: 37px"></i>
+              </p>
+              <h4 class="card-title text-center">Learn</h4>
+            </div>
+          </div>
+          <div class="card" style="border: 0px">
+            <div class="card-body">
+              <p class="card-text text-center">
+                <i class="fa fa-line-chart" style="font-size: 37px"></i>
+              </p>
+              <h4 class="card-title text-center">Analyse</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container" style="margin-top: 20px">
+        <p class="lead text-center">Loading indicators, please wait...</p>
+      </div>
+
+    </div>
+
+  </app-root>
 </body>
 </html>
