@@ -1,0 +1,158 @@
+<div class="card">
+  <div class="card-header">
+    <h5 class="mb-0">
+        Data Analysis for {{indicator.name}}
+    </h5>
+  </div>
+
+  <div class="card-body">
+    <div class="container-fluid">
+      <div class="row" style="margin-bottom: 10px">
+        <div class="col">
+          <app-org-unit-filter
+            #orgunitFilter
+            [showUpdate]="true"
+            (onOrgUnitUpdate) = "updateOrgUnit($event)"
+            (onOrgUnitChange) = "changeOrgUnit($event)"
+          ></app-org-unit-filter>
+        </div>
+        <div class="col">
+          <app-period-filter
+            #periodFilter
+            [showUpdate]="true"
+            [selected_periods]="selected_periods"
+            [period_type]="indicator.periods[0]"
+            (onPeriodUpdate) = "updatePeriod($event)"
+            (onPeriodChange) = "changePeriod($event)"
+          ></app-period-filter>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="loadingdata">
+      <div class="text-center" style="margin-top: 100px">
+        <img src="assets/img/balls-5.svg">
+        <p>Preparing indicator data</p>
+      </div>
+    </div>
+    <div *ngIf="!loadingdata">
+      <div class="container-fluid" *ngIf="visualizationType === 'table'">
+        <div class="row">
+          <div class="col">
+            <label class="form-check-label cursor changable1">
+              <input type="checkbox" class="form-check-input" [(ngModel)]="showIndicator">
+              <i class="fa fa-eye" *ngIf="showIndicator"></i>
+              <i class="fa fa-eye-slash" *ngIf="!showIndicator"></i>
+              Indicator Table
+            </label>
+          </div>
+          <div class="col" *ngIf="indicator.numeratorTableObject">
+            <label class="form-check-label cursor changable1">
+              <input type="checkbox" class="form-check-input" [(ngModel)]="showNumerator">
+              <i class="fa fa-eye" *ngIf="showNumerator"></i>
+              <i class="fa fa-eye-slash" *ngIf="!showNumerator"></i>
+              Numerator Table
+            </label>
+          </div>
+          <div class="col" *ngIf="indicator.denominatorTableObject">
+            <label class="form-check-label cursor changable1">
+              <input type="checkbox" class="form-check-input" [(ngModel)]="showDenominator">
+              <i class="fa fa-eye" *ngIf="showDenominator"></i>
+              <i class="fa fa-eye-slash" *ngIf="!showDenominator"></i>
+              Denominator Table
+            </label>
+          </div>
+          <div class="col" *ngIf="indicator.dataSetTableObject">
+            <label class="form-check-label cursor changable1">
+              <input type="checkbox" class="form-check-input" [(ngModel)]="showDatasets">
+              <i class="fa fa-eye" *ngIf="showDatasets"></i>
+              <i class="fa fa-eye-slash" *ngIf="!showDatasets"></i>
+              Completeness & Timeliness
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="scrollable">
+
+        <div *ngIf="visualizationType === 'table'">
+
+          <app-table-template *ngIf="showIndicator" [tableObject]="indicator.tableObject"></app-table-template>
+
+          <app-table-template *ngIf="showNumerator && indicator.numeratorTableObject" [tableObject]="indicator.numeratorTableObject"></app-table-template>
+
+          <app-table-template *ngIf="showDenominator && indicator.denominatorTableObject" [tableObject]="indicator.denominatorTableObject"></app-table-template>
+
+          <app-table-template *ngIf="showDatasets && indicator.dataSetTableObject" [tableObject]="indicator.dataSetTableObject"></app-table-template>
+        </div>
+        <!--<div *ngIf="visualizationType === 'chart'">-->
+          <!--<div  [ng2-highcharts]="indicator.chartObject"></div>-->
+          <!--<div  [ng2-highcharts]="indicator.numeratorChartObject"></div>-->
+          <!--<div  [ng2-highcharts]="indicator.denominatorChartObject"></div>-->
+          <!--<div  [ng2-highcharts]="indicator.dataSetChartObject"></div>-->
+        <!--</div>-->
+        <div *ngIf="visualizationType === 'words'">
+          <p>
+            The value for {{ indicator.name }} for
+            <strong>  {{ orgUnitText }}  </strong>
+            for a period of
+            <strong> {{ periodText }} </strong>
+            is <strong>{{ dataValue }}</strong> Numerator and Denominator distribution is as follows:
+          </p>
+          <div *ngIf="analytics">
+            <p class="lead" style="margin-bottom: 0px">Numerator</p>
+            <ul class="list-unstyled">
+              <li *ngFor="let item of getListItems(indicator.numeratorDataElements, analytics, 'Numerator')">
+                {{ item.name }} <strong>( {{item.value}} )</strong>
+              </li>
+            </ul>
+            <p class="lead" style="margin-bottom: 0px">Denominator</p>
+            <ul class="list-unstyled">
+              <li *ngFor="let item of getListItems(indicator.denominatorDataELements, analytics, 'Denominator')">
+                {{ item.name }} <strong>( {{item.value}} )</strong>
+              </li>
+            </ul>
+
+            <p class="lead">Completeness for associated forms used to collect data for this is as follows:</p>
+            <ul class="list-unstyled">
+              <li *ngFor="let item of getListItems(indicator.datasetsUid, analytics, 'datasets')">
+                {{ item.name }} <strong>( {{item.value}}% )</strong>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="card-footer">
+    <button
+      class="btn btn-sm cursor"
+      [ngClass]="{ 'btn-outline-secondary': (visualizationType != 'words'),'btn-secondary':(visualizationType  == 'words') }"
+      (click)="changeVisualizationType('words')"
+    >
+      <i class="fa fa-id-card-o"></i> Words
+    </button>
+    <button
+      class="btn btn-sm cursor"
+      [ngClass]="{ 'btn-outline-secondary': (visualizationType != 'table'),'btn-secondary':(visualizationType  == 'table') }"
+      (click)="changeVisualizationType('table')"
+    >
+      <i class="fa fa-table"></i> Table
+    </button>
+    <!--<button-->
+      <!--class="btn btn-sm cursor"-->
+      <!--[ngClass]="{ 'btn-outline-secondary': (visualizationType != 'chart'),'btn-secondary':(visualizationType  == 'chart') }"-->
+      <!--(click)="changeVisualizationType('chart')"-->
+    <!--&gt;-->
+      <!--<i class="fa fa-bar-chart"></i> Charts-->
+    <!--</button>-->
+    <button
+      class="btn btn-sm btn-outline-secondary cursor"
+    >
+      <i class="fa fa-file-excel-o"></i> Excel
+    </button>
+  </div>
+</div>

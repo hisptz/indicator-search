@@ -12,3 +12,7 @@ export const getIndicators = createSelector(getStoreData, (datastate) => {
   return datastate.indicators;
 });
 
+export const getCurrentSelectedIndicator = createSelector(getStoreData, (datastate) => {
+  return datastate.currentSelectedIndicator;
+});
+
