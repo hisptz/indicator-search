@@ -19,20 +19,20 @@ export class IndicatorGroupService {
   // load indicators
   loadIndicators(page) {
     let url = '../../../api/indicators.json?fields=id,name,numerator,denominator,indicatorType[name],';
-    url += 'denominatorDescription,numeratorDescription,user[name],lastUpdated&pageSize=400&page=' + page;
+    url += 'denominatorDescription,numeratorDescription,user[name],lastUpdated,indicatorGroups[id]&pageSize=400&page=' + page;
     return this.http.get( url )
       .map((response: Response) => response.json())
       .catch( this.handleError );
   }
 
   // get all indicator groups
-  loadAll(): Observable<any> {
+  loadAllGroups(): Observable<any> {
     return Observable.create(observer => {
       if ( this._indicatorGroups ) {
         observer.next(this._indicatorGroups);
         observer.complete();
       }else {
-        this.http.get('../../../api/indicatorGroups.json?fields=id,name&paging=false')
+        this.http.get('../../../api/indicatorGroups.json?fields=id,name,indicators[id]&paging=false')
           .map((response: Response) => response.json())
           .catch( this.handleError )
           .subscribe((groups: any) => {

@@ -42,7 +42,6 @@ export class TrendComponent implements OnInit {
     this.http.get(analyticsUrl).map(res => res.json())
       .subscribe( (data) => {
         this.loadingdata = false;
-        this.indicator.numeratorTableObject = null;
         this.analytics = data;
         this.orgUnitText = this.getInitialOrgUnitName(this.visualizerService._sanitizeIncomingAnalytics(data));
         this.drawTables();
@@ -57,7 +56,6 @@ export class TrendComponent implements OnInit {
       '&dimension=ou:' + orgUnit.value + '&displayProperty=NAME';
     this.http.get(analyticsUrl).map(res => res.json())
       .subscribe( (data) => {
-        this.indicator.numeratorTableObject = null;
         this.analytics = data;
         this.orgUnitText = orgUnit.starting_name + ' ' + orgUnit.items.map((ou) => ou.name).join(', ');
         this.drawTables();
@@ -83,22 +81,22 @@ export class TrendComponent implements OnInit {
       displayList: false,
     };
     this.tableObject = this.visualizerService.drawTable(indicatorAnalytics, tableConfiguration);
-    // Numerator table
-    const numeratorAnalytics = {...this.analytics, metaData: {...this.analytics.metaData, dx: this.getNumeratorDataElements()}};
-    const numeratorTableConfiguration = {...tableConfiguration, title: 'Numerator'};
-    this.indicator.numeratorTableObject = this.visualizerService.drawTable(numeratorAnalytics, numeratorTableConfiguration);
-    // denominator table
-    if ( this.getDenominatorDataElements().length !== 0) {
-      const denominatorAnalytics = {...this.analytics, metaData: {...this.analytics.metaData, dx: this.getDenominatorDataElements()}};
-      const denominatorTableConfiguration = {...tableConfiguration, title: 'Denominator'};
-      this.indicator.numeratorTableObject = this.visualizerService.drawTable(denominatorAnalytics, denominatorTableConfiguration);
-    }
-    // DataSets table
-    if ( this.getDataSets().length !== 0) {
-      const datasetAnalytics = {...this.analytics, metaData: {...this.analytics.metaData, dx: this.getDataSets()}};
-      const datasetTableConfiguration = {...tableConfiguration, title: 'Completeness'};
-      this.indicator.dataSetTableObject = this.visualizerService.drawTable(datasetAnalytics, datasetTableConfiguration);
-    }
+    // // Numerator table
+    // const numeratorAnalytics = {...this.analytics, metaData: {...this.analytics.metaData, dx: this.getNumeratorDataElements()}};
+    // const numeratorTableConfiguration = {...tableConfiguration, title: 'Numerator'};
+    // this.indicator.numeratorTableObject = this.visualizerService.drawTable(numeratorAnalytics, numeratorTableConfiguration);
+    // // denominator table
+    // if ( this.getDenominatorDataElements().length !== 0) {
+    //   const denominatorAnalytics = {...this.analytics, metaData: {...this.analytics.metaData, dx: this.getDenominatorDataElements()}};
+    //   const denominatorTableConfiguration = {...tableConfiguration, title: 'Denominator'};
+    //   this.indicator.numeratorTableObject = this.visualizerService.drawTable(denominatorAnalytics, denominatorTableConfiguration);
+    // }
+    // // DataSets table
+    // if ( this.getDataSets().length !== 0) {
+    //   const datasetAnalytics = {...this.analytics, metaData: {...this.analytics.metaData, dx: this.getDataSets()}};
+    //   const datasetTableConfiguration = {...tableConfiguration, title: 'Completeness'};
+    //   this.indicator.dataSetTableObject = this.visualizerService.drawTable(datasetAnalytics, datasetTableConfiguration);
+    // }
   }
 
   getInitialPeriod(): string {

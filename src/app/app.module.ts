@@ -35,6 +35,7 @@ import { DataQualityComponent } from './details/data-quality/data-quality.compon
 import {VisualizerService} from './services/visualizer.service';
 import {OrgUnitService} from './services/org-unit.service';
 import {TableTemplateComponent} from './components/table-template/table-template.component';
+import { FilterGroupsPipe } from './pipes/filter-groups.pipe';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import {TableTemplateComponent} from './components/table-template/table-template
     DataComponent,
     TrendComponent,
     DataQualityComponent,
-    TableTemplateComponent
+    TableTemplateComponent,
+    FilterGroupsPipe
   ],
   imports: [
     BrowserModule,
