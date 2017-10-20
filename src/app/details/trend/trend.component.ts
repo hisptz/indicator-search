@@ -181,6 +181,7 @@ export class TrendComponent implements OnInit {
   }
 
   getInitialOrgUnitName(analytics) {
+    console.log(analytics)
     this.orgunitsForAnalytics = {
       name: 'ou',
       value: analytics.metaData.ou[0],

@@ -115,7 +115,12 @@ export class VisualizerService {
       _.forEach(analyticsObject.metaData.items, function(value: any, key) {
         arr.names[key] = value.name;
       });
+      const dimensions = analyticsObject.metaData.dimensions;
+      // analyticsObject = {...analyticsObject, metaData: {...analyticsObject.metaData, names: arr.names, ...dimensions }};
       analyticsObject.metaData.names = arr.names;
+      analyticsObject.metaData.ou = analyticsObject.metaData.dimensions.ou;
+      analyticsObject.metaData.pe = analyticsObject.metaData.dimensions.pe;
+      analyticsObject.metaData.dx = analyticsObject.metaData.dimensions.dx;
     }
     for (const header of analyticsObject.headers) {
       if (header.hasOwnProperty('optionSet')) {

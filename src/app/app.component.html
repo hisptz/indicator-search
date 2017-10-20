@@ -8,7 +8,7 @@
     <div class="col-md-6">
      <input class="form-control" placeholder="Search By Name..." [(ngModel)]="queryterm">
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3"  appClickOutside (clickOutside)="hideGroups = true">
       <button class="btn btn-outline-secondary cursor pull-right" (click)="displayPerTree()">
         <i class="fa fa-list"></i> Indicator Groups Filter
         <span class="badge badge-secondary" *ngIf="groupToFilter.length != 0"> {{ groupToFilter.length }}</span>
@@ -29,7 +29,7 @@
               [ngClass]="{ 'selectedGroup': inGroupToFilter(item.id)}"
           >
             <i class="fa fa-check-circle-o text-success" *ngIf="inGroupToFilter(item.id)"></i>
-              {{ item.name }}
+              {{ item.name }} ( {{ item.indicators.length }} )
 
           </li>
         </ul>
