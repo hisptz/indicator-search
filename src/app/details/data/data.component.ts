@@ -2,9 +2,9 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ApplicationState} from '../../store/application.state';
 import {Store} from '@ngrx/store';
 import * as selectors from '../../store/selectors';
-import {Http} from '@angular/http';
 import {VisualizerService} from "../../services/visualizer.service";
 import {PeriodFilterComponent} from "../../shared-components/period-filter/period-filter.component";
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-data',
@@ -30,7 +30,7 @@ export class DataComponent implements OnInit {
   loadingdata = true;
   constructor(
     private store: Store<ApplicationState>,
-    private http: Http,
+    private http: HttpClient,
     private visualizerService: VisualizerService
   ) {
   }
@@ -40,7 +40,7 @@ export class DataComponent implements OnInit {
       'dx:' + this.prepareInitialData() +
       '&dimension=pe:' + this.getInitialPeriod() +
       '&dimension=ou:USER_ORGUNIT&displayProperty=NAME';
-    this.http.get(analyticsUrl).map(res => res.json())
+    this.http.get(analyticsUrl)
       .subscribe( (data) => {
         this.loadingdata = false;
         this.indicator.numeratorTableObject = null;
@@ -51,12 +51,12 @@ export class DataComponent implements OnInit {
         this.periodForAnalytics = {
           name: 'pe',
           items: [
-            { id: data.metaData.pe[0],
+            { id: data['metaData']['pe'][0],
               name: this.periodText
             }],
-          value: data.metaData.pe[0]
+          value: data['metaData']['pe'][0]
         };
-        this.selected_periods.push({ id: data.metaData.pe[0], name: this.periodText });
+        this.selected_periods.push({ id: data['metaData']['pe'][0], name: this.periodText });
         this.drawTables();
       });
   }
@@ -67,7 +67,7 @@ export class DataComponent implements OnInit {
       'dx:' + this.prepareInitialData() +
       '&dimension=pe:' + period.value +
       '&dimension=ou:' + orgUnit.value + '&displayProperty=NAME';
-    this.http.get(analyticsUrl).map(res => res.json())
+    this.http.get(analyticsUrl)
       .subscribe( (data) => {
         this.indicator.numeratorTableObject = null;
         this.analytics = data;

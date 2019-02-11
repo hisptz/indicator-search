@@ -1,9 +1,9 @@
 import {
   Component, OnInit, Output, Input, EventEmitter
 } from '@angular/core';
-import {Http} from '@angular/http';
 
 import * as _ from 'lodash';
+import { HttpClient } from '@angular/common/http';
 
 const PERIOD_TYPE: Array<any> = [
   {value: 'Monthly', name: 'Monthly', shown: true},
@@ -56,7 +56,7 @@ export class PeriodFilterComponent implements OnInit {
   period_type_config: Array<any>;
 
   constructor(
-    private http: Http
+    private http: HttpClient
   ) {
     const date = new Date();
     date.setDate(0);
@@ -78,7 +78,6 @@ export class PeriodFilterComponent implements OnInit {
 
   getSystemSettings() {
     return this.http.get('../../../api/25/systemSettings')
-      .map(res => res.json() || {});
   }
 
   ngOnInit() {

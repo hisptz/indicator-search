@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 /**
  * Created by kelvin on 9/19/16.
  */
@@ -10,7 +10,7 @@ export class Constants {
   system_info: any = null;
   root_api = '../../../api/25/';
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
     this.root_dir = '../../../';
     this.loadVersion().subscribe((system_info: any) => {
       if (system_info.version >= 2.25) {
@@ -24,8 +24,6 @@ export class Constants {
 
   load() {
     return this.http.get('manifest.webapp')
-      .map((response: Response) => response.json())
-      .catch(this.handleError);
   }
 
   // load system version
@@ -36,8 +34,6 @@ export class Constants {
         observer.complete();
       }else {
         this.http.get('../../../api/system/info.json')
-          .map((response: Response) => response.json())
-          .catch( this.handleError )
           .subscribe((useInfo) => {
               this.system_info = useInfo;
               observer.next(this.system_info);
@@ -55,7 +51,7 @@ export class Constants {
     let errMsg: string;
     if (error instanceof Response) {
       const body = error.json() || '';
-      const err = body.error || JSON.stringify(body);
+      const err = JSON.stringify(body);
       errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
     } else {
       errMsg = error.message ? error.message : error.toString();

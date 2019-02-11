@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {VisualizerService} from '../../services/visualizer.service';
-import {Http} from '@angular/http';
 import {Store} from '@ngrx/store';
 import {ApplicationState} from '../../store/application.state';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-trend',
@@ -30,7 +30,7 @@ export class TrendComponent implements OnInit {
   chartObject: any = null;
   constructor(
     private store: Store<ApplicationState>,
-    private http: Http,
+    private http: HttpClient,
     private visualizerService: VisualizerService
   ) { }
 
@@ -39,7 +39,7 @@ export class TrendComponent implements OnInit {
       'dx:' + this.indicator.uid +
       '&dimension=pe:' + this.getInitialPeriod() +
       '&dimension=ou:USER_ORGUNIT&displayProperty=NAME';
-    this.http.get(analyticsUrl).map(res => res.json())
+    this.http.get(analyticsUrl)
       .subscribe( (data) => {
         this.loadingdata = false;
         this.analytics = data;
@@ -54,7 +54,7 @@ export class TrendComponent implements OnInit {
       'dx:' + this.indicator.uid +
       '&dimension=pe:' + this.periodType +
       '&dimension=ou:' + orgUnit.value + '&displayProperty=NAME';
-    this.http.get(analyticsUrl).map(res => res.json())
+    this.http.get(analyticsUrl)
       .subscribe( (data) => {
         this.analytics = data;
         this.orgUnitText = orgUnit.starting_name + ' ' + orgUnit.items.map((ou) => ou.name).join(', ');
