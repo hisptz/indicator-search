@@ -9,12 +9,7 @@
     <div class="container-fluid">
       <div class="row" style="margin-bottom: 10px">
         <div class="col-5">
-          <app-org-unit-filter
-            #orgunitFilter
-            [showUpdate]="true"
-            (onOrgUnitUpdate) = "updateOrgUnit($event)"
-            (onOrgUnitChange) = "changeOrgUnit($event)"
-          ></app-org-unit-filter>
+          <!-- Org unit filter -->
         </div>
         <div class="col-7">
           <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
@@ -72,7 +67,7 @@
 
           <app-table-template [tableObject]="tableObject"></app-table-template>
         </div>
-        <div *ngIf="visualizationType === 'chart'" [ng2-highcharts]="chartObject"></div>
+        <!-- <div *ngIf="visualizationType === 'chart'" [ng2-highcharts]="chartObject"></div> -->
 
       </div>
 

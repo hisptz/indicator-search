@@ -9,12 +9,7 @@
     <div class="container-fluid">
       <div class="row" style="margin-bottom: 10px">
         <div class="col">
-          <app-org-unit-filter
-            #orgunitFilter
-            [showUpdate]="true"
-            (onOrgUnitUpdate) = "updateOrgUnit($event)"
-            (onOrgUnitChange) = "changeOrgUnit($event)"
-          ></app-org-unit-filter>
+          <!-- org unit filter -->
         </div>
         <div class="col">
           <app-period-filter

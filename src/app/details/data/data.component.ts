@@ -4,8 +4,7 @@ import {Store} from '@ngrx/store';
 import * as selectors from '../../store/selectors';
 import {Http} from '@angular/http';
 import {VisualizerService} from "../../services/visualizer.service";
-import {PeriodFilterComponent} from "../../components/period-filter/period-filter.component";
-import {OrgUnitFilterComponent} from "../../components/org-unit-filter/org-unit-filter.component";
+import {PeriodFilterComponent} from "../../shared-components/period-filter/period-filter.component";
 
 @Component({
   selector: 'app-data',

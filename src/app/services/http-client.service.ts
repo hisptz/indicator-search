@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import {Http, Headers} from '@angular/http';
 import {Constants} from './costants';
-import {Observable} from "rxjs/Observable";
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class HttpClientService {
   public APIURL = '../../../';
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
     // this.APIURL = constant.root_api;
   }
 
@@ -21,40 +21,31 @@ export class HttpClientService {
   get(url) {
     const headers = new Headers();
     this.createAuthorizationHeader(headers);
-    return this.http.get(this.APIURL + url, {
-      headers: headers
-    }).map(this.responseHandler()).catch(this.handleError);
+    return this.http.get(this.APIURL + url).pipe(catchError(this._handleError));
   }
 
   get2(url) {
     const headers = new Headers();
     this.createAuthorizationHeader(headers);
-    return this.http.get( url, {
-      headers: headers
-    }).map(this.responseHandler()).catch(this.handleError);
+    return this.http.get( url).pipe(catchError(this._handleError));
   }
 
   post(url, data, options?) {
     const headers = new Headers();
     this.createAuthorizationHeader(headers, options);
-    return this.http.post(this.APIURL + url, data, {
-      headers: headers
-    }).map(this.responseHandler());
+    return this.http.post(this.APIURL + url, data).
+          pipe(catchError(this._handleError))
   }
   put(url, data, options?) {
     const headers = new Headers();
     this.createAuthorizationHeader(headers, options);
-    return this.http.put(this.APIURL + url, data, {
-      headers: headers
-    }).map(this.responseHandler());
+    return this.http.put(this.APIURL + url, data).pipe(catchError(this._handleError))
   }
 
   delete(url, options?) {
     const headers = new Headers();
     this.createAuthorizationHeader(headers, options);
-    return this.http.delete(this.APIURL + url, {
-      headers: headers
-    }).map(this.responseHandler());
+    return this.http.delete(this.APIURL + url).pipe(catchError(this._handleError))
   }
 
   responseHandler() {
@@ -69,17 +60,26 @@ export class HttpClientService {
     };
   }
 
-  handleError (error: Response | any) {
-    // In a real world app, we might use a remote logging infrastructure
-    // let errMsg: string;
-    // if (error instanceof Response) {
-    //   const body = error.json() || '';
-    //   const err = body.error || JSON.stringify(body);
-    //   errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-    // } else {
-    //   errMsg = error.message ? error.message : error.toString();
-    // }
-    return Observable.throw(error);
+
+  private _handleError(err: HttpErrorResponse) {
+    let error = null;
+    if (err.error instanceof Error) {
+      // A client-side or network error occurred. Handle it accordingly.
+      error = {
+        message: err.error,
+        status: err.status,
+        statusText: err.statusText
+      };
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      error = {
+        message: err.error instanceof Object ? err.error.message : err.error,
+        status: err.status,
+        statusText: err.statusText
+      };
+    }
+    return new error;
   }
 
 }

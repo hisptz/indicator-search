@@ -1,39 +1,35 @@
 import {Injectable} from '@angular/core';
-
-import {Http, Response} from '@angular/http';
 import 'rxjs/Rx';
-import {Observable} from 'rxjs/Observable';
+import { HttpClient } from '@angular/common/http';
+import {catchError, map, switchMap, tap} from 'rxjs/operators';
 
 @Injectable()
 export class FilterService {
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
   }
 
   // Get available organisation units levels information
   getOrgunitLevelsInformation() {
-    return this.http.get('../../../api/organisationUnitLevels.json?fields=id')
-      .map((response: Response) => response.json())
-      .catch(this.handleError);
+    return this.http.get('../../../api/organisationUnitLevels.json?fields=id').pipe(
+      map((response: Response) => response.json())
+    )
   }
 
   // Get orgunits and children
   getOrgunitDetails(orgunit) {
     return this.http.get('../../../api/organisationUnits/' + orgunit + '.json?fields=id,name,level,children[id,name,level]')
-      .map((response: Response) => response.json())
-      .catch(this.handleError);
+      .pipe(map((response: Response) => response.json()))
   }
 
   // Get starting organisation Unit
   getInitialOrgunitsForTree(uid: string = null) {
     if (uid === null) {
       return this.http.get('../../../api/organisationUnits.json?filter=level:eq:1&paging=false&fields=id,name,level,children[id,name,level]')
-        .map((response: Response) => response.json())
-        .catch(this.handleError);
+        .pipe(map((response: Response) => response.json()))
     } else {
       return this.http.get('../../../api/organisationUnits/' + uid + '.json?fields=id,name,level')
-        .map((response: Response) => response.json())
-        .catch(this.handleError);
+        .pipe(map((response: Response) => response.json()))
     }
   }
 
@@ -410,7 +406,7 @@ export class FilterService {
 
   // Handling error
   handleError(error: any) {
-    return Observable.throw(error);
+    return error;
   }
 
   // Get the name of the last period for a tooltip display

@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
 import 'rxjs/Rx';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import {catchError, map, switchMap, tap} from 'rxjs/operators';
 
 @Injectable()
 export class OrgUnitService {
 
   nodes: any[] = null;
-  orgunit_levels: any[] = [];
+  orgunit_levels: any;
   user_orgunits: any[] = [];
   orgunit_groups: any[] = [];
   initial_orgunits: any[] = [];
   user_information: any = null;
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
   // Get current user information
   getUserInformation (priority = null) {
@@ -26,8 +26,7 @@ export class OrgUnitService {
         observer.complete();
       }else {
         this.http.get(url)
-          .map((response: Response) => response.json())
-          .catch( this.handleError )
+          .pipe(map((response: Response) => response.json()))
           .subscribe((useInfo) => {
               this.user_information = useInfo;
               observer.next(this.user_information);
@@ -188,8 +187,7 @@ export class OrgUnitService {
         observer.complete();
       }else {
         this.http.get('../../../api/organisationUnitLevels.json?fields=id,name,level&order=level:asc')
-          .map((response: Response) => response.json())
-          .catch( this.handleError )
+          .pipe(map((response: Response) => response.json()))
           .subscribe((levels) => {
             this.orgunit_levels = levels;
             observer.next(this.orgunit_levels);
@@ -210,8 +208,7 @@ export class OrgUnitService {
         observer.complete();
       }else {
         this.http.get('../../../api/organisationUnitGroups.json?fields=id,name&paging=false')
-          .map((response: Response) => response.json())
-          .catch( this.handleError )
+          .pipe(map((response: Response) => response.json()))
           .subscribe((groups: any) => {
               this.orgunit_groups = groups.organisationUnitGroups;
               observer.next(this.orgunit_groups);
@@ -227,8 +224,7 @@ export class OrgUnitService {
   // Get system wide settings
   getAllOrgunitsForTree (fields) {
     return this.http.get('../../../api/organisationUnits.json?filter=level:eq:1&paging=false&fields=' + fields)
-      .map((response: Response) => response.json())
-      .catch( this.handleError );
+      .pipe(map((response: Response) => response.json()))
   }
 
   // Get orgunit for specific
@@ -239,8 +235,7 @@ export class OrgUnitService {
         observer.complete();
       } else {
         this.http.get('../../../api/organisationUnits.json?fields=' + fields + '&filter=id:in:[' + orgunits.join(',') + ']&paging=false')
-          .map((response: Response) => response.json())
-          .catch( this.handleError )
+          .pipe(map((response: Response) => response.json()))
           .subscribe((nodes: any) => {
             this.nodes = nodes.organisationUnits;
             observer.next(this.nodes);
@@ -261,8 +256,7 @@ export class OrgUnitService {
         observer.complete();
       } else {
         this.http.get('../../../api/organisationUnits.json?fields=id,name,level,children[id,name]&filter=id:in:[' + orgunits.join(',') + ']&paging=false')
-          .map((response: Response) => response.json())
-          .catch( this.handleError )
+          .pipe(map((response: Response) => response.json()))
           .subscribe((nodes: any) => {
             this.initial_orgunits = nodes.organisationUnits;
             observer.next(this.initial_orgunits);

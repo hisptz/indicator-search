@@ -10,7 +10,6 @@ import {SetSelectedIndicatorAction} from '../../store/actions/store.data.action'
 import * as _ from 'lodash';
 
 @Component({
-  moduleId: module.id,
   selector: 'app-metadata-dictionary',
   templateUrl: './metadata-dictionary.component.html',
   styleUrls: ['./metadata-dictionary.component.css']
@@ -75,37 +74,37 @@ export class MetadataDictionaryComponent implements OnInit, OnDestroy {
                 // console.log(this.dataElementAvailable(data.numerator));
                 const indicatorObject = indicatorData;
                 const numeratorExp = self.get('api/expressions/description?expression='
-                  + encodeURIComponent(indicatorData.numerator));
+                  + encodeURIComponent(indicatorData['numerator']));
                 const numeratorDataset = self.get('api/dataElements.json?fields=dataSetElements[dataSet[periodType,id,name,timelyDays,' +
                   'formType,created,expiryDays]],dataSets[periodType,id,name,timelyDays,formType,created,expiryDays]&filter=id:in:[' +
-                  this.dataElementAvailable(indicatorData.numerator) + ']&paging=false)');
+                  this.dataElementAvailable(indicatorData['numerator']) + ']&paging=false)');
                 const denominatorExp = self.get('api/expressions/description?expression=' +
-                  encodeURIComponent(indicatorData.denominator));
+                  encodeURIComponent(indicatorData['denominator']));
                 const denominatorDataSet = self.get('api/dataElements.json?fields=dataSetElements[dataSet[periodType,id,name,timelyDays,' +
                   'formType,created,expiryDays]],dataSets[periodType,id,name,timelyDays,formType,created,expiryDays]&filter=id:in:[' +
-                  this.dataElementAvailable(indicatorData.denominator) + ']&paging=false)');
+                  this.dataElementAvailable(indicatorData['denominator']) + ']&paging=false)');
                 this.subscription = Observable.forkJoin([numeratorExp, numeratorDataset, denominatorExp, denominatorDataSet])
                   .subscribe(results => {
-                      const numerator = results[0].description;
+                      const numerator = results[0]['description'];
                       const numeratorDataEl = results[1];
-                      const denominator = results[2].description;
+                      const denominator = results[2]['description'];
                       const denominatorDataEl = results[3];
                       const selectedIndicator = {
                         object: indicatorObject,
-                        numeratorDaset: { dataSets: this.getDataSetsFromDataElements(numeratorDataEl.dataElements)},
-                        denominatorDaset: { dataSets: this.getDataSetsFromDataElements(denominatorDataEl.dataElements)},
-                        name: indicatorObject.name,
-                        uid: indicatorObject.id,
-                        numeratorDataElements: this.basicDataElementAvailable(indicatorData.numerator),
-                        denominatorDataELements: this.basicDataElementAvailable(indicatorData.denominator),
-                        denominatorDescription: indicatorObject.denominatorDescription,
-                        numeratorDescription: indicatorObject.numeratorDescription,
+                        numeratorDaset: { dataSets: this.getDataSetsFromDataElements(numeratorDataEl['dataElements'])},
+                        denominatorDaset: { dataSets: this.getDataSetsFromDataElements(denominatorDataEl['dataElements'])},
+                        name: indicatorObject['name'],
+                        uid: indicatorObject['id'],
+                        numeratorDataElements: this.basicDataElementAvailable(indicatorData['numerator']),
+                        denominatorDataELements: this.basicDataElementAvailable(indicatorData['denominator']),
+                        denominatorDescription: indicatorObject['denominatorDescription'],
+                        numeratorDescription: indicatorObject['numeratorDescription'],
                         numerator: numerator,
                         denominator: denominator,
-                        indicatorType: indicatorObject.indicatorType,
-                        dataSets: indicatorObject.dataSets,
-                        numeratorForm: indicatorObject.numerator,
-                        demonitorForm: indicatorObject.denominator
+                        indicatorType: indicatorObject['indicatorType'],
+                        dataSets: indicatorObject['dataSets'],
+                        numeratorForm: indicatorObject['numerator'],
+                        demonitorForm: indicatorObject['denominator']
                       };
                       Completeindicators.push(selectedIndicator);
                       selectedIndicator['periods']     = this.getMinimumPeriod(selectedIndicator);
