@@ -1,0 +1,26 @@
+.card-body {
+    flex: 1 1 auto;
+    padding: 0.25rem !important;
+}
+
+.card-body a {
+    color: #2C6695 !important;
+    text-decoration: none;
+}
+
+.card-title {
+    padding: 10px 10px 2px 0;
+}
+
+.card {
+    border: none !important;
+}
+
+.analysis-link {
+    float: right;
+}
+
+.list-group-item {
+    text-align: left;
+    padding: .5rem 0.15rem;
+}

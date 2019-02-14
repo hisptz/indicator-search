@@ -1,124 +1,84 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div class="container-fluid" style="margin-top: 60px">
-  <div class="row">
-    <div class="col-md-3" style="padding-top: 5px">
-      <span class="lead" > <i class="fa fa-search"></i> Indicator Search</span>
-    </div>
-    <div class="col-md-6">
-     <input class="form-control" placeholder="Search By Name..." [(ngModel)]="queryterm">
-    </div>
-    <div class="col-md-3"  appClickOutside (clickOutside)="hideGroups = true">
-      <button class="btn btn-outline-secondary cursor pull-right" (click)="displayPerTree()">
-        <i class="fa fa-list"></i> Indicator Groups Filter
-        <span class="badge badge-secondary" *ngIf="groupToFilter.length != 0"> {{ groupToFilter.length }}</span>
-        <a
-          class="removeGroups"
-          title="Remove all"
-          *ngIf="groupToFilter.length != 0"
-          (click)="groupToFilter = []"
-        > <i class="fa fa-remove"></i> </a>
-
-      </button>
-      <div class="tree-view" [ngClass]="{'hiddenTree':hideGroups}">
-        <ul class="nav nav-pills flex-column">
-          <li *ngFor="let item of indicatorGroups"
-              (click)="addGroupFilter(item)"
-              class="period cursor"
-              title="Click to select"
-              [ngClass]="{ 'selectedGroup': inGroupToFilter(item.id)}"
-          >
-            <i class="fa fa-check-circle-o text-success" *ngIf="inGroupToFilter(item.id)"></i>
-              {{ item.name }} ( {{ item.indicators.length }} )
-
-          </li>
-        </ul>
+    <div class="row">
+      <div class="col-md-4" style="padding-top: 5px">
+        <span class="lead" >
+          <i class="fa fa-search">
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAALCSURBVGhD7ZlLqE1RGMePtyQGZCCPMpABGRCRUJREmTCRTMzIcyADcZOYGEgmIkoeZUomikIeIUQhDBgYeOQ58Ob3W/fs7r2nc+7p7nP2Xu3a//p19vftb53O/5611tnfupVSBdRw2AmP4Tv8i8hpSKXJ8ALqvWkMUhkZAc/BN7gJ82EgxNBqSG1kNzj4Ggw2EVEtGXkKDp4borhKbcQp9Ad+QD8TkZXayEhw4KcQxVdppDSSkXI3MgEmwagQtU+5GhkDv8FxV0y0UbkaWQ+OEbfusdAu5WrkKjjmbfV1M7RLuRkZB34LX2ENOPYGNJPTcVjnZa/KzchWsP4MDIXP8BcmQj3NgmfgGFuDPdCbcjNyG6xfEaJK5SQYbw9RT/kA+gq8/wZ+Vq+XQiPlYsTt1r/+RxhiAi0Dx98LUU/Z47yES+BznGvJ2uPQSLkY2QHWnghRpwbBBzDvB6+n8TAdEtMXoJFyMfIArF0Soi4dBfO7QtSlqfAIvNedqEamgHXvoLZ7XATes9dP1B+SRe46uQ+2CsZRjXSAdedhRg3uTF/A+9NAJcZtoRPja8FcVCNPwLpm7AU1D4xtnxMluWhGXKjWfIO7DXgI1vgNKNtm4+sh6tQCMHcxRPWVqZH9YM3BENWX2+trsG4mjK5eO+WWg9PvVDX3HhqdD2RmxA/ob4E1c0z0ogNgna8q2c3q0Wh6ZWbEZySnzmVodjjhwrdWA2oAbASn0i04Bm4GPubUbtWJMl/seak0UhrJSKWR0khGaqsR+/KFsDgC+6BlI77RnWocm9RGbGHFazs+j3zORWQT9EmJEfFwYAPE+rdbS+puZJuJoiox4lmu51SFldNIE/bTPq0WWkl3tzJEBZYLXCPuVvYUhZVTyuZHM7/gLGyBVRGZDankQj8MGtFQbPr8g1grT9X9Ng7BkYisg1IFUKXyH0pK6Yr5XLikAAAAAElFTkSuQmCC">
+          </i> Indicator Dictionary</span>
       </div>
-    </div>
-  </div>
-</div>
-
-<div class="container-fluid" style="margin-top: 20px">
-
-  <div [@hiddenItem] = "loading?'notHidden':'hidden'" style="margin-bottom: 10px">
-    <h5 class="text-center"><img src="assets/img/balls-5.svg" style="height: 70px"/>
-      Loading Indicators {{ loadedIndicators }}/ {{ totalIndicators || 0}}( {{ completePercent | number: '1.0-0' }}% )
-    </h5>
-    <div class="progress" style="margin-bottom: 5px">
-      <div
-        class="progress-bar progress-bar-striped progress-bar-animated"
-        role="progressbar"
-        [attr.aria-valuenow]="completePercent"
-        [attr.aria-valuemin]="0"
-        [attr.aria-valuemax]="100"
-        [style.width]="(completePercent)+'%'"
-      ></div>
-    </div>
-  </div>
-
-  <p  *ngIf="completePercent == 100" class="text-center lead" style="margin-bottom: 5px; margin-top: 5px">
-    {{ (indicators | filterByName: queryterm | filterGroups: groupToFilter ).length || 0 }} Indicators
-    <span *ngIf="queryterm"> Matching {{queryterm}} </span>
-    <span *ngIf="groupToFilter.length !== 0"> - In {{ groupNames() }} </span>
-  </p>
-
-  <p
-    *ngIf="completePercent == 100 && (indicators | filterByName: queryterm | filterGroups: groupToFilter ).length == 0"
-    class="text-center lead" style="margin-bottom: 5px; margin-top: 100px">
-    <span class="lead"> No Indicators</span>
-  </p>
-
-  <div class="card-deck">
-    <div
-      class="card col-sm-12 col-md-4"
-      *ngFor="let indicator of indicators | filterByName: queryterm  | filterGroups: groupToFilter | paginate: config "
-      (click) ="mouseEnter(indicator)"
-      [@hoverChanged]="indicator.hoverState || 'notHovered'"
-      (mouseenter) ="indicator.hoverState = 'hoovered'"
-      (mouseleave) ="indicator.hoverState = 'notHovered'"
-    >
-      <app-indicator [indicator]="indicator"></app-indicator>
-      <div class="card-footer text-center" style="background-color: inherit">
-        <button
-          class="btn btn-outline-secondary cursor"
-          style="margin-bottom: 15px;width: 50%;align-self: center;">
-          <i class="fa fa-lightbulb-o"></i> More
+      <div class="col-md-4">
+       <input class="" id="searching-input" placeholder="Search indicator by name, description..." [(ngModel)]="searchingText">
+      </div>
+      <div class="col-md-2"></div>
+      <div class="col-md-2" style="float: right" appClickOutside (clickOutside)="hideGroups = true">
+        <button class="btn-filter cursor pull-right" (click)="displayPerTree()">
+          <i class="list">
+              <img height="20" style="margin-top: -6px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAH1SURBVGhD7dixSxxBGMbhEyGoBCSFIkFSBLEIpNEi/4BoZcBC7CV1bE1jZ6cQEIRUAZuInWCXJo1iIQRsxaDYBRSLCAZD4u9V9hjl2x2m2OyMzgsP3g578L2sd7tzLbKNf4HWEV2sQX2OEV2sQX2SLXKCNec4ySLneA3lM7QWdZG/+IBDZ+0Cb6CojEpVFenEswb0oD30ig5IP3bwB2+1QF5C/17FuWVFVLY4539aRfvgFya1QLowcfuy1YcDuG8sK/IKZw1Ywp0BdRXeo4gu2S7ccySZD7v+zZ5g01lzJVNENKy1LkkVqZKL1Jkv0L0jxDJych5LnkKPICF0548uP2B9M1X5huhiDeqT7yN1xhr0vn0sQHsWHSdZRI/wg1D03K+1qIv8xgy0qSrWfmIIyjh0TlWRbow24AXaQ3/UAdFXqx5b3G2u/uq4OLesSBQ7RG2q5rRAOjB8+/LmiujKuG8sK6Jz9xowjzsDijZV+hFBsba5ksyHfQsDsLa5kkwRuTTWCkkVqRJlkeImF+II0WURXwO5Pxnl5Dz0aMc3Fug5ossprG+mKt8RXaxBffINsc5Yg/rkInXGGtSnrEgvphswAnNQn7IiUewQQ5QV0d55owHvYA7qkz/sdcYa1CcXqTNXsIatol/wo8ssPgWaQkRpta4B6MTCByp6X10AAAAASUVORK5CYII=">
+          </i> Indicator Groups Filter
+  
         </button>
+        <div class="tree-view" [ngClass]="{'hiddenTree':hideGroups}">
+          <ul class="nav nav-pills flex-column">
+          </ul>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<div class="container-fluid">
-  <div class="ourmodel"
-       [@visibilityChanged]="hoverState || 'notHovered'"
-  >
-    <p><a class="btn btn-light btn-sm pull-right" (click)="mouseLeave()"><i class="fa fa-close"></i> </a></p>
-    <app-details [selectedIndicator]="selectedIndicator"></app-details>
-  </div>
-</div>
+  <!-- <div class="container-fluid">
+    <div class="ourmodel"
+         [@visibilityChanged]="hoverState || 'notHovered'"
+    >
+      <p><a class="btn btn-light btn-sm pull-right" (click)="mouseLeave()"><i class="fa fa-close"></i> </a></p>
+      <app-details [selectedIndicator]="selectedIndicator"></app-details>
+    </div>
+  </div> -->
 
-<div class="row justify-content-center" style="margin-top: 25px">
-  <pagination-template #nm="paginationApi" [id]="config.id" (pageChange)="config.currentPage = $event">
-    <nav aria-label="Page navigation example">
-      <ul class="pagination ">
-        <li class="page-item" [class.disabled]="nm.isFirstPage()">
-          <a class="page-link" style="cursor: pointer" (click)="nm.previous()" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-            <span class="sr-only">Previous</span>
-          </a>
-        </li>
-        <li class="page-item"
-            *ngFor="let page of nm.pages"
-            [class.active]="nm.getCurrent() === page.value"
-        ><a class="page-link" style="cursor: pointer" (click)="nm.setCurrent(page.value)">
-          {{ page.label }}
-        </a></li>
-        <li class="page-item" [class.disabled]="nm.isLastPage()">
-          <a class="page-link" style="cursor: pointer" (click)="nm.next()" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-            <span class="sr-only">Next</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
-  </pagination-template>
-</div>
+  <div class="container-fluid" style="margin-top: 20px">
+
+      <div [@hiddenItem] = "loading?'notHidden':'hidden'" style="margin-bottom: 10px">
+        <h5 class="text-center"><img src="assets/img/balls-5.svg" style="height: 70px"/>
+          Loading Indicators {{ loadedIndicatorsCount }}/ {{ totalAvailableIndicators || 0}}( {{ completedPercent | number: '1.0-0' }}% )
+        </h5>
+        <div class="progress" style="margin-bottom: 5px">
+          <div
+            class="progress-bar progress-bar-striped progress-bar-animated"
+            role="progressbar"
+            [attr.aria-valuenow]="completedPercent"
+            [attr.aria-valuemin]="0"
+            [attr.aria-valuemax]="100"
+            [style.width]="(completedPercent)+'%'"
+          ></div>
+        </div>
+      </div>
+    
+      <p  *ngIf="completedPercent == 100" class="text-center lead" style="margin-bottom: 5px; margin-top: 5px">
+        <b class="searched-indicators">{{ (indicators | filterBySearchInput: searchingText).length || 0 }} </b>
+        <b *ngIf="(indicators | filterBySearchInput: searchingText).length <= 1">indicator</b>
+        <b *ngIf="(indicators | filterBySearchInput: searchingText).length > 1">indicators</b>
+        <span *ngIf="searchingText"> matching <b class="searching-text">`{{searchingText}}`</b> out of <b class="total-indicators">{{indicators.length}} </b> indicators </span>
+        <!-- <span *ngIf="groupToFilter.length !== 0"> - In {{ groupNames() }} </span> -->
+      </p>
+    
+      <p
+        *ngIf="completedPercent == 100 && (indicators | filterBySearchInput: searchingText).length == 0"
+        class="text-center lead" style="margin-bottom: 5px; margin-top: 100px">
+        <span class="lead"> No Indicators</span>
+      </p>
+
+      <div class="card-deck" style="margin-bottom: 20px">
+        <div
+          class="col-sm-12 col-md-3"
+          *ngFor="let indicator of indicators  | filterBySearchInput: searchingText | paginate: {itemsPerPage: 4, currentPage: currentPage}"
+          [@hoverChanged]="indicator.hoverState || 'notHovered'"
+          (mouseenter) ="indicator.hoverState = 'hoovered'"
+          (mouseleave) ="indicator.hoverState = 'notHovered'"
+        >
+          <app-indicator-properties [indicator]="indicator"></app-indicator-properties>
+        </div>
+
+      </div>
+      <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+
+    </div>
+  

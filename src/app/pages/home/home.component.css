@@ -1,9 +1,59 @@
+#searching-input {
+    outline: none !important;
+    border: none;
+    display: block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem 0rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border-bottom: 0.1em solid #2C6695;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+#searching-input:focus {
+    outline: none !important;
+    border-bottom: 3px solid #2C6695;
+}
+
+.btn-filter {
+    display: inline-block;
+    font-weight: 400;
+    color: #212529;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    padding: .175rem .175rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    border: 1px solid #ced4da;
+}
+
+.btn-filter:focus {
+    outline: none !important;
+}
+
+.searched-indicators, .searching-text {
+    color: #2C6695; font-weight: 600;
+}
+
+.total-indicators {
+    font-weight: 600;
+}
+
 .card:hover {
     transform: scale(1.04, 1.04);
-  -webkit-box-shadow:0 0 10px rgba(0,0,0,0.2);
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
   background-color: rgba(0,0,0,0.03);
-  border: 1px solid #ddd;
+  border: 1px solid #2199e8 !important;
   }
   .selectedGroup {
     background-color: rgba(0,0,0,0.1);

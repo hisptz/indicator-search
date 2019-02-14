@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "indicator-search-new": {
+    "indicator-dictionary": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/indicator-search-new",
+            "outputPath": "dist/indicator-dictionary",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -24,15 +24,12 @@
             ],
             "styles": [
               "src/styles.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/font-awesome/css/font-awesome.css"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "node_modules/highcharts/highcharts.js",
-              "node_modules/highcharts/modules/exporting.js",
-              "node_modules/highcharts/modules/offline-exporting.js"
+              "node_modules/popper.js/dist/umd/popper.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js"
             ]
           },
           "configurations": {
@@ -65,18 +62,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "indicator-search-new:build"
+            "browserTarget": "indicator-dictionary:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "indicator-search-new:build:production"
+              "browserTarget": "indicator-dictionary:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "indicator-search-new:build"
+            "browserTarget": "indicator-dictionary:build"
           }
         },
         "test": {
@@ -110,7 +107,7 @@
         }
       }
     },
-    "indicator-search-new-e2e": {
+    "indicator-dictionary-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -119,11 +116,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "indicator-search-new:serve"
+            "devServerTarget": "indicator-dictionary:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "indicator-search-new:serve:production"
+              "devServerTarget": "indicator-dictionary:serve:production"
             }
           }
         },
@@ -139,5 +136,5 @@
       }
     }
   },
-  "defaultProject": "indicator-search-new"
+  "defaultProject": "indicator-dictionary"
 }

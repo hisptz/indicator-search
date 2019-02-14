@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'indicator-search-new'`, () => {
+  it(`should have as title 'indicator-dictionary'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('indicator-search-new');
+    expect(app.title).toEqual('indicator-dictionary');
   });
 
   it('should render title in a h1 tag', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to indicator-search-new!');
+    expect(compiled.querySelector('h1').textContent).toContain('Welcome to indicator-dictionary!');
   });
 });
