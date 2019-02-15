@@ -5,7 +5,7 @@ import { IndicatorDetailsComponent } from './pages/indicator-details/indicator-d
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'home',
     component: HomeComponent
   },
   {

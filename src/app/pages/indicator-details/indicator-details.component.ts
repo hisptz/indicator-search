@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-indicator-details',
@@ -7,9 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IndicatorDetailsComponent implements OnInit {
 
+  @Input() allIndicators: any;
   constructor() { }
 
   ngOnInit() {
+    if (this.allIndicators.indicators) {
+      console.log('this', this.allIndicators);
+    }
   }
 
 }

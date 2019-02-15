@@ -38,7 +38,7 @@
 
       <div [@hiddenItem] = "loading?'notHidden':'hidden'" style="margin-bottom: 10px">
         <h5 class="text-center"><img src="assets/img/balls-5.svg" style="height: 70px"/>
-          Loading Indicators {{ loadedIndicatorsCount }}/ {{ totalAvailableIndicators || 0}}( {{ completedPercent | number: '1.0-0' }}% )
+          Loading Indicators {{ indicators.length }}/ {{ totalAvailableIndicators || 0}}( {{ completedPercent | number: '1.0-0' }}% )
         </h5>
         <div class="progress" style="margin-bottom: 5px">
           <div
@@ -69,7 +69,7 @@
       <div class="card-deck" style="margin-bottom: 20px">
         <div
           class="col-sm-12 col-md-3"
-          *ngFor="let indicator of indicators  | filterBySearchInput: searchingText | paginate: {itemsPerPage: 4, currentPage: currentPage}"
+          *ngFor="let indicator of indicators | filterBySearchInput: searchingText | paginate: {itemsPerPage: 4, currentPage: currentPage}"
           [@hoverChanged]="indicator.hoverState || 'notHovered'"
           (mouseenter) ="indicator.hoverState = 'hoovered'"
           (mouseleave) ="indicator.hoverState = 'notHovered'"

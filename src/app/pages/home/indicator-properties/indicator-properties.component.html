@@ -1,6 +1,6 @@
 <div>
   <div class="heading"><h5 class="card-title">{{ indicator.name }}</h5></div>
-  <div class="card cursor-pointer" style="width: 90%; margin-top: 10px;margin-bottom: 10px;" routerLink="indicator/info/{{indicator.id}}">
+  <div class="card cursor-pointer" style="width: 90%; margin-top: 10px;margin-bottom: 10px;" routerLink="/indicator/info/{{indicator.id}}">
     <ul class="list-group list-group-flush">
         <li class="list-group-item">
             <label>Type</label> <br>
@@ -27,7 +27,7 @@
     </ul>
     <div class="card-body">
       <a routerLink="indicator/info/{{indicator.id}}" class="info-link">More info</a>
-      <a routerLink="indicator/analysis/{{indicator.id}}" class="analysis-link">Analysis</a>
+      <a routerLink="/indicator/analysis/{{indicator.id}}" class="analysis-link">Analysis</a>
     </div>
   </div>
 </div>

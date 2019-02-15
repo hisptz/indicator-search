@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import { IndicatorsState } from './indicators.state';
+import { IndicatorsState, AllIndicatorsState } from './indicators.state';
 
 export enum IndicatorsActions {
     LoadIndicators = '[Indicators] Load indicators',
@@ -8,6 +8,7 @@ export enum IndicatorsActions {
     LoadIndicatorsByPages = '[Indicators] Load indicators by pages',
     LoadIndicatorsByPagesSuccess = '[Indicators] Load indicators by pages success',
     LoadIndicatorsByPagesFail = '[Indicators] Load indicators by pages fail',
+    ProgressLoadingIndicators = '[Progress bar] progress bar for loaded indicators'
 }
 
 export class LoadIndicatorsAction implements Action {
@@ -28,12 +29,14 @@ export class LoadIndicatorsFailAction implements Action {
 
 export class LoadIndicatorsByPagesAction implements Action {
     readonly type = IndicatorsActions.LoadIndicatorsByPages;
+
+    constructor(public payload: any) {}
 }
 
 export class LoadIndicatorsByPagesSuccessAction implements Action {
     readonly type = IndicatorsActions.LoadIndicatorsByPagesSuccess;
 
-    constructor(public payload: IndicatorsState) {}
+    constructor(public payload: any) {}
 }
 
 export class LoadIndicatorsByPagesFailAction implements Action {
@@ -42,9 +45,16 @@ export class LoadIndicatorsByPagesFailAction implements Action {
     constructor(public payload: any) {}
 }
 
+export class ProgressBarStatusAction implements Action {
+    readonly type = IndicatorsActions.ProgressLoadingIndicators;
+
+    constructor (public payload: number) {}
+}
+
 export type IndicatorsAction = LoadIndicatorsAction 
 | LoadIndicatorsSuccessAction 
 | LoadIndicatorsFailAction
 | LoadIndicatorsByPagesAction
 | LoadIndicatorsByPagesSuccessAction
-| LoadIndicatorsByPagesFailAction;
+| LoadIndicatorsByPagesFailAction
+| ProgressBarStatusAction;
