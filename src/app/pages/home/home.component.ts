@@ -160,6 +160,7 @@ export class HomeComponent implements OnInit {
     }else {
       this.groupToFilter.push(group);
     }
+    // this.store.dispatch(new SetSelectedIndicatorAction(null));
     this.indicators = [...this.indicators];
   }
 

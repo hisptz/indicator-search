@@ -1,3 +1,58 @@
-<div class="container-fluid"  style="margin-top: 60px">
-  <p><span class="cursor-pointer" routerLink="/home">Home</span> details</p>
+<div class="container-fluid" style="margin-top: 65px">
+  <div class="row">
+    <div class="col-md-6" style="padding-top: 5px">
+      <div class="row">
+        <div class="col-1">
+          <span class="lead  cursor-pointer" routerLink="/home" title="home">
+            <i class="fa fa-search">
+                <img style="margin-top: -10px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAALCSURBVGhD7ZlLqE1RGMePtyQGZCCPMpABGRCRUJREmTCRTMzIcyADcZOYGEgmIkoeZUomikIeIUQhDBgYeOQ58Ob3W/fs7r2nc+7p7nP2Xu3a//p19vftb53O/5611tnfupVSBdRw2AmP4Tv8i8hpSKXJ8ALqvWkMUhkZAc/BN7gJ82EgxNBqSG1kNzj4Ggw2EVEtGXkKDp4borhKbcQp9Ad+QD8TkZXayEhw4KcQxVdppDSSkXI3MgEmwagQtU+5GhkDv8FxV0y0UbkaWQ+OEbfusdAu5WrkKjjmbfV1M7RLuRkZB34LX2ENOPYGNJPTcVjnZa/KzchWsP4MDIXP8BcmQj3NgmfgGFuDPdCbcjNyG6xfEaJK5SQYbw9RT/kA+gq8/wZ+Vq+XQiPlYsTt1r/+RxhiAi0Dx98LUU/Z47yES+BznGvJ2uPQSLkY2QHWnghRpwbBBzDvB6+n8TAdEtMXoJFyMfIArF0Soi4dBfO7QtSlqfAIvNedqEamgHXvoLZ7XATes9dP1B+SRe46uQ+2CsZRjXSAdedhRg3uTF/A+9NAJcZtoRPja8FcVCNPwLpm7AU1D4xtnxMluWhGXKjWfIO7DXgI1vgNKNtm4+sh6tQCMHcxRPWVqZH9YM3BENWX2+trsG4mjK5eO+WWg9PvVDX3HhqdD2RmxA/ob4E1c0z0ogNgna8q2c3q0Wh6ZWbEZySnzmVodjjhwrdWA2oAbASn0i04Bm4GPubUbtWJMl/seak0UhrJSKWR0khGaqsR+/KFsDgC+6BlI77RnWocm9RGbGHFazs+j3zORWQT9EmJEfFwYAPE+rdbS+puZJuJoiox4lmu51SFldNIE/bTPq0WWkl3tzJEBZYLXCPuVvYUhZVTyuZHM7/gLGyBVRGZDankQj8MGtFQbPr8g1grT9X9Ng7BkYisg1IFUKXyH0pK6Yr5XLikAAAAAElFTkSuQmCC">
+            </i>
+          </span>
+        </div>
+        <div class="col-11" *ngIf="selectedIndicator">
+          <span>
+              <h4>
+                {{selectedIndicator.name}}
+              </h4>
+          </span>
+        </div>
+        <div class="col-11" *ngIf="!selectedIndicator">
+          <span><app-loader-placeholder></app-loader-placeholder></span> 
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <button class="btn pull-right home-btn" style="float: right" routerLink="/home">Home</button>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid" style="margin-top: 25px;"  *ngIf="selectedIndicator">
+  <div class="indicator-details">
+    <div class="header">
+      <a class="btn" 
+      routerLinkActive="active-type-of-action" 
+      routerLink="/indicator/basic-details/{{selectedIndicator.id}}">Basic details</a>
+      <a class="btn" 
+      routerLinkActive="active-type-of-action" 
+      routerLink="/indicator/data-analysis/{{selectedIndicator.id}}">Data analysis</a>
+      <a class="btn"
+      routerLinkActive="active-type-of-action" 
+      routerLink="/indicator/trend-analysis/{{selectedIndicator.id}}">Trend analysis</a>
+    </div>
+    <div class="details-container">
+        <div *ngIf="selectedIndicator && typeOfAction=='basic-details'">
+            <h4>{{selectedIndicator.name}}</h4>
+            <app-basic-details [indicator]="selectedIndicator"></app-basic-details>
+        </div>
+        <div *ngIf="typeOfAction=='data-analysis'">
+          <h4>Data analysis</h4>
+          <app-data-analysis [indicator]="selectedIndicator"></app-data-analysis>
+        </div>
+        <div *ngIf="typeOfAction=='trend-analysis'">
+          <h4>Trend analysis</h4>
+          <app-trend-analysis [indicator]="selectedIndicator"></app-trend-analysis>
+        </div>
+    </div>
+  </div>
 </div>

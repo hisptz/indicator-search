@@ -9,7 +9,7 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'indicator/:typeOfAction/:id',
+    path: 'indicator/:type-of-action/:id',
     component: IndicatorDetailsComponent
   }
 ];

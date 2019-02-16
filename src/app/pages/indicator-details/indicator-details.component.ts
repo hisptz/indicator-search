@@ -1,4 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Observable } from 'rxjs';
+import { AllIndicatorsState } from 'src/app/store/indicators/indicators.state';
+import { AppState } from 'src/app/store/app.reducers';
+import { Store } from '@ngrx/store';
+import * as _ from 'lodash';
+import { ActivatedRoute, Params } from '@angular/router';
+import { getallIndicators } from 'src/app/store/indicators/indicators.selectors';
+import { HttpClientService } from 'src/app/services/http-client.service';
 
 @Component({
   selector: 'app-indicator-details',
@@ -7,12 +15,34 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class IndicatorDetailsComponent implements OnInit {
 
-  @Input() allIndicators: any;
-  constructor() { }
+  selectedIndicator: any;
+  allIndicators: any[] = [];
+  allIndicators$: Observable<AllIndicatorsState>;
+  typeOfAction: string;
+  constructor(private store: Store<AppState>, private route: ActivatedRoute, private httpClient: HttpClientService) {
+    this.allIndicators$ = store.select(getallIndicators)
+   }
 
   ngOnInit() {
-    if (this.allIndicators.indicators) {
-      console.log('this', this.allIndicators);
+    if (this.allIndicators$) {
+      this.allIndicators$.subscribe((indicatorsLoaded) => {
+        if (indicatorsLoaded) {
+          this.allIndicators = [];
+          _.map(indicatorsLoaded, (indicatorsByPage) => {
+            this.allIndicators = [...this.allIndicators, ...indicatorsByPage['indicators']];
+          });
+          if (this.allIndicators.length > 0) {
+            _.map(this.allIndicators, (indicator: any) => {
+              this.route.params.forEach((params: Params) => {
+                if (indicator.id ==params['id']) {
+                  this.typeOfAction = params['type-of-action'];
+                  this.selectedIndicator = indicator;
+                }
+              })
+            })
+          }
+        }
+      })
     }
   }
 

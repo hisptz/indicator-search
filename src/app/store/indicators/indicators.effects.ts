@@ -31,21 +31,17 @@ export class IndicatorsEffects {
     .pipe(
       ofType<indicators.IndicatorsAction>(indicators.IndicatorsActions.LoadIndicatorsSuccess),
       tap((action: any) => {
-        console.log('indicators action ', action.payload);
-        this.router.navigate(['/home']);
         // load indicators by pages
         this.store.dispatch(new indicators.LoadIndicatorsByPagesAction(action.payload['pager']));
+        let navigateTo = '';
+        if (this.router.url !== "/") {
+          navigateTo = this.router.url;
+        } else {
+          navigateTo = '/home';
+        }
+        this.router.navigate([navigateTo]);
       })
     )
-
-    // @Effect()
-    // indicatorsLoadByPages$ = this.actions$
-    // .pipe(ofType<indicators.LoadIndicatorsAction>(indicators.IndicatorsActions.LoadIndicatorsByPages),
-    //   switchMap((action: any) => this._loadAllIndicators(action.payload).pipe(
-    //     map((indicatorsObj: any) => new indicators.LoadIndicatorsByPagesSuccessAction(indicatorsObj)),
-    //     catchError((error) => of(new indicators.LoadIndicatorsByPagesFailAction(error)))
-    //   ))
-    // )
 
     @Effect()
     allIndicators$ = this.actions$

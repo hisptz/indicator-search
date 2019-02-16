@@ -27,6 +27,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { ManifestService } from './services/manifest.service';
 import { IndicatorPropertiesComponent } from './pages/home/indicator-properties/indicator-properties.component';
 import { IndicatorDetailsComponent } from './pages/indicator-details/indicator-details.component';
+import { LoaderPlaceholderComponent } from './shared-components/loader-placeholder/loader-placeholder.component';
+import { BasicDetailsComponent } from './pages/indicator-details/basic-details/basic-details.component';
+import { DataAnalysisComponent } from './pages/indicator-details/data-analysis/data-analysis.component';
+import { TrendAnalysisComponent } from './pages/indicator-details/trend-analysis/trend-analysis.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +38,11 @@ import { IndicatorDetailsComponent } from './pages/indicator-details/indicator-d
     HomeComponent,
     FilterBySearchInputPipe,
     IndicatorPropertiesComponent,
-    IndicatorDetailsComponent
+    IndicatorDetailsComponent,
+    LoaderPlaceholderComponent,
+    BasicDetailsComponent,
+    DataAnalysisComponent,
+    TrendAnalysisComponent
   ],
   imports: [
     BrowserModule,
