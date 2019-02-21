@@ -1,3 +1,36 @@
-<p>
-  basic-details works!
-</p>
+<div *ngIf="indicator" class="card">
+  <div class="card-header">
+      <h5>Introduction</h5>
+  </div>
+  <div class="card-body indicator-description">
+    <p class="indicator-definition">
+      <strong>{{ indicator.name }}</strong>
+       is 
+       <strong>{{ indicator.indicatorType.name}}</strong>
+        indicator,
+        with numerator described as 
+        <strong>{{indicator.numeratorDescription}}</strong>
+        <span *ngIf="indicator.indicatorType.name != 'Number'"> and denominator described as
+        <strong>{{indicator.denominatorDescription}}</strong>
+      </span>
+    </p>
+    <p class="numerator">
+      Numerator is calculated from 
+      <strong></strong>
+    </p>
+    <p class="numerator">
+      Denominator is 
+      <span *ngIf="indicator.indicatorType.name == 'Number'">
+        <strong>{{indicator.denominator}}</strong>
+      </span>
+    </p>
+    <p>
+      Created by <strong>{{indicator.user.name}}</strong>
+      on <strong>{{indicator.created | date}}</strong>
+    </p>
+    <p>
+        Last updated by <strong>{{indicator.lastUpdatedBy.name}}</strong>
+        on <strong>{{indicator.lastUpdated | date}}</strong>
+    </p>
+  </div>
+</div>

@@ -8,7 +8,10 @@ export enum IndicatorsActions {
     LoadIndicatorsByPages = '[Indicators] Load indicators by pages',
     LoadIndicatorsByPagesSuccess = '[Indicators] Load indicators by pages success',
     LoadIndicatorsByPagesFail = '[Indicators] Load indicators by pages fail',
-    ProgressLoadingIndicators = '[Progress bar] progress bar for loaded indicators'
+    ProgressLoadingIndicators = '[Progress bar] progress bar for loaded indicators',
+    LoadIndicatorProperties = '[Indicator properties] Load indicator properties',
+    LoadIndicatorPropertiesFail = '[Indicator properties] Load indicator properties fail',
+    LoadIndicatorPropertiesSuccess = '[Indicator properties] Load indicator properties success'
 }
 
 export class LoadIndicatorsAction implements Action {
@@ -51,10 +54,28 @@ export class ProgressBarStatusAction implements Action {
     constructor (public payload: number) {}
 }
 
+export class LoadIndicatorPropertiesAction implements Action {
+    readonly type = IndicatorsActions.LoadIndicatorProperties;
+    constructor(public payload: any) {}
+}
+
+export class LoadIndicatorPropertiesSuccessAction implements Action {
+    readonly type = IndicatorsActions.LoadIndicatorPropertiesSuccess;
+    constructor(public payload: any) {}
+}
+
+export class LoadIndicatorPropertiesFailAction implements Action {
+    readonly type = IndicatorsActions.LoadIndicatorPropertiesFail;
+    constructor(public payload: any) {}
+}
+
 export type IndicatorsAction = LoadIndicatorsAction 
 | LoadIndicatorsSuccessAction 
 | LoadIndicatorsFailAction
 | LoadIndicatorsByPagesAction
 | LoadIndicatorsByPagesSuccessAction
 | LoadIndicatorsByPagesFailAction
-| ProgressBarStatusAction;
+| ProgressBarStatusAction
+| LoadIndicatorPropertiesAction
+| LoadIndicatorPropertiesSuccessAction
+| LoadIndicatorPropertiesFailAction;

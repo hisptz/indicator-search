@@ -10,6 +10,7 @@ import { AllIndicatorsState } from '../store/indicators/indicators.state';
 })
 export class IndicatorSearchService {
 
+  indicators: any[]=[];
   constructor(private httpClient: HttpClientService) { }
 
   // load indicators
@@ -28,11 +29,9 @@ export class IndicatorSearchService {
   _loadAllIndicators(pagerDefinitions): Observable<any> {
     // format pageSize as per number of indicators
     let pageSize = 20; let pageCount = 1
-    console.log(pagerDefinitions)
     if (pagerDefinitions.total < 100) {
       pageSize = 20;
       pageCount = Math.ceil(pagerDefinitions.total / pageSize);
-      console.log(pageCount)
     } else {
       pageSize = pagerDefinitions.pageSize;
       pageCount = pagerDefinitions.pageCount;
@@ -41,10 +40,38 @@ export class IndicatorSearchService {
       _.map(
         _.range(1, pageCount + 1),
         pageNumber =>
-        'indicators.json?fields=id,name,numerator,denominator,indicatorType[name],' +
-        'denominatorDescription,numeratorDescription,user[name],lastUpdated,indicatorGroups[id]&pageSize='
+        'indicators.json?fields=:all,lastUpdatedBy[id,name],displayName,id,name,' +
+        'numeratorDescription,denominatorDescription,denominator,numerator,annualized,decimals,' +
+        'indicatorType[name],user[name],attributeValues[value,attribute[name]],indicatorGroups[name,indicators~size],' +
+        'legendSet[name,symbolizer,legends~size],dataSets[name]&pageSize='
         + pageSize +
         '&page=' + pageNumber
+      )
+    ).pipe(
+      mergeMap(
+        (url: string) =>
+        this.httpClient.get(url).pipe(
+            map(
+              (indicators: any) =>
+                indicators
+            )
+          ),
+      null,
+      1
+      )
+    )
+  }
+
+  _indicatorProperties(indicatorsObj): Observable<any> {
+    this.indicators = [...this.indicators, ...indicatorsObj]
+    console.log(this.indicators);
+    return from(
+      _.map(
+        this.indicators, (indicator) => 
+        'indicators/' + indicator.id + '.json?fields=:all,lastUpdatedBy[id,name],displayName,id,name,' +
+            'numeratorDescription,denominatorDescription,denominator,numerator,annualized,decimals,' +
+            'indicatorType[name],user[name],attributeValues[value,attribute[name]],indicatorGroups[name,indicators~size],' +
+            'legendSet[name,symbolizer,legends~size],dataSets[name]'
       )
     ).pipe(
       mergeMap(

@@ -8,17 +8,12 @@
     padding: 10px;
 }
 
-a {
-    text-decoration: none;
-    outline: none !important; margin-right: 4px;
-}
-
 .btn {
     outline: none !important;
     display: inline-block;
     font-weight: 400;
-    color: #212529;
     text-align: center;
+    color: #212529;
     vertical-align: middle;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -34,6 +29,12 @@ a {
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s 
 }
 
+a {
+    text-decoration: none;
+    outline: none !important; margin-right: 4px;
+    color: #007bff;
+}
+
 .btn:focus, a:focus {
     outline: none !important;
     border: none;
@@ -43,10 +44,18 @@ a {
     border-bottom: solid 1px #dad9d9; padding: 5px;
 }
 
+.list-of-actions {
+    color: #2C6695
+}
 .active-type-of-action {
     background-color: #dad9d9;
+    color: #212529;
 }
 
 .details-container {
     margin-top: 20px; padding: 5px;
+}
+
+#indicator-name {
+    color: #2C6695;
 }

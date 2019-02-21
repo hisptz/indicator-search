@@ -7,6 +7,8 @@ import * as _ from 'lodash';
 import { ActivatedRoute, Params } from '@angular/router';
 import { getallIndicators } from 'src/app/store/indicators/indicators.selectors';
 import { HttpClientService } from 'src/app/services/http-client.service';
+import { CurrentUserState } from 'src/app/store/current-user/current-user.state';
+import { getCurrentUser } from 'src/app/store/current-user/current-user.selectors';
 
 @Component({
   selector: 'app-indicator-details',
@@ -19,8 +21,10 @@ export class IndicatorDetailsComponent implements OnInit {
   allIndicators: any[] = [];
   allIndicators$: Observable<AllIndicatorsState>;
   typeOfAction: string;
+  currentUser$: Observable<CurrentUserState>;
   constructor(private store: Store<AppState>, private route: ActivatedRoute, private httpClient: HttpClientService) {
-    this.allIndicators$ = store.select(getallIndicators)
+    this.allIndicators$ = store.select(getallIndicators);
+    this.currentUser$ = store.select(getCurrentUser)
    }
 
   ngOnInit() {

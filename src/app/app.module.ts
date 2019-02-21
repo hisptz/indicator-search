@@ -31,6 +31,9 @@ import { LoaderPlaceholderComponent } from './shared-components/loader-placehold
 import { BasicDetailsComponent } from './pages/indicator-details/basic-details/basic-details.component';
 import { DataAnalysisComponent } from './pages/indicator-details/data-analysis/data-analysis.component';
 import { TrendAnalysisComponent } from './pages/indicator-details/trend-analysis/trend-analysis.component';
+import { FilterSectionComponent } from './shared-components/filter-section/filter-section.component';
+import { modules } from './modules';
+import { TreeModule } from 'angular-tree-component';
 
 @NgModule({
   declarations: [
@@ -42,7 +45,8 @@ import { TrendAnalysisComponent } from './pages/indicator-details/trend-analysis
     LoaderPlaceholderComponent,
     BasicDetailsComponent,
     DataAnalysisComponent,
-    TrendAnalysisComponent
+    TrendAnalysisComponent,
+    FilterSectionComponent
   ],
   imports: [
     BrowserModule,
@@ -51,8 +55,10 @@ import { TrendAnalysisComponent } from './pages/indicator-details/trend-analysis
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    TreeModule.forRoot(),
     ReactiveFormsModule,
     NgxDhis2MenuModule,
+    ...modules,
       /**
      * Reducers
      */

@@ -1,0 +1,17 @@
+
+<div class="row">
+  <div class=" col-4 org-unit-filter-body">
+    <app-org-unit-filter
+      (onOrgUnitClose)="showOrgUnitFilter"
+      (onOrgUnitUpdate)="onFilterUpdateAction($event, 'ORG_UNIT')"
+      [orgUnitModel]="orgUnitModel$ | async"
+    ></app-org-unit-filter>
+</div>
+<div class="col-4"></div>
+<div class="col-4">
+  <app-period-filter (onPeriodFilterClose)="selectedFilter = undefined"
+      (onPeriodUpdate)="onFilterUpdateAction($event, 'PERIOD')"></app-period-filter>
+    <!--end of period filter-->
+</div>
+</div>
+  

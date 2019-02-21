@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { HttpClientService } from 'src/app/services/http-client.service';
 
 @Component({
   selector: 'app-basic-details',
@@ -8,9 +9,12 @@ import { Component, OnInit, Input } from '@angular/core';
 export class BasicDetailsComponent implements OnInit {
 
   @Input() indicator: any;
-  constructor() { }
+  constructor(private httpClient: HttpClientService) { }
 
   ngOnInit() {
+    if (this.indicator) {
+      console.log(this.indicator)
+    }
   }
 
 }

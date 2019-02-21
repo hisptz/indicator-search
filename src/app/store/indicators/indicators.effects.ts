@@ -31,8 +31,9 @@ export class IndicatorsEffects {
     .pipe(
       ofType<indicators.IndicatorsAction>(indicators.IndicatorsActions.LoadIndicatorsSuccess),
       tap((action: any) => {
+        console.log('indicators action', action.payload);
         // load indicators by pages
-        this.store.dispatch(new indicators.LoadIndicatorsByPagesAction(action.payload['pager']));
+        // this.store.dispatch(new indicators.LoadIndicatorsByPagesAction(action.payload['pager']));
         let navigateTo = '';
         if (this.router.url !== "/") {
           navigateTo = this.router.url;
@@ -40,20 +41,33 @@ export class IndicatorsEffects {
           navigateTo = '/home';
         }
         this.router.navigate([navigateTo]);
-      })
-    )
+        let indicatorsArr: any[] = [];
+        this.indicatorService._loadAllIndicators(action.payload['pager']).subscribe((allIndicators) => {
+          indicatorsArr = [...indicatorsArr, ...allIndicators]
+          this.store.dispatch(new indicators.LoadIndicatorsByPagesSuccessAction(indicatorsArr));
 
-    @Effect()
-    allIndicators$ = this.actions$
-    .pipe(ofType<indicators.LoadIndicatorsAction>(indicators.IndicatorsActions.LoadIndicatorsByPages),
-    map((action: any) => {
-      let indicatorsArr: any[] = [];
-      this.indicatorService._loadAllIndicators(action.payload).subscribe((allIndicators) => {
-        indicatorsArr = [...indicatorsArr, ...allIndicators]
-        this.store.dispatch(new indicators.LoadIndicatorsByPagesSuccessAction(indicatorsArr));
+          // let indicatorsWithProperties: any[] = [];
+          // this.indicatorService._indicatorProperties(allIndicators['indicators']).subscribe((indicator) => {
+          //   indicatorsWithProperties = [...indicatorsWithProperties, ...indicator];
+          //   console.log(indicatorsWithProperties);
+          //   this.store.dispatch(new indicators.LoadIndicatorPropertiesSuccessAction(indicatorsWithProperties));
+          // });
+        });
       })
-    })
     )
+    
+
+    // @Effect()
+    // allIndicators$ = this.actions$
+    // .pipe(ofType<indicators.LoadIndicatorsAction>(indicators.IndicatorsActions.LoadIndicatorsByPages),
+    // map((action: any) => {
+    //   let indicatorsArr: any[] = [];
+    //   this.indicatorService._loadAllIndicators(action.payload).subscribe((allIndicators) => {
+    //     indicatorsArr = [...indicatorsArr, ...allIndicators]
+    //     this.store.dispatch(new indicators.LoadIndicatorsByPagesSuccessAction(indicatorsArr));
+    //   })
+    // })
+    // )
 
     constructor (private actions$: Actions, 
       private httpClient: HttpClientService, 

@@ -29,6 +29,6 @@ export class CurrentUserEffects {
 
   private _load(): Observable<any> {
     return this.httpClient.get(`me.json?fields=id,name,displayName,created,lastUpdated,email,
-    dataViewOrganisationUnits[id,name,level],userCredentials[username]`);
+    dataViewOrganisationUnits[id,name,level],userCredentials[username],organisationUnits[id,name]`);
   }
 }

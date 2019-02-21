@@ -1,6 +1,6 @@
 import {EntityState, EntityAdapter, createEntityAdapter} from '@ngrx/entity';
 
-import { IndicatorsState, AllIndicatorsState } from './indicators.state';
+import { IndicatorsState, AllIndicatorsState, IndicatorPropertiesState } from './indicators.state';
 import { IndicatorsAction, IndicatorsActions} from './indicators.actions';
 
 
@@ -37,6 +37,17 @@ export function allIndicatorsRedcuer(state: AllIndicatorsState = INITIAL_STATE_L
         case IndicatorsActions.ProgressLoadingIndicators:
             return {...state,
                 progressLoadingValue: action.payload
+            }
+        default:
+            return state;
+    }
+}
+
+export function indicatorsWithPropertiesReducer(state: IndicatorPropertiesState = null, action: IndicatorsAction) {
+    switch (action.type) {
+        case IndicatorsActions.LoadIndicatorPropertiesSuccess:
+            return {
+                ...action.payload
             }
         default:
             return state;
