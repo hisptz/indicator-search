@@ -10,7 +10,7 @@
         indicator,
         with numerator described as 
         <strong>{{indicator.numeratorDescription}}</strong>
-        <span *ngIf="indicator.indicatorType.name != 'Number'"> and denominator described as
+        <span *ngIf="indicator.indicatorType.name.toLowerCase().indexOf('number') < 0"> and denominator described as
         <strong>{{indicator.denominatorDescription}}</strong>
       </span>
     </p>
