@@ -12,7 +12,7 @@
         <div class="col-11" *ngIf="selectedIndicator">
           <span>
               <h5 id="indicator-name">
-                {{selectedIndicator.name}}
+                <a class="cursor-pointer" routerLink="/home">Indicators/</a>{{selectedIndicator.name}}
               </h5>
           </span>
         </div>
@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="col-md-6">
-      <span class="" style="float: right" routerLink="/home">
+      <span class="cursor-pointer" style="float: right" routerLink="/home">
         <img height="40" width="40" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKBSURBVGhD7dlJqE1xAMfxa56nUEoZkgwLiUiRbGVamMrORiheyUpZUGxEyQZJKEo2FrIhhbIhigwrRcjKmCEyfL/X/eu5717vf17vnHdu/X/16b7/Hc45v3fP+Z/zzqukxGUhHuIMhvtEK2Y7vuFXzWPMRMtkCM7Cjf+JQ7hbG3/EepQ+U/EAbvR7rIIZiJMI347l+qI+/TCqnaEoPG60G++GWsZS9dmEr/A9NzAOIVPwAaFssAuFpA/2w93IFZ+Du1ezzMMz+N6XWASzDD7ncfUG7oaO3U1zz1hcRdgAD/CYjMEVhM+1IRS5BBPGuReZj+dwZS/gVJslfpP7EL7JR7XHQotsRtjXr6P9vp41K/EOLquwIoNwCq7A3+RBNJp9ssaJ4T5c7nmfILkVmYx7cOEeiOvQnRmMHZhYHeVUxIU6k7hgz9AzkHe6tUhv7MEPuNALGIYishSu8xUW+ERXMxqX4cK+Yyd6oah4LroG1+/EshWZMwdP4UJeYwl6Ik4kBxCm6NPwWIrKRnyBH7yF8ejprEa4/HHC8XKmaQbgOHyzjsCLuLJkOsJJ8y2Wo0Mm4DZCCU9QZcwGhG10d9sLJ6S/CRdx4bHsRbwkcgLy53+ujk/AA8mTUSsU8dyyGDexAh0yAq1S5L9JRQpKKhKb/pjbBdOQJbkX8Tzk57Jy1smSwop8xp0IT1DqIv6VFxPvnKQiSEU6SypSHcUnFYlNTJFZGPnnx9YtMgn+IXSxOmrhIl7CHMWa6igdI6lIdFKR6ig+qUhsUpHqKD6Zi3zC2gy2wM95g6/R6/V2w/f7v5ZGrzdzGFFFvNMd7nyXmTcTO802HCsxrxBmIyUl/1QqvwHZqaG28VyhCgAAAABJRU5ErkJggg==">
       </span>
     </div>

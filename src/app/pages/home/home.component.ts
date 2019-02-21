@@ -7,8 +7,8 @@ import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.reducers';
 import { getCurrentUser } from '../../store/current-user/current-user.selectors';
-import { IndicatorsState, AllIndicatorsState } from 'src/app/store/indicators/indicators.state';
-import { getListOfIndicators, getallIndicators, getProgressLoaderInfo } from '../../store/indicators/indicators.selectors';
+import { IndicatorsState, AllIndicatorsState, IndicatorGroupsState } from 'src/app/store/indicators/indicators.state';
+import { getListOfIndicators, getallIndicators, getProgressLoaderInfo, getIndicatorGroups } from '../../store/indicators/indicators.selectors';
 
 @Component({
   selector: 'app-home',
@@ -89,11 +89,13 @@ export class HomeComponent implements OnInit {
   indicatorsList$: Observable<IndicatorsState>;
   allIndicators$: Observable<AllIndicatorsState>;
   progressBarInfo$: Observable<any>;
+  indicatorGroups$: Observable<IndicatorGroupsState>;
   constructor(private indicatorSearchService: IndicatorSearchService, private store: Store<AppState>) {
     this.currentUser$ = this.store.select(getCurrentUser);
     this.indicatorsList$ = this.store.select(getListOfIndicators);
     this.allIndicators$ = this.store.select(getallIndicators);
     this.progressBarInfo$ = this.store.pipe(select(getProgressLoaderInfo));
+    this.indicatorGroups$ = this.store.pipe(select(getIndicatorGroups));
 
     this.searchingText = '';
     this.indicators = [];
@@ -125,14 +127,6 @@ export class HomeComponent implements OnInit {
               }
             }
           })
-        }
-      })
-    }
-
-    if (this.progressBarInfo$) {
-      this.progressBarInfo$.subscribe((progressBarInfo) => {
-        if (progressBarInfo) {
-          console.log(progressBarInfo);
         }
       })
     }
