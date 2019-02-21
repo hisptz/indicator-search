@@ -24,13 +24,18 @@
         <strong>{{indicator.denominator}}</strong>
       </span>
     </p>
-    <p>
-      Created by <strong>{{indicator.user.name}}</strong>
-      on <strong>{{indicator.created | date}}</strong>
+    <p *ngIf="indicator.indicatorGroups.length > 0">
+      The indicator belongs to <a style="text-decoration: none" routerLink="/indicatorGroup/{{indicator.indicatorGroups[0]['id']}}">{{indicator.indicatorGroups[0].name}} indicators</a> 
+      with other {{indicator.indicatorGroups[0].indicators}} indicators
     </p>
     <p>
-        Last updated by <strong>{{indicator.lastUpdatedBy.name}}</strong>
-        on <strong>{{indicator.lastUpdated | date}}</strong>
+      Created on <strong>{{indicator.created | date}}</strong>
+      by <strong>{{indicator.user.name}}</strong>
+    </p>
+    <p *ngIf="indicator.lastUpdatedBy">
+        Last updated on <strong>{{indicator.lastUpdated | date}}</strong>
+        by <strong>{{indicator.lastUpdatedBy.name}}</strong>
+        
     </p>
   </div>
 </div>

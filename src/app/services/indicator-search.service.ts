@@ -42,8 +42,8 @@ export class IndicatorSearchService {
         pageNumber =>
         'indicators.json?fields=:all,lastUpdatedBy[id,name],displayName,id,name,' +
         'numeratorDescription,denominatorDescription,denominator,numerator,annualized,decimals,' +
-        'indicatorType[name],user[name],attributeValues[value,attribute[name]],indicatorGroups[name,indicators~size],' +
-        'legendSet[name,symbolizer,legends~size],dataSets[name]&pageSize='
+        'indicatorType[name],user[name],attributeValues[value,attribute[name]],indicatorGroups[id,name,indicators~size],' +
+        'legendSet[name,symbolizer,legends~size],dataSets[id,name]&pageSize='
         + pageSize +
         '&page=' + pageNumber
       )
