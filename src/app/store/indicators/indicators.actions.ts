@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import { IndicatorsState, AllIndicatorsState } from './indicators.state';
+import { IndicatorsState, AllIndicatorsState, IndicatorGroupsState } from './indicators.state';
 
 export enum IndicatorsActions {
     LoadIndicators = '[Indicators] Load indicators',
@@ -11,7 +11,13 @@ export enum IndicatorsActions {
     ProgressLoadingIndicators = '[Progress bar] progress bar for loaded indicators',
     LoadIndicatorProperties = '[Indicator properties] Load indicator properties',
     LoadIndicatorPropertiesFail = '[Indicator properties] Load indicator properties fail',
-    LoadIndicatorPropertiesSuccess = '[Indicator properties] Load indicator properties success'
+    LoadIndicatorPropertiesSuccess = '[Indicator properties] Load indicator properties success',
+    LoadIndicatorGroups = '[Indicator Groups] Load indicator Groups',
+    LoadIndicatorGroupsSuccess = '[Indicator Groups] Load indicator Groups success',
+    LoadIndicatorGroupsFail = '[Indicator Groups] Load indicator Groups fail',
+    LoadIndicatorDataSetByDataElementId = '[Indicator dataset] Load indicator dataset by data element',
+    LoadIndicatorDataSetByDataElementIdSuccess = '[Indicator dataset] Load indicator dataset by data element success',
+    LoadIndicatorDataSetByDataElementIdFail = '[Indicator dataset] Load indicator dataset by data element fail',
 }
 
 export class LoadIndicatorsAction implements Action {
@@ -69,6 +75,41 @@ export class LoadIndicatorPropertiesFailAction implements Action {
     constructor(public payload: any) {}
 }
 
+export class LoadIndicatorGroupsAction implements Action {
+    readonly type = IndicatorsActions.LoadIndicatorGroups;
+}
+
+export class LoadIndicatorGroupsSuccessAction implements Action {
+    readonly type = IndicatorsActions.LoadIndicatorGroupsSuccess;
+
+    constructor(public payload: IndicatorGroupsState) {}
+}
+
+export class LoadIndicatorGroupsFailAction implements Action {
+    readonly type = IndicatorsActions.LoadIndicatorsByPagesFail;
+
+    constructor(public payload: any) {}
+}
+
+
+export class LoadIndicatorDataSetByDataElementIdAction implements Action {
+    readonly type = IndicatorsActions.LoadIndicatorDataSetByDataElementId;
+
+    constructor(public payload: any) {}
+}
+
+export class LoadIndicatorDataSetByDataElementIdSuccessAction implements Action {
+    readonly type = IndicatorsActions.LoadIndicatorDataSetByDataElementIdSuccess;
+
+    constructor(public payload: any) {}
+}
+
+export class LoadIndicatorDataSetByDataElementIdFailAction implements Action {
+    readonly type = IndicatorsActions.LoadIndicatorDataSetByDataElementIdFail;
+
+    constructor(public payload: any) {}
+}
+
 export type IndicatorsAction = LoadIndicatorsAction 
 | LoadIndicatorsSuccessAction 
 | LoadIndicatorsFailAction
@@ -78,4 +119,10 @@ export type IndicatorsAction = LoadIndicatorsAction
 | ProgressBarStatusAction
 | LoadIndicatorPropertiesAction
 | LoadIndicatorPropertiesSuccessAction
-| LoadIndicatorPropertiesFailAction;
+| LoadIndicatorPropertiesFailAction
+| LoadIndicatorGroupsAction
+| LoadIndicatorGroupsSuccessAction
+| LoadIndicatorGroupsFailAction
+| LoadIndicatorDataSetByDataElementIdAction
+| LoadIndicatorDataSetByDataElementIdSuccessAction
+| LoadIndicatorDataSetByDataElementIdFailAction;

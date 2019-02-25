@@ -1,6 +1,6 @@
 import {EntityState, EntityAdapter, createEntityAdapter} from '@ngrx/entity';
 
-import { IndicatorsState, AllIndicatorsState, IndicatorPropertiesState } from './indicators.state';
+import { IndicatorsState, AllIndicatorsState, IndicatorPropertiesState, IndicatorGroupsState } from './indicators.state';
 import { IndicatorsAction, IndicatorsActions} from './indicators.actions';
 
 
@@ -8,13 +8,15 @@ import { IndicatorsAction, IndicatorsActions} from './indicators.actions';
 export interface State extends EntityState<AllIndicatorsState> {
     indicators: any;
     progressLoadingValue: number;
+    dataSets: Array<any>;
 }
 
 export const adapter: EntityAdapter<AllIndicatorsState> = createEntityAdapter<AllIndicatorsState>();
 
 export const INITIAL_STATE_LOADED_INDICATORS: State = adapter.getInitialState({
     indicators: null,
-    progressLoadingValue: 0
+    progressLoadingValue: 0,
+    dataSets: []
 })
 
 
@@ -38,14 +40,19 @@ export function allIndicatorsRedcuer(state: AllIndicatorsState = INITIAL_STATE_L
             return {...state,
                 progressLoadingValue: action.payload
             }
+        case IndicatorsActions.LoadIndicatorDataSetByDataElementIdSuccess:
+            return {
+                ...state,
+                dataSets: action.payload
+            }
         default:
             return state;
     }
 }
 
-export function indicatorsWithPropertiesReducer(state: IndicatorPropertiesState = null, action: IndicatorsAction) {
+export function indicatorGroupsReducer(state: IndicatorGroupsState = null, action: IndicatorsAction) {
     switch (action.type) {
-        case IndicatorsActions.LoadIndicatorPropertiesSuccess:
+        case IndicatorsActions.LoadIndicatorGroupsSuccess:
             return {
                 ...action.payload
             }

@@ -1,41 +1,85 @@
 <div *ngIf="indicator" class="card">
   <div class="card-header">
-      <h5>Introduction</h5>
+      <h5>About the indicator</h5>
   </div>
   <div class="card-body indicator-description">
-    <p class="indicator-definition">
-      <strong>{{ indicator.name }}</strong>
-       is 
-       <strong>{{ indicator.indicatorType.name}}</strong>
-        indicator,
-        with numerator described as 
-        <strong>{{indicator.numeratorDescription}}</strong>
-        <span *ngIf="indicator.indicatorType.name.toLowerCase().indexOf('number') < 0"> and denominator described as
-        <strong>{{indicator.denominatorDescription}}</strong>
-      </span>
-    </p>
-    <p class="numerator">
-      Numerator is calculated from 
-      <strong></strong>
-    </p>
-    <p class="numerator">
-      Denominator is 
-      <span *ngIf="indicator.indicatorType.name == 'Number'">
-        <strong>{{indicator.denominator}}</strong>
-      </span>
-    </p>
-    <p *ngIf="indicator.indicatorGroups.length > 0">
-      The indicator belongs to <a style="text-decoration: none" routerLink="/indicatorGroups/{{indicator.indicatorGroups[0]['id']}}">{{indicator.indicatorGroups[0].name}} indicators</a> 
-      with other {{indicator.indicatorGroups[0].indicators}} indicators
-    </p>
-    <p>
-      Created on <strong>{{indicator.created | date}}</strong>
-      by <strong>{{indicator.user.name}}</strong>
-    </p>
-    <p *ngIf="indicator.lastUpdatedBy">
-        Last updated on <strong>{{indicator.lastUpdated | date}}</strong>
-        by <strong>{{indicator.lastUpdatedBy.name}}</strong>
-        
-    </p>
+    <div class="row">
+      <div class="col-md-8">
+          <div>
+              <p class="indicator-definition">
+                <strong>{{ indicator.name }}</strong>
+                 is 
+                 <strong>{{ indicator.indicatorType.name}}</strong>
+                  indicator,
+                  measured by 
+                  <strong>{{indicator.numeratorDescription}}</strong>
+                  <span *ngIf="indicator.indicatorType.name.toLowerCase().indexOf('number') < 0"> to
+                  <strong>{{indicator.denominatorDescription}}</strong>
+                </span>
+              </p>
+            </div>
+            <div *ngIf="dataSets.length > 0">
+              <p>
+                The indicator is captured from <b>Routine data collection </b> with the following sources
+              </p>
+              <ul class="list-group">
+                <li class="list-group-item cursor-pointer" *ngFor="let dataSet of dataSets">
+                  <b>{{dataSet.dataSet.name}}</b> ({{dataSet.dataSet.formType}} form) submitting <strong>{{ dataSet.dataSet.periodType}}</strong> after every <strong>{{dataSet.dataSet.timelyDays}}</strong> days
+                </li>
+              </ul>
+            </div>
+            <div *ngIf="dataSets.length == 0">
+              <span><app-loader-placeholder></app-loader-placeholder></span> 
+            </div>
+            <div *ngIf="indicator.indicatorGroups.length > 0">
+              <h5>Facts about indicator</h5>
+              <h6>
+                The indicator belongs to :- <a style="text-decoration: none"></a>
+              </h6>
+              <ul class="list-group">
+                <li class="list-group-item cursor-pointer" *ngFor="let indicatorGroup of indicator.indicatorGroups"  routerLink="/indicatorGroups/{{indicatorGroup.id}}">
+                  <b>{{indicatorGroup.name}}</b> (with <strong>{{indicatorGroup.indicators}}</strong> other related indicators)
+                </li>
+              </ul>
+            </div>
+      </div>
+      <div class="col-md-4">
+          <div *ngIf="legendSet">
+            <h5>Legend for analysis</h5>
+            <h6>Uses {{legendSet.name}} for for analysis, spread accross {{legendSet.legends.length}} classes for analysis.</h6>
+            <div *ngIf="legendSet.legends.length > 0">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Class</th>
+                    <th>Upper</th>
+                    <th>Lower</th>
+                    <th>Color</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let legend of legendSet.legends">
+                    <td>{{legend.name}}</td>
+                    <td>{{legend.endValue}}</td>
+                    <td>{{legend.startValue}}</td>
+                    <td [style.backgroundColor]="legend.color"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div>
+      <p>
+        Created on <strong>{{indicator.created | date}}</strong>
+        by <strong>{{indicator.user.name}}</strong>
+      </p>
+      <p *ngIf="indicator.lastUpdatedBy">
+          Last updated on <strong>{{indicator.lastUpdated | date}}</strong>
+          by <strong>{{indicator.lastUpdatedBy.name}}</strong>
+          
+      </p>
+    </div>
   </div>
 </div>

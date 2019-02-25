@@ -8,31 +8,45 @@
           </i> Indicator Dictionary</span>
       </div>
       <div class="col-md-4">
-       <input class="" id="searching-input" placeholder="Search indicator by name, description..." [(ngModel)]="searchingText">
+       <input class="" id="searching-input" placeholder="Search indicator " [(ngModel)]="searchingText">
+
       </div>
       <div class="col-md-2"></div>
-      <div class="col-md-2" style="float: right" appClickOutside (clickOutside)="hideGroups = true">
-        <button class="btn-filter cursor pull-right" (click)="displayPerTree()">
-          <i class="list">
-              <img height="20" style="margin-top: -6px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAH1SURBVGhD7dixSxxBGMbhEyGoBCSFIkFSBLEIpNEi/4BoZcBC7CV1bE1jZ6cQEIRUAZuInWCXJo1iIQRsxaDYBRSLCAZD4u9V9hjl2x2m2OyMzgsP3g578L2sd7tzLbKNf4HWEV2sQX2OEV2sQX2SLXKCNec4ySLneA3lM7QWdZG/+IBDZ+0Cb6CojEpVFenEswb0oD30ig5IP3bwB2+1QF5C/17FuWVFVLY4539aRfvgFya1QLowcfuy1YcDuG8sK/IKZw1Ywp0BdRXeo4gu2S7ccySZD7v+zZ5g01lzJVNENKy1LkkVqZKL1Jkv0L0jxDJych5LnkKPICF0548uP2B9M1X5huhiDeqT7yN1xhr0vn0sQHsWHSdZRI/wg1D03K+1qIv8xgy0qSrWfmIIyjh0TlWRbow24AXaQ3/UAdFXqx5b3G2u/uq4OLesSBQ7RG2q5rRAOjB8+/LmiujKuG8sK6Jz9xowjzsDijZV+hFBsba5ksyHfQsDsLa5kkwRuTTWCkkVqRJlkeImF+II0WURXwO5Pxnl5Dz0aMc3Fug5ossprG+mKt8RXaxBffINsc5Yg/rkInXGGtSnrEgvphswAnNQn7IiUewQQ5QV0d55owHvYA7qkz/sdcYa1CcXqTNXsIatol/wo8ssPgWaQkRpta4B6MTCByp6X10AAAAASUVORK5CYII=">
-          </i> Indicator Groups Filter
-  
-        </button>
-        <div class="tree-view" [ngClass]="{'hiddenTree':hideGroups}">
-          <ul class="nav nav-pills flex-column">
-          </ul>
-        </div>
+      <div class="col-md-2" style="float: right">
+        <div class="pull-right cursor-pointer"  (click)="showGroups()">
+            <label>
+              <span>
+                <i class="list">
+                    <img height="20" style="margin-top: -6px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAH1SURBVGhD7dixSxxBGMbhEyGoBCSFIkFSBLEIpNEi/4BoZcBC7CV1bE1jZ6cQEIRUAZuInWCXJo1iIQRsxaDYBRSLCAZD4u9V9hjl2x2m2OyMzgsP3g578L2sd7tzLbKNf4HWEV2sQX2OEV2sQX2SLXKCNec4ySLneA3lM7QWdZG/+IBDZ+0Cb6CojEpVFenEswb0oD30ig5IP3bwB2+1QF5C/17FuWVFVLY4539aRfvgFya1QLowcfuy1YcDuG8sK/IKZw1Ywp0BdRXeo4gu2S7ccySZD7v+zZ5g01lzJVNENKy1LkkVqZKL1Jkv0L0jxDJych5LnkKPICF0548uP2B9M1X5huhiDeqT7yN1xhr0vn0sQHsWHSdZRI/wg1D03K+1qIv8xgy0qSrWfmIIyjh0TlWRbow24AXaQ3/UAdFXqx5b3G2u/uq4OLesSBQ7RG2q5rRAOjB8+/LmiujKuG8sK6Jz9xowjzsDijZV+hFBsba5ksyHfQsDsLa5kkwRuTTWCkkVqRJlkeImF+II0WURXwO5Pxnl5Dz0aMc3Fug5ossprG+mKt8RXaxBffINsc5Yg/rkInXGGtSnrEgvphswAnNQn7IiUewQQ5QV0d55owHvYA7qkz/sdcYa1CcXqTNXsIatol/wo8ssPgWaQkRpta4B6MTCByp6X10AAAAASUVORK5CYII=">
+                </i> Indicator Groups Filter
+                  <a
+                  class="removeGroups"
+                  style="float: right"
+                  title="Clear all"
+                  *ngIf="indicatorGroupsForSearching.length != 0"
+                  (click)="indicatorGroupsForSearching = []"
+                >
+                <i>
+                    <img height="30" width="30" style="margin-top: -5px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAOLSURBVGhD7ZrHqlRBEIYvqAvFhHFpfAn3RgwYUXRvduMTmBEfwQuKKEZcGbaKWRFdqrg1Lcwujf8Ht6Fs6szpPmHmDswPHwxnuqq77jmnurrmDg000EBd1QyxURwRV8Rt8XQEPl8WfLdBMHZUaYrYKx6IP+JvIozFZrfAR880VRwV34S30By+isMCn13VNvFBeIuqwzuxRbSuieKc8BYR4K97TRwXu8TWEfjMNb4ru4unxQTRimYKXlpv4p/ivFgsxogyMWaJuCCw9Xw+EY0nBIJ4KbwJL4p5oqrmC7KZ5/uFYO5GxOP0WMSTfBSrRFNaLfAZz/NINPKYnRWx81dirmha3Fl8x/OdErVEdoqdvhazRFvCN3PE824WlUROj1Mst36OaFsLxSdh5yY1TxbZOiasI1gpPC0S7O65wgZbT2tEPP8hkSXuBvuBdUJ28sRCwtj9XEgUY7HBtiiYOJt9EVnlzB5hHZDrvRRrgwikBBOCCBQFs0DE+8xOkSxSnjVms/O0T9hxgU7BxEEE8OWJTdOOuyeSxG4aV7Hs2EUqWpgXTM7YoGXCjv0tpotScZ6whjyXZWVHygKrBIHGiu/C2qwXpeLgY42uixR1WmjVIIJuCmuXlL3iTEHFmqqiBXukBoFOCGtblEH/0x1hjTjB5SglmJwgUJxFOTaX6rmwRpwlctUpmNwgUFwqPROlYpA16ttARuOjRSlj7ZMerUvCGvXty94P6fegKBXNM2tEo6CXG+I4EW+I60SpKFEoA6zhUlGknAVWCWa5sGNZ2zSRpIfCGlO4eepG0Ri/s3dFsshU1phSmm5HrLbLeE6KcRm/QySLgxXFonVA6eLJBpMSRFAIpigIdFXYNbCm7OMufV3rBDh+emIhTR9114p4/gMiW0T+XlhHNAS43W2LOT4LO/cbMUlUEi0Y6wzabgfNFl47aJOopTMidkoTrU6btEic0b0ghkVt0a6Mz/BAj4s2Z1Pi1BcnGGisZYpoJNNQjicBshl/yarCNs5OgUab2EEc+L07A+R6Nk0aBZyxy8SYFYLi75fwfLIpJzUZqohbzI8w3sQB6qIbgoqVjZWzBPCZaxSAP4RnGzgpxovWRTajF+stog5vBV2crop9hh8wvRc0F/YMSnN+i+mZCIg25n0RV82dYCw220WlLnub4uXkrMCdomq9JcI/DPCZa/SkGJNcig800EB1NTT0D1aOmPFs1wNIAAAAAElFTkSuQmCC">
+                </i>
+              </a>
+              </span>
+            </label>
+          </div>
+            <div *ngIf="showIndicatorGroups">
+              <ul class="submenu">
+                  <input  id="searching-input-group" placeholder="Search group " [(ngModel)]="searchingTextForIndicatorGroup">
+                  <li id="indGroup.id" *ngFor="let indGroup of indicatorGroups | searchIndicatorGroup: searchingTextForIndicatorGroup">
+                    <a><input type="checkbox" name="indicator-groups-ids" (change)="updateIndicatorGroupsForSearch(indGroup, $event.target.checked)">
+                      {{indGroup.name}}({{indGroup.indicators.length}})
+                    </a>
+                  </li>
+                </ul>
+                <!-- <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
+            </div>
       </div>
     </div>
   </div>
-  <!-- <div class="container-fluid">
-    <div class="ourmodel"
-         [@visibilityChanged]="hoverState || 'notHovered'"
-    >
-      <p><a class="btn btn-light btn-sm pull-right" (click)="mouseLeave()"><i class="fa fa-close"></i> </a></p>
-      <app-details [selectedIndicator]="selectedIndicator"></app-details>
-    </div>
-  </div> -->
 
   <div class="container-fluid" style="margin-top: 20px">
 
@@ -52,16 +66,18 @@
         </div>
       </div>
     
-      <p  *ngIf="completedPercent == 100" class="text-center lead" style="margin-bottom: 5px; margin-top: 5px">
-        <b class="searched-indicators">{{ (indicators | filterBySearchInput: searchingText).length || 0 }} </b>
-        <b *ngIf="(indicators | filterBySearchInput: searchingText).length <= 1">indicator</b>
-        <b *ngIf="(indicators | filterBySearchInput: searchingText).length > 1">indicators</b>
-        <span *ngIf="searchingText"> matching <b class="searching-text">`{{searchingText}}`</b> out of <b class="total-indicators">{{indicators.length}} </b> indicators </span>
-        <!-- <span *ngIf="groupToFilter.length !== 0"> - In {{ groupNames() }} </span> -->
+      <p  *ngIf="(completedPercent > 10 && searchingText != '') || (completedPercent > 10 && indicatorGroupsForSearching.length > 0)" class="text-center lead" style="margin-bottom: 5px; margin-top: 5px">
+        <b class="searched-indicators">{{ (indicators | filterBySearchInput: searchingText  | filterIndicatorsByGroupId: indicatorGroupsForSearching).length || 0 }} </b>
+        <b *ngIf="(indicators | filterBySearchInput: searchingText | filterIndicatorsByGroupId: indicatorGroupsForSearching).length <= 1">indicator</b>
+        <b *ngIf="(indicators | filterBySearchInput: searchingText | filterIndicatorsByGroupId: indicatorGroupsForSearching).length > 1">indicators</b>
+        <span *ngIf="searchingText"> matching <b class="searching-text">`{{searchingText}}`</b> out of <b class="total-indicators">{{(indicators | filterIndicatorsByGroupId: indicatorGroupsForSearching).length}} </b> indicators </span>
+        <span *ngIf="indicatorGroupsForSearching.length !== 0"> in {{ groupNames() }} </span>
+        <span *ngIf="indicatorGroupsForSearching.length == 1"> indicator group</span>
+        <span *ngIf="indicatorGroupsForSearching.length > 1"> indicator groups</span>
       </p>
     
       <p
-        *ngIf="completedPercent == 100 && (indicators | filterBySearchInput: searchingText).length == 0"
+        *ngIf="completedPercent == 100 && (indicators | filterBySearchInput: searchingText | filterIndicatorsByGroupId: indicatorGroupsForSearching).length == 0"
         class="text-center lead" style="margin-bottom: 5px; margin-top: 100px">
         <span class="lead"> No Indicators</span>
       </p>
@@ -69,7 +85,7 @@
       <div class="card-deck" style="margin-bottom: 20px">
         <div
           class="col-sm-12 col-md-3"
-          *ngFor="let indicator of indicators | filterBySearchInput: searchingText | paginate: {itemsPerPage: 4, currentPage: currentPage}"
+          *ngFor="let indicator of indicators | filterBySearchInput: searchingText | filterIndicatorsByGroupId: indicatorGroupsForSearching | paginate: {itemsPerPage: 4, currentPage: currentPage}"
           [@hoverChanged]="indicator.hoverState || 'notHovered'"
           (mouseenter) ="indicator.hoverState = 'hoovered'"
           (mouseleave) ="indicator.hoverState = 'notHovered'"

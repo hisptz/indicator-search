@@ -75,21 +75,24 @@ export class HomeComponent implements OnInit {
   error: boolean;
   loading: boolean;
   searchingText: string;
+  searchingTextForIndicatorGroup: string;
   hoverState = 'notHovered';
   completedPercent = 0;
   selectedIndicator: any = null;
   totalAvailableIndicators: any = null;
   loadedIndicatorsCount = 0;
-  hideGroups = true;
+  showIndicatorGroups = false;
   currentPage: number = 1;
   indicators: any[] = [];
   groupToFilter: any[] = [];
-  indicatorGroups: any[] = [];
   currentUser$: Observable<CurrentUserState>;
   indicatorsList$: Observable<IndicatorsState>;
   allIndicators$: Observable<AllIndicatorsState>;
   progressBarInfo$: Observable<any>;
   indicatorGroups$: Observable<IndicatorGroupsState>;
+  indicatorGroups: any[] = [];
+  indicatorGroupsForSearching = [];
+
   constructor(private indicatorSearchService: IndicatorSearchService, private store: Store<AppState>) {
     this.currentUser$ = this.store.select(getCurrentUser);
     this.indicatorsList$ = this.store.select(getListOfIndicators);
@@ -98,6 +101,7 @@ export class HomeComponent implements OnInit {
     this.indicatorGroups$ = this.store.pipe(select(getIndicatorGroups));
 
     this.searchingText = '';
+    this.searchingTextForIndicatorGroup = '';
     this.indicators = [];
     this.loading = true;
     this.error =false;
@@ -130,6 +134,13 @@ export class HomeComponent implements OnInit {
         }
       })
     }
+    if (this.indicatorGroups$) {
+      this.indicatorGroups$.subscribe((indicatorGroups) => {
+        if (indicatorGroups) {
+          this.indicatorGroups = indicatorGroups['indicatorGroups'];
+        }
+      })
+    }
   }
 
 
@@ -143,19 +154,8 @@ export class HomeComponent implements OnInit {
     this.hoverState = 'notHovered';
   }
 
-
-  displayPerTree() {
-    this.hideGroups = !this.hideGroups;
-  }
-
-  addGroupFilter(group) {
-    if (this.inGroupToFilter(group.id)) {
-      this.groupToFilter.splice(_.findIndex(this.groupToFilter, {id: group.id}), 1);
-    }else {
-      this.groupToFilter.push(group);
-    }
-    // this.store.dispatch(new SetSelectedIndicatorAction(null));
-    this.indicators = [...this.indicators];
+  showGroups() {
+    this.showIndicatorGroups = !this.showIndicatorGroups;
   }
 
   inGroupToFilter(id) {
@@ -163,11 +163,20 @@ export class HomeComponent implements OnInit {
   }
 
   groupNames() {
-    if ( this.groupToFilter.length < 5 ) {
-      return this.groupToFilter.map( g => g.name ).join(', ');
+    if ( this.indicatorGroupsForSearching.length < 5 ) {
+      return this.indicatorGroupsForSearching.map( g => g.name ).join(', ');
     }else {
-      const diff = this.groupToFilter.length - 4;
-      return this.groupToFilter.slice(0, 4).map( g => g.name ).join(', ') + ' and ' + diff + ' More';
+      const diff = this.indicatorGroupsForSearching.length - 4;
+      return this.indicatorGroupsForSearching.slice(0, 4).map( g => g.name ).join(', ') + ' and ' + diff + ' More';
+    }
+  }
+
+  updateIndicatorGroupsForSearch(group, event) {
+    if (event) {
+      this.indicatorGroupsForSearching.push(group);
+    } else {
+      let index = this.indicatorGroupsForSearching.indexOf(group);
+      this.indicatorGroupsForSearching.splice(index, 1)
     }
   }
 }

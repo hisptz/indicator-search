@@ -1,4 +1,4 @@
-#searching-input {
+#searching-input, #searching-input-group {
     outline: none !important;
     border: none;
     display: block;
@@ -202,3 +202,68 @@
     padding: 2px;
   }
   
+
+  div.menu-settings{
+    /*position:absolute;*/
+    width:100%;
+    float: right;
+    height:3em;
+    margin:0;
+    padding:0 10px;
+    background: #FFF;
+    border: solid 1px #ffffff;
+    box-shadow:0 -1px rgba(240,240,240,.5) inset;
+  }
+  
+  div.menu-settings > li{
+    float:left;
+    list-style-type:none;
+    position:relative;
+  }
+  
+  label{
+    position:relative;
+    display:block;
+    line-height:3em;
+    transition:background 0.3s;
+    cursor:pointer;
+  }
+  
+  label:after{
+    content:"";
+    position:absolute;
+    display:block;
+    top:50%;
+    right:5px;
+    width:0;
+    height:0;
+    border-top:4px solid rgba(255,255,255,.5);
+    border-bottom:0 solid rgba(255,255,255,.5);
+    border-left:4px solid transparent;
+    border-right:4px solid transparent;
+    transition:border-bottom .1s, border-top .1s .1s;
+  }
+  
+
+  ul.submenu{
+    padding:0;
+    margin-top: -5px;
+    z-index: 600;
+    overflow:hidden;
+    list-style-type:none;
+    background:#FFF;
+    box-shadow:0 0 1px rgba(0,0,0,.3);
+    transition:max-height 0.5s ease-out;
+    position:absolute;
+    min-width:100%;
+  }
+  
+  ul.submenu li a{
+    display:block;
+    padding:6px;
+    color:#222;
+    text-decoration:none;
+    box-shadow:0 -1px rgba(240,240,240,.5) inset;
+    transition:background .3s;
+    white-space:nowrap;
+  }

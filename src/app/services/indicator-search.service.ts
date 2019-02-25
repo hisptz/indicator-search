@@ -29,12 +29,17 @@ export class IndicatorSearchService {
   _loadAllIndicators(pagerDefinitions): Observable<any> {
     // format pageSize as per number of indicators
     let pageSize = 20; let pageCount = 1
-    if (pagerDefinitions.total < 100) {
+    if (pagerDefinitions.total < 200) {
       pageSize = 20;
       pageCount = Math.ceil(pagerDefinitions.total / pageSize);
-    } else {
-      pageSize = pagerDefinitions.pageSize;
-      pageCount = pagerDefinitions.pageCount;
+    } else if (pagerDefinitions.total <= 3000 && pagerDefinitions.total > 200) {
+      pageSize = 100;
+      pageCount = Math.ceil(pagerDefinitions.total / pageSize);
+    } else if (pagerDefinitions.total > 3000) {
+      pageSize = 400;
+      pageCount = Math.ceil(pagerDefinitions.total / pageSize);
+      // pageSize = pagerDefinitions.pageSize;
+      // pageCount = pagerDefinitions.pageCount;
     }
     return from(
       _.map(
@@ -43,7 +48,7 @@ export class IndicatorSearchService {
         'indicators.json?fields=:all,lastUpdatedBy[id,name],displayName,id,name,' +
         'numeratorDescription,denominatorDescription,denominator,numerator,annualized,decimals,' +
         'indicatorType[name],user[name],attributeValues[value,attribute[name]],indicatorGroups[id,name,indicators~size],' +
-        'legendSet[name,symbolizer,legends~size],dataSets[id,name]&pageSize='
+        'legendSets[id,name,symbolizer,legends~size],dataSets[id,name]&pageSize='
         + pageSize +
         '&page=' + pageNumber
       )

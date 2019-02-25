@@ -34,19 +34,25 @@ import { TrendAnalysisComponent } from './pages/indicator-details/trend-analysis
 import { FilterSectionComponent } from './shared-components/filter-section/filter-section.component';
 import { modules } from './modules';
 import { TreeModule } from 'angular-tree-component';
+import { IndicatorGroupsComponent } from './pages/indicator-groups/indicator-groups.component';
+import { SearchIndicatorGroupPipe } from './pipes/search-indicator-group.pipe';
+import { FilterIndicatorsByGroupIdPipe } from './pipes/filter-indicators-by-group-id.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     FilterBySearchInputPipe,
+    FilterIndicatorsByGroupIdPipe,
     IndicatorPropertiesComponent,
     IndicatorDetailsComponent,
     LoaderPlaceholderComponent,
     BasicDetailsComponent,
     DataAnalysisComponent,
     TrendAnalysisComponent,
-    FilterSectionComponent
+    FilterSectionComponent,
+    IndicatorGroupsComponent,
+    SearchIndicatorGroupPipe,
   ],
   imports: [
     BrowserModule,

@@ -6,7 +6,7 @@ import * as _ from 'lodash';
 
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import { HttpClientService } from 'src/app/services/http-client.service';
-import { IndicatorsState } from './indicators.state';
+import { IndicatorsState, IndicatorGroupsState } from './indicators.state';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.reducers';
@@ -23,6 +23,16 @@ export class IndicatorsEffects {
           map((indicatorsListObject: IndicatorsState) =>
             new indicators.LoadIndicatorsSuccessAction(indicatorsListObject)),
           catchError((error) => of(new indicators.LoadIndicatorsFailAction(error)))
+        ))
+    );
+
+    @Effect()
+    indicatorGroups$: Observable<any> = this.actions$
+    .pipe(ofType<indicators.IndicatorsAction>(indicators.IndicatorsActions.LoadIndicatorGroups),
+        switchMap(() => this.httpClient.get('indicatorGroups.json?fields=id,name,description,indicators[id]&paging=false').pipe(
+          map((indicatorGroupsObject: IndicatorGroupsState) =>
+            new indicators.LoadIndicatorGroupsSuccessAction(indicatorGroupsObject)),
+          catchError((error) => of(new indicators.LoadIndicatorGroupsFailAction(error)))
         ))
     );
 
@@ -57,17 +67,17 @@ export class IndicatorsEffects {
     )
     
 
-    // @Effect()
-    // allIndicators$ = this.actions$
-    // .pipe(ofType<indicators.LoadIndicatorsAction>(indicators.IndicatorsActions.LoadIndicatorsByPages),
-    // map((action: any) => {
-    //   let indicatorsArr: any[] = [];
-    //   this.indicatorService._loadAllIndicators(action.payload).subscribe((allIndicators) => {
-    //     indicatorsArr = [...indicatorsArr, ...allIndicators]
-    //     this.store.dispatch(new indicators.LoadIndicatorsByPagesSuccessAction(indicatorsArr));
-    //   })
-    // })
-    // )
+    @Effect()
+    indicatorDataSetByDataElementId$ = this.actions$
+    .pipe(ofType<indicators.LoadIndicatorsAction>(indicators.IndicatorsActions.LoadIndicatorDataSetByDataElementId),
+    switchMap(
+      (action: any) => this.httpClient.get('dataElements/' + action.payload + '.json?fields=dataSetElements[dataSet[id,name,periodType,timelyDays,formType]]').pipe(
+        map((dataSetElements: any) =>
+          new indicators.LoadIndicatorDataSetByDataElementIdSuccessAction(dataSetElements['dataSetElements'])),
+        catchError((error) => of(new indicators.LoadIndicatorDataSetByDataElementIdFailAction(error)))
+      )
+    )
+    )
 
     constructor (private actions$: Actions, 
       private httpClient: HttpClientService, 

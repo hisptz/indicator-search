@@ -1,0 +1,17 @@
+
+.list-group-item {
+    position: relative;
+    display: block;
+    padding: .25rem 0.25rem;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: none;
+}
+
+.indicator-description div {
+    margin-bottom: 20px;
+}
+
+.list-group-item b {
+    color: #2C6695;
+}

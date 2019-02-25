@@ -6,6 +6,7 @@ export interface IndicatorsState {
 export interface AllIndicatorsState {
     indicators: any;
     progressLoadingValue: number;
+    dataSets: Array<any>;
 }
 
 export interface IndicatorPropertiesState {
@@ -41,5 +42,9 @@ export interface IndicatorPropertiesState {
         "userAccesses": any;
         "dataSets": any,
         "legendSets": any
-    }
+    } 
+}
+
+export interface IndicatorGroupsState {
+    indicatorGroups: any;
 }
