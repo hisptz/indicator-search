@@ -150,7 +150,6 @@ export class BasicDetailsComponent implements OnInit {
 
   getDataSetByDataElement(allSearchedDataSets, expression) {
     let definitions = []; let dataSetsOfIndicators = [];
-    console.log('expression', expression)
     expression.split('}').forEach((element) => {
       if (element.length > 11) {
         if (element.indexOf('I{') == 0 || element.indexOf('I{') == 1) {
@@ -180,7 +179,6 @@ export class BasicDetailsComponent implements OnInit {
         }
       }
     });
-    console.log('_.uniqBy(definitions)', _.uniqBy(definitions, 'id'))
     _.map(_.uniqBy(definitions, 'id'), (definition) => {
       if (_.find(this.getSources(allSearchedDataSets), {'dataElementId': definition.id})) {
         if (definition.category == 'programIndicator') {
@@ -189,13 +187,11 @@ export class BasicDetailsComponent implements OnInit {
           }
           dataSetsOfIndicators.push(obj)
         } else if (definition.category == 'dataElement') {
-          console.log('this.getSources(allSearchedDataSets)', this.getSources(allSearchedDataSets))
           _.map(this.getSources(allSearchedDataSets), (source: any) => {
             if (source.dataElementId == definition.id) {
               dataSetsOfIndicators.push(source)
             }
           })
-          // dataSetsOfIndicators.push(_.find(this.getSources(allSearchedDataSets), {'dataElementId': definition.id}));
         } else if (definition.category == 'PROGRAM') {
           let obj = {
             dataSet: _.find(this.getSources(allSearchedDataSets), {'dataElementId': definition.id})
