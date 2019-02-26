@@ -4,7 +4,7 @@
   </div>
   <div class="card-body">
     <div class="row">
-      <div class="col-md-6 indicator-description">
+      <div class="col-md-7 indicator-description">
           <div>
             <p class="indicator-definition">
               <strong>{{ indicator.name }}</strong>
@@ -83,7 +83,7 @@
               </div>
           </div>
       </div>
-      <div class="col-md-6" *ngIf="indicator.numerator">
+      <div class="col-md-5" *ngIf="indicator.numerator">
         <div style="margin-left: 15px" *ngIf="getDataSetByDataElement(allSearchedDataSets, indicator.numerator)">
             <h5><strong>Calculation details</strong></h5>
             <div style="max-height: 400px; width: 100%; overflow: auto;">
