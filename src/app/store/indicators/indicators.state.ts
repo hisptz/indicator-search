@@ -7,6 +7,7 @@ export interface AllIndicatorsState {
     indicators: any;
     progressLoadingValue: number;
     dataSets: Array<any>;
+    dataSetsDefinitions: Array<any>;
 }
 
 export interface IndicatorPropertiesState {

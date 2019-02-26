@@ -5,7 +5,7 @@
 
 .indicator-details {
     /* border: solid 1px #dad9d9; */
-    padding: 10px;
+    padding: 1px;
 }
 
 .btn {
@@ -53,9 +53,19 @@ a {
 }
 
 .details-container {
-    margin-top: 20px; padding: 5px;
+    padding: 5px;
 }
 
-#indicator-name {
-    color: #2C6695;
+#indicator-name span {
+    color: #222222;
+}
+
+#indicator-name a {
+    text-decoration: none; color: #2C6695; font-weight: 600; margin-right: 3px
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #2C6695;
+    border-color: #2C6695;
 }

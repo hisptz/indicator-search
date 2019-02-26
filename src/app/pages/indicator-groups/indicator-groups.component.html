@@ -2,22 +2,24 @@
     <div class="row">
       <div class="col-md-6" style="padding-top: 5px">
         <div class="row">
-          <div class="col-1">
-            <span class="lead  cursor-pointer" routerLink="/home" title="home">
-              <i class="fa fa-search">
-                  <img style="margin-top: -10px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAALCSURBVGhD7ZlLqE1RGMePtyQGZCCPMpABGRCRUJREmTCRTMzIcyADcZOYGEgmIkoeZUomikIeIUQhDBgYeOQ58Ob3W/fs7r2nc+7p7nP2Xu3a//p19vftb53O/5611tnfupVSBdRw2AmP4Tv8i8hpSKXJ8ALqvWkMUhkZAc/BN7gJ82EgxNBqSG1kNzj4Ggw2EVEtGXkKDp4borhKbcQp9Ad+QD8TkZXayEhw4KcQxVdppDSSkXI3MgEmwagQtU+5GhkDv8FxV0y0UbkaWQ+OEbfusdAu5WrkKjjmbfV1M7RLuRkZB34LX2ENOPYGNJPTcVjnZa/KzchWsP4MDIXP8BcmQj3NgmfgGFuDPdCbcjNyG6xfEaJK5SQYbw9RT/kA+gq8/wZ+Vq+XQiPlYsTt1r/+RxhiAi0Dx98LUU/Z47yES+BznGvJ2uPQSLkY2QHWnghRpwbBBzDvB6+n8TAdEtMXoJFyMfIArF0Soi4dBfO7QtSlqfAIvNedqEamgHXvoLZ7XATes9dP1B+SRe46uQ+2CsZRjXSAdedhRg3uTF/A+9NAJcZtoRPja8FcVCNPwLpm7AU1D4xtnxMluWhGXKjWfIO7DXgI1vgNKNtm4+sh6tQCMHcxRPWVqZH9YM3BENWX2+trsG4mjK5eO+WWg9PvVDX3HhqdD2RmxA/ob4E1c0z0ogNgna8q2c3q0Wh6ZWbEZySnzmVodjjhwrdWA2oAbASn0i04Bm4GPubUbtWJMl/seak0UhrJSKWR0khGaqsR+/KFsDgC+6BlI77RnWocm9RGbGHFazs+j3zORWQT9EmJEfFwYAPE+rdbS+puZJuJoiox4lmu51SFldNIE/bTPq0WWkl3tzJEBZYLXCPuVvYUhZVTyuZHM7/gLGyBVRGZDankQj8MGtFQbPr8g1grT9X9Ng7BkYisg1IFUKXyH0pK6Yr5XLikAAAAAElFTkSuQmCC">
-              </i>
-            </span>
-          </div>
-          <div class="col-11" *ngIf="indicatorGroup">
-            <span>
-                <h5>
-                    <a class="cursor-pointer">Indicator groups/</a>{{indicatorGroup.name}}
-                </h5>
-            </span>
-          </div>
-          <div class="col-11" *ngIf="!indicatorGroup">
-            <span><app-loader-placeholder></app-loader-placeholder></span> 
+          <div class="col-12">
+            <div style="float: left;">
+              <span class="lead  cursor-pointer" routerLink="/home" title="home">
+                <i class="fa fa-search">
+                    <img style="margin-top: -10px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAALCSURBVGhD7ZlLqE1RGMePtyQGZCCPMpABGRCRUJREmTCRTMzIcyADcZOYGEgmIkoeZUomikIeIUQhDBgYeOQ58Ob3W/fs7r2nc+7p7nP2Xu3a//p19vftb53O/5611tnfupVSBdRw2AmP4Tv8i8hpSKXJ8ALqvWkMUhkZAc/BN7gJ82EgxNBqSG1kNzj4Ggw2EVEtGXkKDp4borhKbcQp9Ad+QD8TkZXayEhw4KcQxVdppDSSkXI3MgEmwagQtU+5GhkDv8FxV0y0UbkaWQ+OEbfusdAu5WrkKjjmbfV1M7RLuRkZB34LX2ENOPYGNJPTcVjnZa/KzchWsP4MDIXP8BcmQj3NgmfgGFuDPdCbcjNyG6xfEaJK5SQYbw9RT/kA+gq8/wZ+Vq+XQiPlYsTt1r/+RxhiAi0Dx98LUU/Z47yES+BznGvJ2uPQSLkY2QHWnghRpwbBBzDvB6+n8TAdEtMXoJFyMfIArF0Soi4dBfO7QtSlqfAIvNedqEamgHXvoLZ7XATes9dP1B+SRe46uQ+2CsZRjXSAdedhRg3uTF/A+9NAJcZtoRPja8FcVCNPwLpm7AU1D4xtnxMluWhGXKjWfIO7DXgI1vgNKNtm4+sh6tQCMHcxRPWVqZH9YM3BENWX2+trsG4mjK5eO+WWg9PvVDX3HhqdD2RmxA/ob4E1c0z0ogNgna8q2c3q0Wh6ZWbEZySnzmVodjjhwrdWA2oAbASn0i04Bm4GPubUbtWJMl/seak0UhrJSKWR0khGaqsR+/KFsDgC+6BlI77RnWocm9RGbGHFazs+j3zORWQT9EmJEfFwYAPE+rdbS+puZJuJoiox4lmu51SFldNIE/bTPq0WWkl3tzJEBZYLXCPuVvYUhZVTyuZHM7/gLGyBVRGZDankQj8MGtFQbPr8g1grT9X9Ng7BkYisg1IFUKXyH0pK6Yr5XLikAAAAAElFTkSuQmCC">
+                </i>
+              </span>
+            </div>
+            <div *ngIf="indicatorGroup" style="float: left; margin-left: 15px">
+              <span>
+                  <h5>
+                      <a class="cursor-pointer">{{indicatorGroup.name}}</a>
+                  </h5>
+              </span>
+            </div>
+            <div *ngIf="!indicatorGroup" style="margin-left: 20px; width: 50%; height: 40px;float: left;">
+              <app-loader-placeholder></app-loader-placeholder>
+            </div>
           </div>
         </div>
       </div>

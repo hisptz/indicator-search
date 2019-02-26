@@ -387,9 +387,6 @@
     display: none;
   }
   
-  table * {
-    line-height: 80%;
-  }
   
   .subtotal{
     width:90px;max-width: 90px;

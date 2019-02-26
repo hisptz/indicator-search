@@ -31,8 +31,9 @@ import { getListOfIndicators, getallIndicators, getProgressLoaderInfo, getIndica
         'position': 'absolute',
         'top': '100px',
         'bottom': '50px',
-        '-webkit-box-shadow': '0 0 0 rgba(0,0,0,0.2)',
-        'box-shadow': '0 0 0 rgba(0,0,0,0.2)',
+        'z-index': '100',
+        '-webkit-box-shadow': '0 0 10px rgba(0,0,0,0.2)',
+        'box-shadow': '0 0 10px rgba(0,0,0,0.2)',
         'background-color': 'rgba(255,255,255,1)',
         'border': '1px solid #ddd'
       })),
@@ -59,8 +60,8 @@ import { getListOfIndicators, getallIndicators, getProgressLoaderInfo, getIndica
       })),
       state('hoovered', style({
         'transform': 'scale(1.04, 1.04)',
-        '-webkit-box-shadow': '0 0 0 rgba(0,0,0,0.2)',
-        'box-shadow': '0 0 0 rgba(0,0,0,0.2)',
+        '-webkit-box-shadow': '0 0 10px rgba(0,0,0,0.2)',
+        'box-shadow': '0 0 10px rgba(0,0,0,0.2)',
         'background-color': 'rgba(0,0,0,0.03)',
         'border': '1px solid #ddd'
       })),
@@ -68,7 +69,6 @@ import { getListOfIndicators, getallIndicators, getProgressLoaderInfo, getIndica
     ])
 
   ]
-
 })
 export class HomeComponent implements OnInit {
 
@@ -144,9 +144,9 @@ export class HomeComponent implements OnInit {
   }
 
 
-  mouseEnter(indicator) {
+  mouseEnter(indicator, hoverState) {
     this.selectedIndicator = indicator.id;
-    this.hoverState = 'hoovered';
+    this.hoverState = hoverState;
   }
 
   mouseLeave() {

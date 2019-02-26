@@ -2,83 +2,135 @@
   <div class="card-header">
       <h5>About the indicator</h5>
   </div>
-  <div class="card-body indicator-description">
+  <div class="card-body">
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-md-6 indicator-description">
           <div>
-              <p class="indicator-definition">
-                <strong>{{ indicator.name }}</strong>
-                 is 
-                 <strong>{{ indicator.indicatorType.name}}</strong>
-                  indicator,
-                  measured by 
-                  <strong>{{indicator.numeratorDescription}}</strong>
-                  <span *ngIf="indicator.indicatorType.name.toLowerCase().indexOf('number') < 0"> to
-                  <strong>{{indicator.denominatorDescription}}</strong>
-                </span>
-              </p>
-            </div>
-            <div *ngIf="dataSets.length > 0">
-              <p>
-                The indicator is captured from <b>Routine data collection </b> with the following sources
-              </p>
-              <ul class="list-group">
-                <li class="list-group-item cursor-pointer" *ngFor="let dataSet of dataSets">
-                  <b>{{dataSet.dataSet.name}}</b> ({{dataSet.dataSet.formType}} form) submitting <strong>{{ dataSet.dataSet.periodType}}</strong> after every <strong>{{dataSet.dataSet.timelyDays}}</strong> days
-                </li>
-              </ul>
-            </div>
-            <div *ngIf="dataSets.length == 0">
-              <span><app-loader-placeholder></app-loader-placeholder></span> 
-            </div>
-            <div *ngIf="indicator.indicatorGroups.length > 0">
-              <h5>Facts about indicator</h5>
-              <h6>
-                The indicator belongs to :- <a style="text-decoration: none"></a>
-              </h6>
-              <ul class="list-group">
-                <li class="list-group-item cursor-pointer" *ngFor="let indicatorGroup of indicator.indicatorGroups"  routerLink="/indicatorGroups/{{indicatorGroup.id}}">
-                  <b>{{indicatorGroup.name}}</b> (with <strong>{{indicatorGroup.indicators}}</strong> other related indicators)
-                </li>
-              </ul>
-            </div>
+            <p class="indicator-definition">
+              <strong>{{ indicator.name }}</strong>
+                is 
+                <strong>{{ indicator.indicatorType.name}}</strong>
+                indicator,
+                measured by 
+                <strong>{{indicator.numeratorDescription}}</strong>
+                <span *ngIf="indicator.indicatorType.name.toLowerCase().indexOf('number') < 0"> to
+                <strong>{{indicator.denominatorDescription}}</strong>
+              </span>
+            </p>
+          </div>
+          <div *ngIf="dataSets.length > 0">
+            <p>
+              The indicator is captured from <b>Routine data collection </b> with the following sources
+            </p>
+            <ul class="list-group">
+              <li class="list-group-item" *ngFor="let dataSet of dataSets">
+                <b>{{dataSet.dataSet.name}}</b> ({{dataSet.dataSet.formType}} form) submitting <strong>{{ dataSet.dataSet.periodType}}</strong> after every <strong>{{dataSet.dataSet.timelyDays}}</strong> days
+              </li>
+            </ul>
+          </div>
+          <div *ngIf="dataSets.length == 0" style="text-align: left;">
+            <img src="assets/img/balls-5.svg" height="30" width="30"> Loading sources information ....
+          </div>
+          <div *ngIf="indicator.indicatorGroups.length > 0">
+            <h5><strong>Facts about the indicator</strong> </h5>
+            <h6>
+              The indicator belongs to :- <a style="text-decoration: none"></a>
+            </h6>
+            <ul class="list-group">
+              <li class="list-group-item" *ngFor="let indicatorGroup of indicator.indicatorGroups"
+                >
+                <b>{{indicatorGroup.name}}</b> (with <strong>{{indicatorGroup.indicators}}</strong> other related indicators)
+              </li>
+            </ul>
+          </div>
+          <!-- Legend sets -->
+          <div *ngIf="indicator.legendSet">
+              <div *ngIf="legendSet">
+                <h5><strong>Legend for analysis</strong></h5>
+                <h6>Uses {{legendSet.name}} for for analysis, spread accross {{legendSet.legends.length}} classes for analysis.</h6>
+                <div *ngIf="legendSet.legends.length > 0" style="height: 200px; width: 60%; overflow: auto;">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Class</th>
+                        <th>Upper</th>
+                        <th>Lower</th>
+                        <th>Color</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let legend of legendSet.legends">
+                        <td>{{legend.name}}</td>
+                        <td>{{legend.endValue}}</td>
+                        <td>{{legend.startValue}}</td>
+                        <td [style.backgroundColor]="legend.color"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div *ngIf="!legendSet" style="text-align: left; margin-top: 30px">
+                <img src="assets/img/balls-5.svg" height="60" width="60"> Loading legends' definitions...
+              </div>
+          </div>
       </div>
-      <div class="col-md-4">
-          <div *ngIf="legendSet">
-            <h5>Legend for analysis</h5>
-            <h6>Uses {{legendSet.name}} for for analysis, spread accross {{legendSet.legends.length}} classes for analysis.</h6>
-            <div *ngIf="legendSet.legends.length > 0">
+      <div class="col-md-6" *ngIf="indicator.numerator">
+        <div style="margin-left: 15px" *ngIf="allSearchedDataSets">
+            <h5><strong>Calculation details</strong></h5>
+            <div style="max-height: 400px; width: 100%; overflow: auto;">
               <table class="table table-bordered">
                 <thead>
                   <tr>
-                    <th>Class</th>
-                    <th>Upper</th>
-                    <th>Lower</th>
-                    <th>Color</th>
+                    <th></th>
+                    <th>Formula / Constant</th>
+                    <th>Sources</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let legend of legendSet.legends">
-                    <td>{{legend.name}}</td>
-                    <td>{{legend.endValue}}</td>
-                    <td>{{legend.startValue}}</td>
-                    <td [style.backgroundColor]="legend.color"></td>
+                  <tr>
+                    <td>Numerator</td>
+                    <td>{{indicator.numeratorDescription}}</td>
+                    <td class="formula-definition">
+                      <p> Collected from</p>
+                      <ul style="margin-top: 10px">
+                        <li class="list-of-datasets" *ngFor="let dataSetOfIndicator of getDataSetByDataElement(allSearchedDataSets, indicator.numerator)">
+                          {{dataSetOfIndicator.dataSet.name}}
+                        </li>
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Denominator</td>
+                    <td>{{indicator.denominatorDescription}}</td>
+                    <td>
+                      <p> <span *ngIf="indicator.denominator.length > 11">Collected from</span></p>
+                      <ul style="margin-top: 10px">
+                        <li class="list-of-datasets" *ngFor="let dataSetOfIndicator of getDataSetByDataElement(allSearchedDataSets, indicator.denominator)">
+                          {{dataSetOfIndicator.dataSet.name}}
+                        </li>
+                      </ul>
+                    </td>
                   </tr>
                 </tbody>
               </table>
             </div>
+        </div>
+        <div *ngIf="!allSearchedDataSets" style="text-align: left; margin-top: 30px">
+            <img src="assets/img/balls-5.svg" height="60" width="60"> Loading calculation details...
           </div>
       </div>
     </div>
     <div>
       <p>
-        Created on <strong>{{indicator.created | date}}</strong>
-        by <strong>{{indicator.user.name}}</strong>
-      </p>
-      <p *ngIf="indicator.lastUpdatedBy">
-          Last updated on <strong>{{indicator.lastUpdated | date}}</strong>
-          by <strong>{{indicator.lastUpdatedBy.name}}</strong>
-          
+        <span>
+          Created on <strong>{{indicator.created | date}}</strong>
+          by <strong>{{indicator.user.name}}</strong>
+        </span>
+        <span *ngIf="indicator.lastUpdatedBy">
+            and last updated on <strong>{{indicator.lastUpdated | date}}</strong>
+            by <strong>{{indicator.lastUpdatedBy.name}}</strong>
+            
+        </span>
       </p>
     </div>
   </div>

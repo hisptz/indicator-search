@@ -87,8 +87,8 @@
           class="col-sm-12 col-md-3"
           *ngFor="let indicator of indicators | filterBySearchInput: searchingText | filterIndicatorsByGroupId: indicatorGroupsForSearching | paginate: {itemsPerPage: 4, currentPage: currentPage}"
           [@hoverChanged]="indicator.hoverState || 'notHovered'"
-          (mouseenter) ="indicator.hoverState = 'hoovered'"
-          (mouseleave) ="indicator.hoverState = 'notHovered'"
+          (mouseenter) ="mouseEnter(indicator, 'hoovered')"
+          (mouseleave) ="mouseEnter(indicator, 'notHovered')"
         >
           <app-indicator-properties [indicator]="indicator"></app-indicator-properties>
         </div>

@@ -18,6 +18,10 @@ export enum IndicatorsActions {
     LoadIndicatorDataSetByDataElementId = '[Indicator dataset] Load indicator dataset by data element',
     LoadIndicatorDataSetByDataElementIdSuccess = '[Indicator dataset] Load indicator dataset by data element success',
     LoadIndicatorDataSetByDataElementIdFail = '[Indicator dataset] Load indicator dataset by data element fail',
+    LoadIndicatorDataSetByDataElementIds = '[Indicator datasets list] Load indicator dataset by data element',
+    LoadIndicatorDataSetByDataElementIdsSuccess = '[Indicator datasets list] Load indicator dataset by data element success',
+    LoadIndicatorDataSetByDataElementIdsFail = '[Indicator datasets list] Load indicator dataset by data element fail',
+
 }
 
 export class LoadIndicatorsAction implements Action {
@@ -110,6 +114,26 @@ export class LoadIndicatorDataSetByDataElementIdFailAction implements Action {
     constructor(public payload: any) {}
 }
 
+
+export class LoadIndicatorDataSetByDataElementIdsAction implements Action {
+    readonly type = IndicatorsActions.LoadIndicatorDataSetByDataElementIds;
+
+    constructor(public payload: any) {}
+}
+
+export class LoadIndicatorDataSetByDataElementIdsSuccessAction implements Action {
+    readonly type = IndicatorsActions.LoadIndicatorDataSetByDataElementIdsSuccess;
+
+    constructor(public payload: any) {}
+}
+
+export class LoadIndicatorDataSetByDataElementIdsFailAction implements Action {
+    readonly type = IndicatorsActions.LoadIndicatorDataSetByDataElementIdsFail;
+
+    constructor(public payload: any) {}
+}
+
+
 export type IndicatorsAction = LoadIndicatorsAction 
 | LoadIndicatorsSuccessAction 
 | LoadIndicatorsFailAction
@@ -125,4 +149,7 @@ export type IndicatorsAction = LoadIndicatorsAction
 | LoadIndicatorGroupsFailAction
 | LoadIndicatorDataSetByDataElementIdAction
 | LoadIndicatorDataSetByDataElementIdSuccessAction
-| LoadIndicatorDataSetByDataElementIdFailAction;
+| LoadIndicatorDataSetByDataElementIdFailAction
+| LoadIndicatorDataSetByDataElementIdsAction
+| LoadIndicatorDataSetByDataElementIdsSuccessAction
+| LoadIndicatorDataSetByDataElementIdsFailAction;

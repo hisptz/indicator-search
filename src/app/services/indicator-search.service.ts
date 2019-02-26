@@ -92,4 +92,36 @@ export class IndicatorSearchService {
       )
     )
   }
+
+  _loadIndicatorsSourcesByDataElements(dataSetElements): Observable<any> {
+    return from(
+     _.map(
+        dataSetElements,
+        (dataSetElement) => {
+          let url = '';
+          if (dataSetElement.category == 'programIndicator') {
+            console.log('programIndicator')
+            url = 'programIndicators/' + dataSetElement.id + '.json?fields=id,name,program[id,name],filter,expression';
+          } else if(dataSetElement.category == 'dataElement') {
+            url = 'dataElements/' + dataSetElement.id + '.json?fields=id,name,dataSetElements[dataSet[id,name,periodType,timelyDays,formType]]';
+          } else {
+            console.log(dataSetElement.category);
+          }
+          return url;
+        }
+      )
+    ).pipe(
+      mergeMap(
+        (url: string) =>
+        this.httpClient.get(url).pipe(
+            map(
+              (dataSetElements: any) =>
+              dataSetElements
+            )
+          ),
+      null,
+      1
+      )
+    )
+  }
 }

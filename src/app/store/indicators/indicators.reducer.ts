@@ -9,6 +9,7 @@ export interface State extends EntityState<AllIndicatorsState> {
     indicators: any;
     progressLoadingValue: number;
     dataSets: Array<any>;
+    dataSetsDefinitions: Array<any>;
 }
 
 export const adapter: EntityAdapter<AllIndicatorsState> = createEntityAdapter<AllIndicatorsState>();
@@ -16,7 +17,8 @@ export const adapter: EntityAdapter<AllIndicatorsState> = createEntityAdapter<Al
 export const INITIAL_STATE_LOADED_INDICATORS: State = adapter.getInitialState({
     indicators: null,
     progressLoadingValue: 0,
-    dataSets: []
+    dataSets: [],
+    dataSetsDefinitions: []
 })
 
 
@@ -43,7 +45,12 @@ export function allIndicatorsRedcuer(state: AllIndicatorsState = INITIAL_STATE_L
         case IndicatorsActions.LoadIndicatorDataSetByDataElementIdSuccess:
             return {
                 ...state,
-                dataSets: action.payload
+                dataSets: [...state.dataSets, ...action.payload]
+            }
+            case IndicatorsActions.LoadIndicatorDataSetByDataElementIdsSuccess:
+            return {
+                ...state,
+                dataSetsDefinitions: [...state.dataSetsDefinitions, ...action.payload]
             }
         default:
             return state;

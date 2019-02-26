@@ -9,9 +9,23 @@
 }
 
 .indicator-description div {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .list-group-item b {
     color: #2C6695;
+}
+
+.list-of-datasets {
+    padding: 5px; margin-bottom: none !important
+}
+
+.formula-definition p, .formula-definition ul {
+    margin: 0px;
+}
+
+.table td, .table th {
+    padding: .35rem !important;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
 }
