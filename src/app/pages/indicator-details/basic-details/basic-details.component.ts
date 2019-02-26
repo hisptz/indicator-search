@@ -253,8 +253,12 @@ export class BasicDetailsComponent implements OnInit {
   getUniqueSources(allPossibleSources, indicator){
     let uniqueSources = [];
     const expressionCombined = indicator.numerator + indicator.denominator;
-    console.log('this', _.unionBy(this.getSources(allPossibleSources), 'id'))
-    return _.unionBy(this.getSources(allPossibleSources), 'id')
+    _.map(this.getSources(allPossibleSources), (source: any) => {
+      if (expressionCombined.indexOf(source.dataElementId) >= 0) {
+        uniqueSources.push(source)
+      }
+    })
+    return _.unionBy(uniqueSources, 'id')
   }
 
 }
