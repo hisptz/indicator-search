@@ -26,8 +26,6 @@ export class BasicDetailsComponent implements OnInit {
 
   ngOnInit() {
     if (this.indicator) {
-        console.log('here')
-        console.log(this.getAllDataElements(this.indicator))
         // check if the dataset have ebeen loaded
         this.dataSet$ = this.store.select(getDataSetsInfoByDataElementId);
         if (this.dataSet$) {
