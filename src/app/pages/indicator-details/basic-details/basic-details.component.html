@@ -22,8 +22,8 @@
             <p>
               The indicator is captured from <b>{{getAllPossibleSources(indicator)}}</b> with the following sources
             </p>
-            <ul class="list-group" *ngIf="getSources(allSearchedDataSets).length > 0">
-              <li class="list-group-item" id="source.id" *ngFor="let source of getSources(allSearchedDataSets)">
+            <ul class="list-group" *ngIf="getUniqueSources(allSearchedDataSets, indicator).length > 0">
+              <li class="list-group-item" id="source.id" *ngFor="let source of getUniqueSources(allSearchedDataSets, indicator)">
                 <b>{{source.name}}</b> 
                 <span *ngIf="source.category == 'Aggregate'">
                     ({{source.formType}} form) submitting <strong>{{ source.periodType}}</strong> after every <strong>{{source.timelyDays}}</strong> days
@@ -33,7 +33,7 @@
                 </span>
               </li>
             </ul> 
-            <div *ngIf="!getSources(allSearchedDataSets).length" style="text-align: left; margin-top: 20px">
+            <div *ngIf="!getUniqueSources(allSearchedDataSets, indicator)" style="text-align: left; margin-top: 20px">
               <img src="assets/img/balls-5.svg" height="30" width="30"> Loading sources...
             </div>
           </div>

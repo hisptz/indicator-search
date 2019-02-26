@@ -1,14 +1,14 @@
 {
   "/api": {
-    "target": "https://dhis.hisptz.org/dev/",
+    "target": "http://localhost:8090/dhis/",
     "secure": "false",
-    "auth": "josephatjulius:Jovan2013",
+    "auth": "josephatjulius:Jovan@2013",
     "changeOrigin": "true"
   },
   "/": {
-    "target": "https://dhis.hisptz.org/dev/",
+    "target": "http://localhost:8090/dhis/",
     "secure": "false",
-    "auth": "josephatjulius:Jovan2013",
+    "auth": "josephatjulius:Jovan@2013",
     "changeOrigin": "true"
   }
 }

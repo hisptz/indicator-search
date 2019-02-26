@@ -22,6 +22,7 @@ export class BasicDetailsComponent implements OnInit {
   legendSet: any;
   dataSetsOfIndicators$: Observable<any>;
   allSearchedDataSets: any[] = []; 
+  // api/expressions/description?expression
   constructor(private httpClient: HttpClientService, private store: Store<AppState>) { }
 
   ngOnInit() {
@@ -246,7 +247,14 @@ export class BasicDetailsComponent implements OnInit {
         mappedSources.push(obj)
       }
     })
-    return _.uniqBy(mappedSources, 'id');
+    return _.uniqBy(mappedSources, 'dataElementId');
+  }
+
+  getUniqueSources(allPossibleSources, indicator){
+    let uniqueSources = [];
+    const expressionCombined = indicator.numerator + indicator.denominator;
+    console.log('this', _.unionBy(this.getSources(allPossibleSources), 'id'))
+    return _.unionBy(this.getSources(allPossibleSources), 'id')
   }
 
 }
