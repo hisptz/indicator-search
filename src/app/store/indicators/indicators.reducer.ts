@@ -50,7 +50,7 @@ export function allIndicatorsRedcuer(state: AllIndicatorsState = INITIAL_STATE_L
             case IndicatorsActions.LoadIndicatorDataSetByDataElementIdsSuccess:
             return {
                 ...state,
-                dataSetsDefinitions: [...state.dataSetsDefinitions, ...action.payload]
+                dataSetsDefinitions: action.payload
             }
         default:
             return state;

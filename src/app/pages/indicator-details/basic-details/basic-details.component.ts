@@ -55,18 +55,6 @@ export class BasicDetailsComponent implements OnInit {
                     }
                   })
                 }
-                this.dataSet$ = this.store.select(getDataSetsInfoByDataElementId);
-                if (this.dataSet$) {
-                  this.dataSet$.subscribe((dataSetElements) => {
-                    if (dataSetElements.length > 0) {
-                      _.map(dataSetElements, (dataSetElement: any) => {
-                        if (dataSetElement.id == this.getDataElementId(this.indicator.numerator)) {
-                          this.dataSets = dataSetElement['dataSetElements'];
-                        }
-                      })
-                    }
-                  })
-                }
               }
             } else {
               this.store.dispatch(new indicators.LoadIndicatorDataSetByDataElementIdAction(this.getDataElementId(this.indicator.numerator)));
@@ -76,18 +64,6 @@ export class BasicDetailsComponent implements OnInit {
                   this.dataSetsOfIndicators$.subscribe((dataSetsOfIndicators) => {
                     if(dataSetsOfIndicators) {
                       this.allSearchedDataSets = dataSetsOfIndicators;
-                    }
-                  })
-                }
-                this.dataSet$ = this.store.select(getDataSetsInfoByDataElementId);
-                if (this.dataSet$) {
-                  this.dataSet$.subscribe((dataSetElements) => {
-                    if (dataSetElements.length > 0) {
-                      _.map(dataSetElements, (dataSetElement: any) => {
-                        if (dataSetElement.id == this.getDataElementId(this.indicator.numerator)) {
-                          this.dataSets = dataSetElement['dataSetElements'];
-                        }
-                      })
                     }
                   })
                 }
@@ -111,7 +87,6 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   getAllDataElements(indicator) {
-    console.log('indicator',indicator);
     let dataElements = [];
     indicator.numerator.split('}').forEach((element) => {
       if (element.length > 11) {
@@ -145,25 +120,25 @@ export class BasicDetailsComponent implements OnInit {
 
     indicator.denominator.split('}').forEach((element) => {
       if (element.length > 11) {
-        if (element.indexOf('I') > -1) {
+        if (element.indexOf('I') == 0) {
           const obj = {
             "category": "programIndicator",
             "id": element.split('{')[1].split('.')[0]
           }
           dataElements.push(obj);
-        } else if (element.indexOf('#') > -1) {
+        } else if (element.indexOf('#') == 0) {
           const obj = {
             "category": "dataElement",
             "id": element.split('{')[1].split('.')[0]
           }
           dataElements.push(obj);
-        } else if (element.indexOf('OU') > -1) {
+        } else if (element.indexOf('OU') == 0) {
           const obj = {
             "category": "ORG_UNIT",
             "id": element.split('{')[1].split('.')[0]
           }
           dataElements.push(obj);
-        } else if (element.indexOf('D') == 0) {
+        } else if (element.indexOf('D')  == 0) {
           const obj = {
             "category": "PROGRAM",
             "id": element.split('{')[1].split('.')[0]
@@ -179,13 +154,13 @@ export class BasicDetailsComponent implements OnInit {
     let definitions = []; let dataSetsOfIndicators = [];
     expression.split('}').forEach((element) => {
       if (element.length > 11) {
-        if (element.indexOf('I') == 0) {
+        if (element.indexOf('I{') == 0) {
           const obj = {
             "category": "programIndicator",
             "id": element.split('{')[1].split('.')[0]
           }
           definitions.push(obj);
-        } else if (element.indexOf('#') == 0) {
+        } else if (element.indexOf('#{') == 0) {
           const obj = {
             "category": "dataElement",
             "id": element.split('{')[1].split('.')[0]
@@ -197,7 +172,7 @@ export class BasicDetailsComponent implements OnInit {
             "id": element.split('{')[1].split('.')[0]
           }
           definitions.push(obj);
-        }  else if (element.indexOf('D') == 0) {
+        }  else if (element.indexOf('D{') == 0) {
           const obj = {
             "category": "PROGRAM",
             "id": element.split('{')[1].split('.')[0]
@@ -223,11 +198,52 @@ export class BasicDetailsComponent implements OnInit {
         }
       }
     });
-    console.log('dataSetsOfIndicators', dataSetsOfIndicators);
     return  _.uniq(dataSetsOfIndicators);
   }
 
   getExpressionDefinition(expression) {
     return expression;
+  }
+
+  getAllPossibleSources(indicator) {
+    let sources = '';
+    const expressionCombined = indicator.numerator + indicator.denominator;
+    if (expressionCombined.indexOf('#{') > -1) {
+      sources += 'Routine aggregate data collection tools';
+    }
+    if (expressionCombined.indexOf('D{') > -1 || expressionCombined.indexOf('I{') > -1) {
+      sources += ' and event based sources (programs)'
+    }
+    if (expressionCombined.indexOf('OU') > -1) {
+      sources += ', organisation unit tree'
+    }
+    return sources;
+  }
+
+  getSources(allSources) {
+    let mappedSources = [];
+    _.map(_.uniq(allSources), (source: any) => {
+      if (source['dataSetElements']) {
+        source['dataSetElements'].forEach((dataSetElement) => {
+          let obj = {
+            category: "Aggregate",
+            name: dataSetElement.dataSet.name,
+            formType: dataSetElement.dataSet.formType,
+            id: dataSetElement.dataSet.id,
+            periodType: dataSetElement.dataSet.periodType,
+            timelyDays: dataSetElement.dataSet.timelyDays
+          }
+          mappedSources.push(obj)
+        });
+      } else {
+        let obj = {
+          category: "Event",
+          name: source.name,
+          id: source.id
+        }
+        mappedSources.push(obj)
+      }
+    })
+    return _.uniqBy(mappedSources, 'id');
   }
 }
