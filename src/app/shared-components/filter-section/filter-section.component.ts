@@ -35,6 +35,7 @@ export class FilterSectionComponent implements OnInit {
   orgUnitsDefinition: any;
   orgUnitModel$: any;
   showOrgUnitFilter: boolean;
+  selectedFilter: '';
   constructor(private router: Router) {
     this.showOrgUnitFilter = false;
   }

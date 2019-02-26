@@ -10,6 +10,7 @@ import { IndicatorsState, IndicatorGroupsState } from './indicators.state';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.reducers';
+import * as currentUser from '../../store/current-user/current-user.actions';
 import { IndicatorSearchService } from 'src/app/services/indicator-search.service';
 import { ProgressBarStatusAction } from './indicators.actions';
 import { getAllIndicatorWithDetails } from './indicators.selectors';
@@ -17,6 +18,31 @@ import { getAllIndicatorWithDetails } from './indicators.selectors';
 
 @Injectable()
 export class IndicatorsEffects {
+
+  @Effect({ dispatch: false })
+  currentUserLoaded$: Observable<any> = this.actions$
+    .pipe(ofType<currentUser.LoadSuccessAction>(
+      currentUser.CurrentUserActions.LOAD_SUCCESS
+    ),
+      tap(() => {
+        this.store.dispatch(new indicators.LoadIndicatorsAction());
+        if (this.router.url.split('/')[1] == "indicator") {
+            let indicatorsArr: any[] = [];
+            this.httpClient.get('indicators/' + this.router.url.split('/')[3] + '.json?fields=:all,lastUpdatedBy[id,name],displayName,id,name,' +
+            'numeratorDescription,denominatorDescription,denominator,numerator,annualized,decimals,' +
+            'indicatorType[name],user[name],attributeValues[value,attribute[name]],indicatorGroups[id,name,indicators~size],' +
+            'legendSets[id,name,symbolizer,legends~size],dataSets[id,name]')
+            .subscribe((indicatorDetails) => {
+              let obj = {
+                indicators: []
+              }
+              obj.indicators.push(indicatorDetails);
+              indicatorsArr = [...indicatorsArr, obj]
+              this.store.dispatch(new indicators.LoadIndicatorsByPagesSuccessAction(indicatorsArr));
+            })
+        }
+      })
+    );
     @Effect()
     indicatorsList$: Observable<any> = this.actions$
     .pipe(ofType<indicators.IndicatorsAction>(indicators.IndicatorsActions.LoadIndicators),
@@ -80,12 +106,10 @@ export class IndicatorsEffects {
     .pipe(
       ofType<indicators.IndicatorsAction>(indicators.IndicatorsActions.LoadIndicatorDataSetByDataElementIds),
       tap((action: any) => {
-        console.log('indicators action', action.payload);
         let dataSetElementsArray: any[] = [];
         this.indicatorService._loadIndicatorsSourcesByDataElements(action.payload).subscribe((dataSetElements) => {
-          dataSetElementsArray = [...dataSetElementsArray, ...dataSetElements];
-          console.log('dataSetElementsArray', dataSetElementsArray)
-          this.store.dispatch(new indicators.LoadIndicatorDataSetByDataElementIdsSuccessAction(dataSetElementsArray));
+          dataSetElementsArray = [...dataSetElementsArray, dataSetElements];
+          this.store.dispatch(new indicators.LoadIndicatorDataSetByDataElementIdsSuccessAction(dataSetElements));
         });
       })
     )
@@ -111,7 +135,6 @@ export class IndicatorsEffects {
             )
           ).subscribe((indicatorsLoaded: any) => {
             if (indicatorsLoaded) {
-              console.log(indicatorsLoaded)
               progressBarValue += 20
               this.store.dispatch(new ProgressBarStatusAction(progressBarValue));
               observer.next(

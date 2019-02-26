@@ -33,7 +33,7 @@
                 </span>
               </li>
             </ul> 
-            <div *ngIf="!getSources(allSearchedDataSets).length" style="text-align: left; margin-top: 30px">
+            <div *ngIf="!getSources(allSearchedDataSets).length" style="text-align: left; margin-top: 20px">
               <img src="assets/img/balls-5.svg" height="30" width="30"> Loading sources...
             </div>
           </div>
@@ -92,7 +92,7 @@
                   <tr>
                     <th></th>
                     <th>Formula / Constant</th>
-                    <th>Sources</th>
+                    <th>Sources of data</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -101,13 +101,13 @@
                     <td>{{indicator.numeratorDescription}}</td>
                     <td class="formula-definition">
                         <div  *ngIf="indicator.numerator.length > 11">
-                            <p> <span>Collected from</span></p>
+                            <!-- <p> <span>Data fetched from</span></p> -->
                             <ul style="margin-top: 10px" *ngIf="getDataSetByDataElement(allSearchedDataSets, indicator.numerator).length > 0">
                               <li class="list-of-datasets" *ngFor="let dataSetOfIndicator of getDataSetByDataElement(allSearchedDataSets, indicator.numerator)">
-                                {{dataSetOfIndicator.dataSet.name}}
+                                {{dataSetOfIndicator.name}}
                               </li>
                             </ul>
-                            <div *ngIf="!getDataSetByDataElement(allSearchedDataSets, indicator.numerator).length" style="text-align: left; margin-top: 30px">
+                            <div *ngIf="!getDataSetByDataElement(allSearchedDataSets, indicator.numerator).length" style="text-align: left;">
                               <img src="assets/img/balls-5.svg" height="30" width="30"> Loading sources...
                             </div>
                         </div>
@@ -118,13 +118,13 @@
                     <td>{{indicator.denominatorDescription}}</td>
                     <td>
                       <div  *ngIf="indicator.denominator.length > 11">
-                          <p> <span>Collected from</span></p>
+                          <!-- <p> <span>Data fetched from</span></p> -->
                           <ul style="margin-top: 10px" *ngIf="getDataSetByDataElement(allSearchedDataSets, indicator.denominator).length > 0">
                             <li class="list-of-datasets" *ngFor="let dataSetOfIndicator of getDataSetByDataElement(allSearchedDataSets, indicator.denominator)">
-                              {{dataSetOfIndicator.dataSet.name}}
+                              {{dataSetOfIndicator.name}}
                             </li>
                           </ul>
-                          <div *ngIf="!getDataSetByDataElement(allSearchedDataSets, indicator.denominator).length" style="text-align: left; margin-top: 30px">
+                          <div *ngIf="!getDataSetByDataElement(allSearchedDataSets, indicator.denominator).length" style="text-align: left;">
                             <img src="assets/img/balls-5.svg" height="30" width="30"> Loading sources...
                           </div>
                       </div>

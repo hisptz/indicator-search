@@ -45,7 +45,6 @@ export class BasicDetailsComponent implements OnInit {
                   })
                 }
               } else {
-                this.store.dispatch(new indicators.LoadIndicatorDataSetByDataElementIdAction(this.getDataElementId(this.indicator.numerator)));
                 this.store.dispatch(new indicators.LoadIndicatorDataSetByDataElementIdsAction(this.getAllDataElements(this.indicator)))
                 this.dataSetsOfIndicators$ = this.store.select(getDataSetsOfIndicators);
                 if (this.dataSetsOfIndicators$) {
@@ -57,8 +56,7 @@ export class BasicDetailsComponent implements OnInit {
                 }
               }
             } else {
-              this.store.dispatch(new indicators.LoadIndicatorDataSetByDataElementIdAction(this.getDataElementId(this.indicator.numerator)));
-                this.store.dispatch(new indicators.LoadIndicatorDataSetByDataElementIdsAction(this.getAllDataElements(this.indicator)));
+              this.store.dispatch(new indicators.LoadIndicatorDataSetByDataElementIdsAction(this.getAllDataElements(this.indicator)));
                 this.dataSetsOfIndicators$ = this.store.select(getDataSetsOfIndicators);
                 if (this.dataSetsOfIndicators$) {
                   this.dataSetsOfIndicators$.subscribe((dataSetsOfIndicators) => {
@@ -90,25 +88,25 @@ export class BasicDetailsComponent implements OnInit {
     let dataElements = [];
     indicator.numerator.split('}').forEach((element) => {
       if (element.length > 11) {
-        if (element.indexOf('I') == 0) {
+        if (element.indexOf('I') == 0 || element.indexOf('I{') == 1) {
           const obj = {
             "category": "programIndicator",
             "id": element.split('{')[1].split('.')[0]
           }
           dataElements.push(obj);
-        } else if (element.indexOf('#') == 0) {
+        } else if (element.indexOf('#') == 0 || element.indexOf('#{') == 1) {
           const obj = {
             "category": "dataElement",
             "id": element.split('{')[1].split('.')[0]
           }
           dataElements.push(obj);
-        } else if (element.indexOf('OU') == 0) {
+        } else if (element.indexOf('OU') == 0 || element.indexOf('OU') == 1) {
           const obj = {
             "category": "ORG_UNIT",
             "id": element.split('{')[1].split('.')[0]
           }
           dataElements.push(obj);
-        } else if (element.indexOf('D') == 0) {
+        } else if (element.indexOf('D{')  == 0 || element.indexOf('D{')  == 0) {
           const obj = {
             "category": "PROGRAM",
             "id": element.split('{')[1].split('.')[0]
@@ -120,25 +118,25 @@ export class BasicDetailsComponent implements OnInit {
 
     indicator.denominator.split('}').forEach((element) => {
       if (element.length > 11) {
-        if (element.indexOf('I') == 0) {
+        if (element.indexOf('I') == 0 || element.indexOf('I{') == 1) {
           const obj = {
             "category": "programIndicator",
             "id": element.split('{')[1].split('.')[0]
           }
           dataElements.push(obj);
-        } else if (element.indexOf('#') == 0) {
+        } else if (element.indexOf('#') == 0 || element.indexOf('#{') == 1) {
           const obj = {
             "category": "dataElement",
             "id": element.split('{')[1].split('.')[0]
           }
           dataElements.push(obj);
-        } else if (element.indexOf('OU') == 0) {
+        } else if (element.indexOf('OU') == 0 || element.indexOf('OU') == 1) {
           const obj = {
             "category": "ORG_UNIT",
             "id": element.split('{')[1].split('.')[0]
           }
           dataElements.push(obj);
-        } else if (element.indexOf('D')  == 0) {
+        } else if (element.indexOf('D{')  == 0 || element.indexOf('D{')  == 0) {
           const obj = {
             "category": "PROGRAM",
             "id": element.split('{')[1].split('.')[0]
@@ -152,27 +150,28 @@ export class BasicDetailsComponent implements OnInit {
 
   getDataSetByDataElement(allSearchedDataSets, expression) {
     let definitions = []; let dataSetsOfIndicators = [];
+    console.log('expression', expression)
     expression.split('}').forEach((element) => {
       if (element.length > 11) {
-        if (element.indexOf('I{') == 0) {
+        if (element.indexOf('I{') == 0 || element.indexOf('I{') == 1) {
           const obj = {
             "category": "programIndicator",
             "id": element.split('{')[1].split('.')[0]
           }
           definitions.push(obj);
-        } else if (element.indexOf('#{') == 0) {
+        } else if (element.indexOf('#{') == 0 || element.indexOf('#{') == 1) {
           const obj = {
             "category": "dataElement",
             "id": element.split('{')[1].split('.')[0]
           }
           definitions.push(obj);
-        } else if (element.indexOf('OU') == 0) {
+        } else if (element.indexOf('OU') == 0 || element.indexOf('OU') == 1) {
           const obj = {
             "category": "ORG_UNIT",
             "id": element.split('{')[1].split('.')[0]
           }
           definitions.push(obj);
-        }  else if (element.indexOf('D{') == 0) {
+        }  else if (element.indexOf('D{') == 0 || element.indexOf('D{') == 1) {
           const obj = {
             "category": "PROGRAM",
             "id": element.split('{')[1].split('.')[0]
@@ -181,24 +180,31 @@ export class BasicDetailsComponent implements OnInit {
         }
       }
     });
-    _.map(definitions, (definition) => {
-      if (_.find(allSearchedDataSets, {'id': definition.id})) {
+    console.log('_.uniqBy(definitions)', _.uniqBy(definitions, 'id'))
+    _.map(_.uniqBy(definitions, 'id'), (definition) => {
+      if (_.find(this.getSources(allSearchedDataSets), {'dataElementId': definition.id})) {
         if (definition.category == 'programIndicator') {
           let obj = {
-            dataSet: _.find(allSearchedDataSets, {'id': definition.id})['program']
+            dataSet: _.find(this.getSources(allSearchedDataSets), {'dataElementId': definition.id})
           }
           dataSetsOfIndicators.push(obj)
         } else if (definition.category == 'dataElement') {
-          dataSetsOfIndicators.push(_.find(allSearchedDataSets, {'id': definition.id})['dataSetElements'][0]);
+          console.log('this.getSources(allSearchedDataSets)', this.getSources(allSearchedDataSets))
+          _.map(this.getSources(allSearchedDataSets), (source: any) => {
+            if (source.dataElementId == definition.id) {
+              dataSetsOfIndicators.push(source)
+            }
+          })
+          // dataSetsOfIndicators.push(_.find(this.getSources(allSearchedDataSets), {'dataElementId': definition.id}));
         } else if (definition.category == 'PROGRAM') {
           let obj = {
-            dataSet: _.find(allSearchedDataSets, {'id': definition.id})
+            dataSet: _.find(this.getSources(allSearchedDataSets), {'dataElementId': definition.id})
           }
           dataSetsOfIndicators.push(obj)
         }
       }
     });
-    return  _.uniq(dataSetsOfIndicators);
+    return  _.uniqBy(dataSetsOfIndicators, 'id');
   }
 
   getExpressionDefinition(expression) {
@@ -222,7 +228,7 @@ export class BasicDetailsComponent implements OnInit {
 
   getSources(allSources) {
     let mappedSources = [];
-    _.map(_.uniq(allSources), (source: any) => {
+    _.map(_.uniqBy(allSources, 'id'), (source: any) => {
       if (source['dataSetElements']) {
         source['dataSetElements'].forEach((dataSetElement) => {
           let obj = {
@@ -231,7 +237,8 @@ export class BasicDetailsComponent implements OnInit {
             formType: dataSetElement.dataSet.formType,
             id: dataSetElement.dataSet.id,
             periodType: dataSetElement.dataSet.periodType,
-            timelyDays: dataSetElement.dataSet.timelyDays
+            timelyDays: dataSetElement.dataSet.timelyDays,
+            dataElementId: source.id
           }
           mappedSources.push(obj)
         });
@@ -239,11 +246,13 @@ export class BasicDetailsComponent implements OnInit {
         let obj = {
           category: "Event",
           name: source.name,
-          id: source.id
+          id: source.id,
+          dataElementId: source.id
         }
         mappedSources.push(obj)
       }
     })
     return _.uniqBy(mappedSources, 'id');
   }
+
 }

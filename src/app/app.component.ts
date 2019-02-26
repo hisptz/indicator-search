@@ -15,7 +15,6 @@ export class AppComponent {
 
   constructor(private store: Store<AppState>){
     store.dispatch(new currentUser.LoadAction);
-    store.dispatch(new indicators.LoadIndicatorsAction())
     store.dispatch(new indicators.LoadIndicatorGroupsAction())
   }
 }
