@@ -107,10 +107,11 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   getDataElementId(indicatorExpression) {
-    return indicatorExpression.split('}')[0].split('#{')[1].split('.')[0];
+    return indicatorExpression.split('}')[0].split('{')[1].split('.')[0];
   }
 
   getAllDataElements(indicator) {
+    console.log('indicator',indicator);
     let dataElements = [];
     indicator.numerator.split('}').forEach((element) => {
       if (element.length > 11) {
@@ -129,6 +130,12 @@ export class BasicDetailsComponent implements OnInit {
         } else if (element.indexOf('OU') == 0) {
           const obj = {
             "category": "ORG_UNIT",
+            "id": element.split('{')[1].split('.')[0]
+          }
+          dataElements.push(obj);
+        } else if (element.indexOf('D') == 0) {
+          const obj = {
+            "category": "PROGRAM",
             "id": element.split('{')[1].split('.')[0]
           }
           dataElements.push(obj);
@@ -153,6 +160,12 @@ export class BasicDetailsComponent implements OnInit {
         } else if (element.indexOf('OU') > -1) {
           const obj = {
             "category": "ORG_UNIT",
+            "id": element.split('{')[1].split('.')[0]
+          }
+          dataElements.push(obj);
+        } else if (element.indexOf('D') == 0) {
+          const obj = {
+            "category": "PROGRAM",
             "id": element.split('{')[1].split('.')[0]
           }
           dataElements.push(obj);
@@ -184,6 +197,12 @@ export class BasicDetailsComponent implements OnInit {
             "id": element.split('{')[1].split('.')[0]
           }
           definitions.push(obj);
+        }  else if (element.indexOf('D') == 0) {
+          const obj = {
+            "category": "PROGRAM",
+            "id": element.split('{')[1].split('.')[0]
+          }
+          definitions.push(obj);
         }
       }
     });
@@ -196,9 +215,15 @@ export class BasicDetailsComponent implements OnInit {
           dataSetsOfIndicators.push(obj)
         } else if (definition.category == 'dataElement') {
           dataSetsOfIndicators.push(_.find(allSearchedDataSets, {'id': definition.id})['dataSetElements'][0]);
+        } else if (definition.category == 'PROGRAM') {
+          let obj = {
+            dataSet: _.find(allSearchedDataSets, {'id': definition.id})
+          }
+          dataSetsOfIndicators.push(obj)
         }
       }
     });
+    console.log('dataSetsOfIndicators', dataSetsOfIndicators);
     return  _.uniq(dataSetsOfIndicators);
   }
 

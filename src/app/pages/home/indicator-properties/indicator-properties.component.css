@@ -5,13 +5,13 @@
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
     background-color: rgba(0,0,0,0.03);
     border: 1px solid #ddd;
-    position: absolute;
     z-index: 100;
     -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.2);
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
     background-color: rgba(255,255,255,1);
     border: 1px solid #ddd;
-      
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    padding: 10px; 
   }
 
 .card-body {

@@ -100,12 +100,12 @@ export class IndicatorSearchService {
         (dataSetElement) => {
           let url = '';
           if (dataSetElement.category == 'programIndicator') {
-            console.log('programIndicator')
+            // console.log('programIndicator')
             url = 'programIndicators/' + dataSetElement.id + '.json?fields=id,name,program[id,name],filter,expression';
           } else if(dataSetElement.category == 'dataElement') {
             url = 'dataElements/' + dataSetElement.id + '.json?fields=id,name,dataSetElements[dataSet[id,name,periodType,timelyDays,formType]]';
-          } else {
-            console.log(dataSetElement.category);
+          } else if (dataSetElement.category == 'PROGRAM') {
+            url = 'programs/' + dataSetElement.id +'.json?fields=id,name,trackedEntityType[id,name]';
           }
           return url;
         }

@@ -34,7 +34,7 @@
             </label>
           </div>
             <div *ngIf="showIndicatorGroups">
-              <ul class="submenu">
+              <ul class="submenu" style="height: 300px; overflow: auto">
                   <input  id="searching-input-group" placeholder="Search group " [(ngModel)]="searchingTextForIndicatorGroup">
                   <li id="indGroup.id" *ngFor="let indGroup of indicatorGroups | searchIndicatorGroup: searchingTextForIndicatorGroup">
                     <a><input type="checkbox" name="indicator-groups-ids" (change)="updateIndicatorGroupsForSearch(indGroup, $event.target.checked)">
