@@ -20,6 +20,7 @@ import { metaReducers, reducers } from './store/app.reducers';
 
 // Modules
 import {NgxDhis2MenuModule} from '@hisptz/ngx-dhis2-menu';
+import {NgxDhis2DictionaryModule} from '@hisptz/ngx-dhis2-dictionary';
 import { FilterBySearchInputPipe } from './pipes/filter-by-search-input.pipe';
 import { IndicatorSearchService } from './services/indicator-search.service';
 import { HttpClientService } from './services/http-client.service';
@@ -64,6 +65,7 @@ import { FilterIndicatorsByGroupIdPipe } from './pipes/filter-indicators-by-grou
     TreeModule.forRoot(),
     ReactiveFormsModule,
     NgxDhis2MenuModule,
+    NgxDhis2DictionaryModule,
     ...modules,
       /**
      * Reducers
