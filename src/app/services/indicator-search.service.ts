@@ -75,8 +75,7 @@ export class IndicatorSearchService {
         this.indicators, (indicator) => 
         'indicators/' + indicator.id + '.json?fields=:all,lastUpdatedBy[id,name],displayName,id,name,' +
             'numeratorDescription,denominatorDescription,denominator,numerator,annualized,decimals,' +
-            'indicatorType[name],user[name],attributeValues[value,attribute[name]],indicatorGroups[name,indicators~size],' +
-            'legendSet[name,symbolizer,legends~size],dataSets[name]'
+            'indicatorType[name],user[name],indicatorGroups[name,indicators~size]'
       )
     ).pipe(
       mergeMap(

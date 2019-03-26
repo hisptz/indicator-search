@@ -30,8 +30,7 @@ export class IndicatorsEffects {
             let indicatorsArr: any[] = [];
             this.httpClient.get('indicators/' + this.router.url.split('/')[3] + '.json?fields=:all,lastUpdatedBy[id,name],displayName,id,name,' +
             'numeratorDescription,denominatorDescription,denominator,numerator,annualized,decimals,' +
-            'indicatorType[name],user[name],attributeValues[value,attribute[name]],indicatorGroups[id,name,indicators~size],' +
-            'legendSets[id,name,symbolizer,legends~size],dataSets[id,name]')
+            'indicatorType[name],user[name],indicatorGroups[id,name,indicators~size]')
             .subscribe((indicatorDetails) => {
               let obj = {
                 indicators: []
@@ -79,13 +78,6 @@ export class IndicatorsEffects {
         this.indicatorService._loadAllIndicators(action.payload['pager']).subscribe((allIndicators) => {
           indicatorsArr = [...indicatorsArr, ...allIndicators]
           this.store.dispatch(new indicators.LoadIndicatorsByPagesSuccessAction(indicatorsArr));
-
-          // let indicatorsWithProperties: any[] = [];
-          // this.indicatorService._indicatorProperties(allIndicators['indicators']).subscribe((indicator) => {
-          //   indicatorsWithProperties = [...indicatorsWithProperties, ...indicator];
-          //   console.log(indicatorsWithProperties);
-          //   this.store.dispatch(new indicators.LoadIndicatorPropertiesSuccessAction(indicatorsWithProperties));
-          // });
         });
       })
     )
