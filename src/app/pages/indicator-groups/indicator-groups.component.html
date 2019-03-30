@@ -1,0 +1,32 @@
+<div class="container-fluid" style="margin-top: 65px">
+    <div class="row">
+      <div class="col-md-6" style="padding-top: 5px">
+        <div class="row">
+          <div class="col-12">
+            <div style="float: left;">
+              <span class="lead  cursor-pointer" routerLink="/home" title="home">
+                <i class="fa fa-search">
+                    <img style="margin-top: -10px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAALCSURBVGhD7ZlLqE1RGMePtyQGZCCPMpABGRCRUJREmTCRTMzIcyADcZOYGEgmIkoeZUomikIeIUQhDBgYeOQ58Ob3W/fs7r2nc+7p7nP2Xu3a//p19vftb53O/5611tnfupVSBdRw2AmP4Tv8i8hpSKXJ8ALqvWkMUhkZAc/BN7gJ82EgxNBqSG1kNzj4Ggw2EVEtGXkKDp4borhKbcQp9Ad+QD8TkZXayEhw4KcQxVdppDSSkXI3MgEmwagQtU+5GhkDv8FxV0y0UbkaWQ+OEbfusdAu5WrkKjjmbfV1M7RLuRkZB34LX2ENOPYGNJPTcVjnZa/KzchWsP4MDIXP8BcmQj3NgmfgGFuDPdCbcjNyG6xfEaJK5SQYbw9RT/kA+gq8/wZ+Vq+XQiPlYsTt1r/+RxhiAi0Dx98LUU/Z47yES+BznGvJ2uPQSLkY2QHWnghRpwbBBzDvB6+n8TAdEtMXoJFyMfIArF0Soi4dBfO7QtSlqfAIvNedqEamgHXvoLZ7XATes9dP1B+SRe46uQ+2CsZRjXSAdedhRg3uTF/A+9NAJcZtoRPja8FcVCNPwLpm7AU1D4xtnxMluWhGXKjWfIO7DXgI1vgNKNtm4+sh6tQCMHcxRPWVqZH9YM3BENWX2+trsG4mjK5eO+WWg9PvVDX3HhqdD2RmxA/ob4E1c0z0ogNgna8q2c3q0Wh6ZWbEZySnzmVodjjhwrdWA2oAbASn0i04Bm4GPubUbtWJMl/seak0UhrJSKWR0khGaqsR+/KFsDgC+6BlI77RnWocm9RGbGHFazs+j3zORWQT9EmJEfFwYAPE+rdbS+puZJuJoiox4lmu51SFldNIE/bTPq0WWkl3tzJEBZYLXCPuVvYUhZVTyuZHM7/gLGyBVRGZDankQj8MGtFQbPr8g1grT9X9Ng7BkYisg1IFUKXyH0pK6Yr5XLikAAAAAElFTkSuQmCC">
+                </i>
+              </span>
+            </div>
+            <div *ngIf="indicatorGroup" style="float: left; margin-left: 15px">
+              <span>
+                  <h5>
+                      <a class="cursor-pointer">{{indicatorGroup.name}}</a>
+                  </h5>
+              </span>
+            </div>
+            <div *ngIf="!indicatorGroup" style="margin-left: 20px; width: 50%; height: 40px;float: left;">
+              <app-loader-placeholder></app-loader-placeholder>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <span class="cursor-pointer" style="float: right" routerLink="/home">
+          <img height="40" width="40" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKBSURBVGhD7dlJqE1xAMfxa56nUEoZkgwLiUiRbGVamMrORiheyUpZUGxEyQZJKEo2FrIhhbIhigwrRcjKmCEyfL/X/eu5717vf17vnHdu/X/16b7/Hc45v3fP+Z/zzqukxGUhHuIMhvtEK2Y7vuFXzWPMRMtkCM7Cjf+JQ7hbG3/EepQ+U/EAbvR7rIIZiJMI347l+qI+/TCqnaEoPG60G++GWsZS9dmEr/A9NzAOIVPwAaFssAuFpA/2w93IFZ+Du1ezzMMz+N6XWASzDD7ncfUG7oaO3U1zz1hcRdgAD/CYjMEVhM+1IRS5BBPGuReZj+dwZS/gVJslfpP7EL7JR7XHQotsRtjXr6P9vp41K/EOLquwIoNwCq7A3+RBNJp9ssaJ4T5c7nmfILkVmYx7cOEeiOvQnRmMHZhYHeVUxIU6k7hgz9AzkHe6tUhv7MEPuNALGIYishSu8xUW+ERXMxqX4cK+Yyd6oah4LroG1+/EshWZMwdP4UJeYwl6Ik4kBxCm6NPwWIrKRnyBH7yF8ejprEa4/HHC8XKmaQbgOHyzjsCLuLJkOsJJ8y2Wo0Mm4DZCCU9QZcwGhG10d9sLJ6S/CRdx4bHsRbwkcgLy53+ujk/AA8mTUSsU8dyyGDexAh0yAq1S5L9JRQpKKhKb/pjbBdOQJbkX8Tzk57Jy1smSwop8xp0IT1DqIv6VFxPvnKQiSEU6SypSHcUnFYlNTJFZGPnnx9YtMgn+IXSxOmrhIl7CHMWa6igdI6lIdFKR6ig+qUhsUpHqKD6Zi3zC2gy2wM95g6/R6/V2w/f7v5ZGrzdzGFFFvNMd7nyXmTcTO802HCsxrxBmIyUl/1QqvwHZqaG28VyhCgAAAABJRU5ErkJggg==">
+        </span>
+      </div>
+    </div>
+  </div>

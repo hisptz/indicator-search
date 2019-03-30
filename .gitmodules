@@ -1,0 +1,8 @@
+[submodule "ngx-dhis2-dictionary"]
+	path = ngx-dhis2-dictionary
+	url = https://github.com/hisptz/ngx-dhis2-dictionary
+	branch = dev
+[submodule "src/app/modules/ngx-dhis2-dictionary"]
+	path = src/app/modules/ngx-dhis2-dictionary
+	url = https://github.com/hisptz/ngx-dhis2-dictionary
+	branch = dev

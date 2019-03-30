@@ -1,85 +1,115 @@
 import { Injectable } from '@angular/core';
-import {Http, Headers} from '@angular/http';
-import {Constants} from './costants';
-import {Observable} from "rxjs/Observable";
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Observable ,  of } from 'rxjs';
+import { ManifestService } from './manifest.service';
+// import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class HttpClientService {
-  public APIURL = '../../../';
-  constructor(private http: Http) {
-    // this.APIURL = constant.root_api;
+  private _rootUrl: string;
+  private _apiRootUrl: string;
+  private _systemInfo: string;
+
+  constructor(private httpClient: HttpClient, private manifestService: ManifestService) {
   }
 
-  createAuthorizationHeader(headers: Headers, options?) {
-    if (options) {
-      options.forEach((key, values) => {
-        headers.append(key, options[key]);
-      });
+  get(url: string, preferPreviousApiVersion: boolean = false, useRootUrl: boolean = false): Observable<any> {
+    const rootUrlPromise = useRootUrl ? this._getRootUrl() : this._getApiRootUrl(preferPreviousApiVersion);
+
+    return rootUrlPromise.pipe(
+      mergeMap(rootUrl => this.httpClient.get(rootUrl + url).pipe(catchError(this._handleError)))
+    );
+  }
+
+  post(url: string, data: any, preferPreviousApiVersion: boolean = false, useRootUrl: boolean = false,
+    headerOptions?: any) {
+    const rootUrlPromise = useRootUrl ? this._getRootUrl() : this._getApiRootUrl(preferPreviousApiVersion);
+    return rootUrlPromise.pipe(
+      mergeMap(rootUrl =>
+        this.httpClient.post(rootUrl + url, data).
+          pipe(catchError(this._handleError))
+      )
+    );
+  }
+
+  put(url: string, data: any, preferPreviousApiVersion: boolean = false, useRootUrl: boolean = false) {
+    const rootUrlPromise = useRootUrl ? this._getRootUrl() : this._getApiRootUrl(preferPreviousApiVersion);
+
+    return rootUrlPromise.pipe(
+      mergeMap(rootUrl =>
+        this.httpClient.put(rootUrl + url, data).pipe(catchError(this._handleError))
+      )
+    );
+  }
+
+  delete(url: string, preferPreviousApiVersion: boolean = false, useRootUrl: boolean = false) {
+    const rootUrlPromise = useRootUrl ? this._getRootUrl() : this._getApiRootUrl(preferPreviousApiVersion);
+
+    return rootUrlPromise.pipe(
+      mergeMap(rootUrl => this.httpClient.delete(rootUrl + url).pipe(catchError(this._handleError)))
+    );
+  }
+
+  getSystemInfo() {
+    return this._systemInfo ? of(this._systemInfo) :
+      this._getRootUrl().pipe(switchMap((rootUrl: string) => this.httpClient.get(`${rootUrl}api/system/info`).
+        pipe(tap((systemInfo: any) => this._systemInfo = systemInfo))));
+  }
+
+  // Private methods
+
+  private _handleError(err: HttpErrorResponse) {
+    let error = null;
+    if (err.error instanceof Error) {
+      // A client-side or network error occurred. Handle it accordingly.
+      error = {
+        message: err.error,
+        status: err.status,
+        statusText: err.statusText
+      };
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      error = {
+        message: err.error instanceof Object ? err.error.message : err.error,
+        status: err.status,
+        statusText: err.statusText
+      };
     }
+    return new error;
   }
 
-  get(url) {
-    const headers = new Headers();
-    this.createAuthorizationHeader(headers);
-    return this.http.get(this.APIURL + url, {
-      headers: headers
-    }).map(this.responseHandler()).catch(this.handleError);
-  }
-
-  get2(url) {
-    const headers = new Headers();
-    this.createAuthorizationHeader(headers);
-    return this.http.get( url, {
-      headers: headers
-    }).map(this.responseHandler()).catch(this.handleError);
-  }
-
-  post(url, data, options?) {
-    const headers = new Headers();
-    this.createAuthorizationHeader(headers, options);
-    return this.http.post(this.APIURL + url, data, {
-      headers: headers
-    }).map(this.responseHandler());
-  }
-  put(url, data, options?) {
-    const headers = new Headers();
-    this.createAuthorizationHeader(headers, options);
-    return this.http.put(this.APIURL + url, data, {
-      headers: headers
-    }).map(this.responseHandler());
-  }
-
-  delete(url, options?) {
-    const headers = new Headers();
-    this.createAuthorizationHeader(headers, options);
-    return this.http.delete(this.APIURL + url, {
-      headers: headers
-    }).map(this.responseHandler());
-  }
-
-  responseHandler() {
-    return (res) => {
-      try {
-        const returnJSON = res.json();
-        return returnJSON;
-      }catch (e) {
-        location.reload();
-        return null;
+  /**
+   * Get root url
+   * @returns {Observable<string>}
+   * @private
+   */
+  private _getRootUrl(): Observable<string> {
+    return new Observable(observer => {
+      if (this._apiRootUrl) {
+        observer.next(this._apiRootUrl);
+        observer.complete();
+      } else {
+        this.manifestService.getRootUrl().subscribe((rootUrl: string) => {
+          this._rootUrl = rootUrl;
+          observer.next(rootUrl);
+          observer.complete();
+        });
       }
-    };
+    });
   }
 
-  handleError (error: Response | any) {
-    // In a real world app, we might use a remote logging infrastructure
-    // let errMsg: string;
-    // if (error instanceof Response) {
-    //   const body = error.json() || '';
-    //   const err = body.error || JSON.stringify(body);
-    //   errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-    // } else {
-    //   errMsg = error.message ? error.message : error.toString();
-    // }
-    return Observable.throw(error);
+  private _getApiRootUrl(preferPreviousVersion: boolean = false) {
+    const rootUrlPromise = this._getRootUrl().
+      pipe(switchMap((rootUrl) => this.getSystemInfo().pipe(map((systemInfo) => {
+          const splitedVersion = systemInfo.version.split('.');
+          const version = parseInt(splitedVersion[1], 10);
+          return {rootUrl, version: (version - 1) <= 25 ? (version + 1) : version};
+        }))
+      ));
+    return rootUrlPromise.pipe(
+      map((urlInfo: {rootUrl: string, version: number}) => `${urlInfo.rootUrl}api/${preferPreviousVersion ?
+        urlInfo.version ? ((urlInfo.version - 1) + '/') : '' : ''}`));
   }
-
 }

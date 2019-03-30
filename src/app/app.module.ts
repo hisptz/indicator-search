@@ -1,78 +1,93 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { environment } from '../environments/environment';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { HomeComponent } from './pages/home/home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
+
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
+import { environment } from '../environments/environment';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { NgxPaginationModule } from 'ngx-pagination';
+import { effects } from './store/app.effects';
+import { metaReducers, reducers } from './store/app.reducers';
+
+// Modules
+import {NgxDhis2MenuModule} from '@hisptz/ngx-dhis2-menu';
+import {NgxDhis2DictionaryModule} from '@hisptz/ngx-dhis2-dictionary';
+import { FilterBySearchInputPipe } from './pipes/filter-by-search-input.pipe';
+import { IndicatorSearchService } from './services/indicator-search.service';
+import { HttpClientService } from './services/http-client.service';
+import { HttpClientModule } from '@angular/common/http';
+import { ManifestService } from './services/manifest.service';
+import { IndicatorPropertiesComponent } from './pages/home/indicator-properties/indicator-properties.component';
+import { IndicatorDetailsComponent } from './pages/indicator-details/indicator-details.component';
+import { LoaderPlaceholderComponent } from './shared-components/loader-placeholder/loader-placeholder.component';
+import { BasicDetailsComponent } from './pages/indicator-details/basic-details/basic-details.component';
+import { DataAnalysisComponent } from './pages/indicator-details/data-analysis/data-analysis.component';
+import { TrendAnalysisComponent } from './pages/indicator-details/trend-analysis/trend-analysis.component';
+import { FilterSectionComponent } from './shared-components/filter-section/filter-section.component';
+import { modules } from './modules';
 import { TreeModule } from 'angular-tree-component';
-import { DndModule } from 'ng2-dnd';
-import { Ng2HighchartsModule } from 'ng2-highcharts';
-import {StoreModule} from '@ngrx/store';
-import {EffectsModule} from '@ngrx/effects';
-import {StoreDevtoolsModule} from '@ngrx/store-devtools';
-import { AppComponent } from './app.component';
-import {reducers} from './store/reducers/reducers';
-import {getInitialState} from './store/application.state';
-import {DataStoreEffect} from './store/effects/dataStore.effect';
-import { FirstLoadComponent } from './first-load/first-load.component';
-import {MenuModule} from './components/menu/menu.module';
-import {IndicatorGroupService} from './services/indicator-group.service';
-import { IndicatorComponent } from './indicator/indicator.component';
-import {FilterByNamePipe} from './pipes/filter-by-name.pipe';
-import {MetadataDictionaryComponent} from './details/metadata-dictionary/metadata-dictionary.component';
-import {HttpClientService} from './services/http-client.service';
-import {PeriodFilterComponent} from './components/period-filter/period-filter.component';
-import {OrgUnitFilterComponent} from './components/org-unit-filter/org-unit-filter.component';
-import {MultiselectComponent} from './components/org-unit-filter/multiselect/multiselect.component';
-import {ClickOutsideDirective} from './directives/click-outside.directive';
-import {FilterLevelPipe} from './pipes/filter-level.pipe';
-import {Constants} from './services/costants';
-import { DetailsComponent } from './details/details.component';
-import { DataComponent } from './details/data/data.component';
-import { TrendComponent } from './details/trend/trend.component';
-import { DataQualityComponent } from './details/data-quality/data-quality.component';
-import {VisualizerService} from './services/visualizer.service';
-import {OrgUnitService} from './services/org-unit.service';
-import {TableTemplateComponent} from './components/table-template/table-template.component';
-import { FilterGroupsPipe } from './pipes/filter-groups.pipe';
+import { IndicatorGroupsComponent } from './pages/indicator-groups/indicator-groups.component';
+import { SearchIndicatorGroupPipe } from './pipes/search-indicator-group.pipe';
+import { FilterIndicatorsByGroupIdPipe } from './pipes/filter-indicators-by-group-id.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FirstLoadComponent,
-    IndicatorComponent,
-    FilterByNamePipe,
-    MetadataDictionaryComponent,
-    PeriodFilterComponent,
-    OrgUnitFilterComponent,
-    MultiselectComponent,
-    ClickOutsideDirective,
-    FilterLevelPipe,
-    DetailsComponent,
-    DataComponent,
-    TrendComponent,
-    DataQualityComponent,
-    TableTemplateComponent,
-    FilterGroupsPipe
+    HomeComponent,
+    FilterBySearchInputPipe,
+    FilterIndicatorsByGroupIdPipe,
+    IndicatorPropertiesComponent,
+    IndicatorDetailsComponent,
+    LoaderPlaceholderComponent,
+    BasicDetailsComponent,
+    DataAnalysisComponent,
+    TrendAnalysisComponent,
+    FilterSectionComponent,
+    IndicatorGroupsComponent,
+    SearchIndicatorGroupPipe,
   ],
   imports: [
     BrowserModule,
-    FormsModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule,
-    Ng2HighchartsModule,
     NgxPaginationModule,
-    MenuModule,
-    TreeModule,
-    DndModule.forRoot(),
-    StoreModule.forRoot(reducers, {
-      initialState: getInitialState
-    }),
-    EffectsModule.forRoot([DataStoreEffect]),
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
+    TreeModule.forRoot(),
+    ReactiveFormsModule,
+    NgxDhis2MenuModule,
+    NgxDhis2DictionaryModule,
+    ...modules,
+      /**
+     * Reducers
+     */
+    StoreModule.forRoot(reducers, {metaReducers}),
+
+    /**
+     * Effects
+     */
+    EffectsModule.forRoot(effects),
+
+    /**
+     * @ngrx/router-store keeps router state up-to-date in the store
+     */
+    StoreRouterConnectingModule,
+
+    /**
+     * Dev tool, enabled only in development mode
+     */
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
-  providers: [IndicatorGroupService, HttpClientService, Constants, VisualizerService, OrgUnitService],
+  providers: [HttpClientService, IndicatorSearchService, ManifestService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
