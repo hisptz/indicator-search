@@ -21,39 +21,19 @@ import { metaReducers, reducers } from './store/app.reducers';
 // Modules
 import {NgxDhis2MenuModule} from '@hisptz/ngx-dhis2-menu';
 import {NgxDhis2DictionaryModule} from '@hisptz/ngx-dhis2-dictionary';
-import { FilterBySearchInputPipe } from './pipes/filter-by-search-input.pipe';
 import { IndicatorSearchService } from './services/indicator-search.service';
 import { HttpClientService } from './services/http-client.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ManifestService } from './services/manifest.service';
-import { IndicatorPropertiesComponent } from './pages/home/indicator-properties/indicator-properties.component';
-import { IndicatorDetailsComponent } from './pages/indicator-details/indicator-details.component';
 import { LoaderPlaceholderComponent } from './shared-components/loader-placeholder/loader-placeholder.component';
-import { BasicDetailsComponent } from './pages/indicator-details/basic-details/basic-details.component';
-import { DataAnalysisComponent } from './pages/indicator-details/data-analysis/data-analysis.component';
-import { TrendAnalysisComponent } from './pages/indicator-details/trend-analysis/trend-analysis.component';
-import { FilterSectionComponent } from './shared-components/filter-section/filter-section.component';
 import { modules } from './modules';
 import { TreeModule } from 'angular-tree-component';
-import { IndicatorGroupsComponent } from './pages/indicator-groups/indicator-groups.component';
-import { SearchIndicatorGroupPipe } from './pipes/search-indicator-group.pipe';
-import { FilterIndicatorsByGroupIdPipe } from './pipes/filter-indicators-by-group-id.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    FilterBySearchInputPipe,
-    FilterIndicatorsByGroupIdPipe,
-    IndicatorPropertiesComponent,
-    IndicatorDetailsComponent,
     LoaderPlaceholderComponent,
-    BasicDetailsComponent,
-    DataAnalysisComponent,
-    TrendAnalysisComponent,
-    FilterSectionComponent,
-    IndicatorGroupsComponent,
-    SearchIndicatorGroupPipe,
   ],
   imports: [
     BrowserModule,

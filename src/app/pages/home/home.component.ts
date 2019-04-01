@@ -9,6 +9,7 @@ import { AppState } from 'src/app/store/app.reducers';
 import { getCurrentUser } from '../../store/current-user/current-user.selectors';
 import { IndicatorsState, AllIndicatorsState, IndicatorGroupsState } from 'src/app/store/indicators/indicators.state';
 import { getListOfIndicators, getallIndicators, getProgressLoaderInfo, getIndicatorGroups } from '../../store/indicators/indicators.selectors';
+import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -92,8 +93,9 @@ export class HomeComponent implements OnInit {
   indicatorGroups$: Observable<IndicatorGroupsState>;
   indicatorGroups: any[] = [];
   indicatorGroupsForSearching = [];
+  metadataIdentifiers: any[] = [''];
 
-  constructor(private indicatorSearchService: IndicatorSearchService, private store: Store<AppState>) {
+  constructor(private indicatorSearchService: IndicatorSearchService, private store: Store<AppState>, private route: ActivatedRoute) {
     this.currentUser$ = this.store.select(getCurrentUser);
     this.indicatorsList$ = this.store.select(getListOfIndicators);
     this.allIndicators$ = this.store.select(getallIndicators);
@@ -108,75 +110,9 @@ export class HomeComponent implements OnInit {
    }
 
   ngOnInit() {
-    if (this.currentUser$ && this.indicatorsList$) {
-      this.currentUser$.subscribe((currentUser) => {
-        if (currentUser) {
-          this.indicatorsList$.subscribe((indicatorList) => {
-            if (indicatorList) {
-              this.totalAvailableIndicators = indicatorList['pager']['total']
-              if (this.allIndicators$) {
-                this.allIndicators$.subscribe((indicatorsLoaded) => {
-                  if (indicatorsLoaded) {
-                    this.indicators = [];
-                    _.map(indicatorsLoaded, (indicatorsByPage) => {
-                      this.indicators = [...this.indicators, ...indicatorsByPage['indicators']];
-                      this.completedPercent = 100 * (this.indicators.length / this.totalAvailableIndicators);
-                      if (this.completedPercent === 100 ) {
-                        this.loading = false;
-                        this.error = false;
-                      }
-                    })
-                  }
-                })
-              }
-            }
-          })
-        }
-      })
-    }
-    if (this.indicatorGroups$) {
-      this.indicatorGroups$.subscribe((indicatorGroups) => {
-        if (indicatorGroups) {
-          this.indicatorGroups = indicatorGroups['indicatorGroups'];
-        }
-      })
-    }
+    this.route.params.forEach((params: Params) => {
+      console.log(params)
+    })
   }
 
-
-  mouseEnter(indicator, hoverState) {
-    this.selectedIndicator = indicator.id;
-    this.hoverState = hoverState;
-  }
-
-  mouseLeave() {
-    this.selectedIndicator = null;
-    this.hoverState = 'notHovered';
-  }
-
-  showGroups() {
-    this.showIndicatorGroups = !this.showIndicatorGroups;
-  }
-
-  inGroupToFilter(id) {
-    return _.find(this.groupToFilter, {id: id});
-  }
-
-  groupNames() {
-    if ( this.indicatorGroupsForSearching.length < 5 ) {
-      return this.indicatorGroupsForSearching.map( g => g.name ).join(', ');
-    }else {
-      const diff = this.indicatorGroupsForSearching.length - 4;
-      return this.indicatorGroupsForSearching.slice(0, 4).map( g => g.name ).join(', ') + ' and ' + diff + ' More';
-    }
-  }
-
-  updateIndicatorGroupsForSearch(group, event) {
-    if (event) {
-      this.indicatorGroupsForSearching.push(group);
-    } else {
-      let index = this.indicatorGroupsForSearching.indexOf(group);
-      this.indicatorGroupsForSearching.splice(index, 1)
-    }
-  }
 }

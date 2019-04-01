@@ -26,20 +26,20 @@ export class IndicatorsEffects {
     ),
       tap(() => {
         this.store.dispatch(new indicators.LoadIndicatorsAction());
-        if (this.router.url.split('/')[1] == "indicator") {
-            let indicatorsArr: any[] = [];
-            this.httpClient.get('indicators/' + this.router.url.split('/')[3] + '.json?fields=:all,lastUpdatedBy[id,name],displayName,id,name,' +
-            'numeratorDescription,denominatorDescription,denominator,numerator,annualized,decimals,' +
-            'indicatorType[name],user[name],indicatorGroups[id,name,indicators~size]')
-            .subscribe((indicatorDetails) => {
-              let obj = {
-                indicators: []
-              }
-              obj.indicators.push(indicatorDetails);
-              indicatorsArr = [...indicatorsArr, obj]
-              this.store.dispatch(new indicators.LoadIndicatorsByPagesSuccessAction(indicatorsArr));
-            })
-        }
+        // if (this.router.url.split('/')[1] == "indicator") {
+        //     let indicatorsArr: any[] = [];
+        //     this.httpClient.get('indicators/' + this.router.url.split('/')[3] + '.json?fields=:all,lastUpdatedBy[id,name],displayName,id,name,' +
+        //     'numeratorDescription,denominatorDescription,denominator,numerator,annualized,decimals,' +
+        //     'indicatorType[name],user[name],indicatorGroups[id,name,indicators~size]')
+        //     .subscribe((indicatorDetails) => {
+        //       let obj = {
+        //         indicators: []
+        //       }
+        //       obj.indicators.push(indicatorDetails);
+        //       indicatorsArr = [...indicatorsArr, obj]
+        //       this.store.dispatch(new indicators.LoadIndicatorsByPagesSuccessAction(indicatorsArr));
+        //     })
+        // }
       })
     );
     @Effect()
@@ -67,18 +67,18 @@ export class IndicatorsEffects {
     .pipe(
       ofType<indicators.IndicatorsAction>(indicators.IndicatorsActions.LoadIndicatorsSuccess),
       tap((action: any) => {
-        let navigateTo = '';
-        if (this.router.url !== "/") {
-          navigateTo = this.router.url;
-        } else {
-          navigateTo = '/home';
-        }
-        this.router.navigate([navigateTo]);
-        let indicatorsArr: any[] = [];
-        this.indicatorService._loadAllIndicators(action.payload['pager']).subscribe((allIndicators) => {
-          indicatorsArr = [...indicatorsArr, ...allIndicators]
-          this.store.dispatch(new indicators.LoadIndicatorsByPagesSuccessAction(indicatorsArr));
-        });
+        // let navigateTo = '';
+        // if (this.router.url !== "/") {
+        //   navigateTo = this.router.url;
+        // } else {
+        //   navigateTo = '/home';
+        // }
+        // this.router.navigate([navigateTo]);
+        // let indicatorsArr: any[] = [];
+        // this.indicatorService._loadAllIndicators(action.payload['pager']).subscribe((allIndicators) => {
+        //   indicatorsArr = [...indicatorsArr, ...allIndicators]
+        //   this.store.dispatch(new indicators.LoadIndicatorsByPagesSuccessAction(indicatorsArr));
+        // });
       })
     )
     
