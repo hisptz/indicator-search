@@ -1,9 +1,13 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div class="container-fluid" style="margin-top: 60px">
+<div class="container-fluid">
   <div class="row">
-    <div class="col-md-12" style="padding-top: 5px">
-      <ngx-dhis2-dictionary-list [metadataIdentifiers]="metadataIdentifiers"></ngx-dhis2-dictionary-list>
+    <div class="col-12">
+      <h1 style="font-size: 35px; margin-top: 70px; text-align: left;">Metadata dictionary</h1>
+      <div class="dictionary-block">
+        <ngx-dhis2-dictionary-list 
+        [metadataIdentifiers]="metadataIdentifiers" 
+        [selectedItem]="selectedItem"
+        (dictionaryItemId)="dictionaryItemId($event)"></ngx-dhis2-dictionary-list>
+      </div>
     </div>
   </div>
 </div>
-  

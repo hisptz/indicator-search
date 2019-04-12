@@ -4,29 +4,25 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { environment } from '../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { NgxPaginationModule } from 'ngx-pagination';
 import { effects } from './store/app.effects';
 import { metaReducers, reducers } from './store/app.reducers';
 
 // Modules
 import {NgxDhis2MenuModule} from '@hisptz/ngx-dhis2-menu';
 import {NgxDhis2DictionaryModule} from '@hisptz/ngx-dhis2-dictionary';
-import { IndicatorSearchService } from './services/indicator-search.service';
 import { HttpClientService } from './services/http-client.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ManifestService } from './services/manifest.service';
 import { LoaderPlaceholderComponent } from './shared-components/loader-placeholder/loader-placeholder.component';
-import { modules } from './modules';
 import { TreeModule } from 'angular-tree-component';
 
 @NgModule({
@@ -38,15 +34,11 @@ import { TreeModule } from 'angular-tree-component';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    NgxPaginationModule,
     AppRoutingModule,
-    FormsModule,
     HttpClientModule,
     TreeModule.forRoot(),
-    ReactiveFormsModule,
     NgxDhis2MenuModule,
     NgxDhis2DictionaryModule,
-    ...modules,
       /**
      * Reducers
      */
@@ -67,7 +59,7 @@ import { TreeModule } from 'angular-tree-component';
      */
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
-  providers: [HttpClientService, IndicatorSearchService, ManifestService],
+  providers: [HttpClientService, ManifestService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

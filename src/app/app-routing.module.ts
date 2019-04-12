@@ -4,11 +4,15 @@ import { HomeComponent } from './pages/home/home.component';
 
 const routes: Routes = [
   {
-    path: 'dictionary/:format',
+    path: 'dictionary',
     component: HomeComponent
   },
   {
-    path: 'dictionary/:format/:ids?/:option?/:selected?',
+    path: '',
+    component: HomeComponent
+  },
+  {
+    path: 'dictionary/:ids/:option/:selected',
     component: HomeComponent
   }
 ];
