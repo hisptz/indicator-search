@@ -2,6 +2,8 @@
 [![dependencies Status](https://david-dm.org/interactive-apps/indicator-search/status.svg)](https://david-dm.org/interactive-apps/indicator-search)
 [![devDependencies Status](https://david-dm.org/interactive-apps/indicator-search/dev-status.svg)](https://david-dm.org/interactive-apps/indicator-search?type=dev)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![Maintainability](https://api.codeclimate.com/v1/badges/7daa46663a92ccf9a682/maintainability)](https://codeclimate.com/github/interactive-apps/indicator-search/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/7daa46663a92ccf9a682/test_coverage)](https://codeclimate.com/github/interactive-apps/indicator-search/test_coverage)
 
 # Indicator Search
 
