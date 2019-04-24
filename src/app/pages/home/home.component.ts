@@ -13,12 +13,12 @@ export class HomeComponent implements OnInit {
   selectedItem: string;
   metadataIdentifiers: any;
   metadataIdentifiersArr: any[] = [];
-  systemSettings: any;
+  systemInfo: any;
   constructor(private router: Router, private route: ActivatedRoute, private httpClient: NgxDhis2HttpClientService) {}
 
   ngOnInit() {
-    this.httpClient.get('systemSettings').subscribe((systemSettings) => {
-      this.systemSettings = systemSettings;
+    this.httpClient.get('system/info').subscribe((systemSettings) => {
+      this.systemInfo = systemSettings;
     })
     this.route.params.forEach((params: Params) => {
       if (params['selected'] != undefined) {
@@ -79,13 +79,21 @@ export class HomeComponent implements OnInit {
   }
 
   getSharedLink(identifiers) {
-    if (this.systemSettings) {
+    if (this.systemInfo) {
       let selBox = document.createElement('textarea');
       selBox.style.position = 'fixed';
       selBox.style.left = '0';
       selBox.style.top = '0';
       selBox.style.opacity = '0';
-      selBox.value = this.systemSettings.keyRemoteInstanceUrl + '/api/apps/Indicator-Dictionary/index.html#/dictionary/' + _.uniq(identifiers).join(',') + '/selected/' + this.selectedItem;
+      if (identifiers.length > 0) {
+        if (this.systemInfo.instanceBaseUrl) {
+          selBox.value = this.systemInfo.instanceBaseUrl + '/api/apps/Indicator-Dictionary/index.html#/dictionary/' + _.uniq(identifiers).join(',') + '/selected/' + this.selectedItem;
+        } else {
+          selBox.value = this.systemInfo.contextPath + '/api/apps/Indicator-Dictionary/index.html#/dictionary/' + _.uniq(identifiers).join(',') + '/selected/' + this.selectedItem;
+        }
+      } else {
+        selBox.value = this.systemInfo.contextPath + '/api/apps/Indicator-Dictionary/index.html#/dictionary/all';
+      }
       document.body.appendChild(selBox);
       selBox.focus();
       selBox.select();
