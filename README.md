@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/interactive-apps/indicator-search.svg?branch=master)](https://travis-ci.org/interactive-apps/indicator-search)
 [![dependencies Status](https://david-dm.org/interactive-apps/indicator-search/status.svg)](https://david-dm.org/interactive-apps/indicator-search)
 [![devDependencies Status](https://david-dm.org/interactive-apps/indicator-search/dev-status.svg)](https://david-dm.org/interactive-apps/indicator-search?type=dev)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 # Indicator Search
 
