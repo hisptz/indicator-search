@@ -20,14 +20,12 @@ import { metaReducers, reducers } from './store/app.reducers';
 import {NgxDhis2MenuModule} from '@hisptz/ngx-dhis2-menu';
 import {NgxDhis2DictionaryModule} from '@iapps/ngx-dhis2-dictionary';
 import { HttpClientModule } from '@angular/common/http';
-import { LoaderPlaceholderComponent } from './shared-components/loader-placeholder/loader-placeholder.component';
 import { TreeModule } from 'angular-tree-component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    LoaderPlaceholderComponent,
   ],
   imports: [
     BrowserModule,

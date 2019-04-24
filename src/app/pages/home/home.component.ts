@@ -16,7 +16,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.forEach((params: Params) => {
-      console.log(params['selected'])
       if (params['selected'] != undefined) {
         if (params['selected'] == 'all' && !params['ids']) {
           this.metadataIdentifiers = [];
