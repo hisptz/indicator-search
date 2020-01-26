@@ -1,0 +1,23 @@
+{
+    "version": "1.0.0-beta.7",
+    "name": "Indicator Dictionary",
+    "description": "Indicators dictionary",
+    "launch_path": "index.html",
+    "appType": "APP",
+    "icons": {
+        "16": "assets/img/indicator_search.png",
+        "48": "assets/img/indicator_search.png",
+        "128": "assets/img/indicator_search.png"
+    },
+    "developer": {
+        "name": "UDSM DHIS2 Team",
+        "email": "udsm-dhis2-team@googlegroups.com "
+    },
+    "default_locale": "en",
+    "activities": {
+        "dhis": {
+             "href": "../../../"
+        }
+    }
+}
+

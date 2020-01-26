@@ -1,21 +1,120 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-12">
-      <h1 style="font-size: 35px; margin-top: 55px; margin-bottom: 10px; text-align: left;">
-        Indicator dictionary
-        <span (click)="getSharedLink(metadataIdentifiers)"
-            title="get shared link"
-            style="cursor: pointer"
-            class="a-s-Ub-A-c"><svg class="a-s-fa-Ha-pa" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" focusable="false" fill="#000000"><path d="M3.9,12c0-1.7,1.4-3.1,3.1-3.1h4V7H7c-2.8,0-5,2.2-5,5s2.2,5,5,5h4v-1.9H7C5.3,15.1,3.9,13.7,3.9,12z M8,13h8v-2H8V13zM17,7h-4v1.9h4c1.7,0,3.1,1.4,3.1,3.1s-1.4,3.1-3.1,3.1h-4V17h4c2.8,0,5-2.2,5-5S19.8,7,17,7z"></path></svg>
-          </span>
-          <span id="copied-message">Link copied!</span>
-      </h1>
+      <div class="row">
+        <div class="col-8">
+          <h1
+            style="font-size: 35px; margin-top: 55px; margin-bottom: 10px; text-align: left;"
+          >
+            Indicator dictionary
+            <span
+              (click)="getSharedLink(metadataIdentifiers)"
+              title="get shared link"
+              style="cursor: pointer"
+              class="a-s-Ub-A-c"
+              ><svg
+                class="a-s-fa-Ha-pa"
+                x="0px"
+                y="0px"
+                width="24px"
+                height="24px"
+                viewBox="0 0 24 24"
+                focusable="false"
+                fill="#000000"
+              >
+                <path
+                  d="M3.9,12c0-1.7,1.4-3.1,3.1-3.1h4V7H7c-2.8,0-5,2.2-5,5s2.2,5,5,5h4v-1.9H7C5.3,15.1,3.9,13.7,3.9,12z M8,13h8v-2H8V13zM17,7h-4v1.9h4c1.7,0,3.1,1.4,3.1,3.1s-1.4,3.1-3.1,3.1h-4V17h4c2.8,0,5-2.2,5-5S19.8,7,17,7z"
+                ></path>
+              </svg>
+            </span>
+            <span id="copied-message">Link copied!</span>
+          </h1>
+        </div>
+        <div class="col-4">
+          <a
+            style="float: right; margin-top: 55px; margin-bottom: 10px; cursor: pointer; text-decoration: underline;"
+            (click)="toggleDownloadTemplateAndDictionaryList()"
+            title="Download indicators template"
+          >
+            <span *ngIf="!isViewAllIndicatorDownloadTemplateSet"
+              >Download templates</span
+            >
+            <span *ngIf="isViewAllIndicatorDownloadTemplateSet">Back</span>
+          </a>
+        </div>
+      </div>
       <!-- <p>Let indicators tell you a story</p> -->
-      <div class="dictionary-block">
-        <ngx-dhis2-dictionary-list 
-        [metadataIdentifiers]="metadataIdentifiers" 
-        [selectedItem]="selectedItem"
-        (dictionaryItemId)="dictionaryItemId($event)"></ngx-dhis2-dictionary-list>
+      <div class="row">
+        <div class="col-12">
+          <div
+            class="dictionary-block"
+            *ngIf="!isViewAllIndicatorDownloadTemplateSet"
+          >
+            <ngx-dhis2-dictionary-list
+              [metadataIdentifiers]="metadataIdentifiers"
+              [selectedItem]="selectedItem"
+              (dictionaryItemId)="dictionaryItemId($event)"
+              (metadataInfo)="metadataInfo($event)"
+            ></ngx-dhis2-dictionary-list>
+          </div>
+          <div
+            class="download-template-block"
+            *ngIf="isViewAllIndicatorDownloadTemplateSet && loadedMetadataInfo"
+          >
+            <div style="float: right" *ngIf="!isprintSet">
+              <a
+                class="export-btn"
+                style="float: left"
+                (click)="
+                  exportMetadataInformation('all-metadata-template-to-export')
+                "
+              >
+                <img
+                  height="40"
+                  width="40"
+                  title="Export to excel"
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAANcSURBVGhD7Zl7SFNRHMdH//Rvf/VP0F/SH9E2N00rIyMhSy1HT42KSjRNDMGSms6R9jCR0mimCeKDHlZsvUTnIzMfSEUa6D9pCSlZkmm4xTS2X+ccz73eu11q89Huxv3Ch3HP75zd7/funnvu7pVJkiRJkiSulHrlCmVW0Fa5Tp2uyFZVKvSKlbQkXim1ylVKnTpanq3KQhiR+U8KnRq4rNUHrabdRSC9bBk6smvQEY5TZKuvos9GZHrM2bQQXgsSkBawfJ1WFSzPUSciwwZkphOZn3I26C7/PQgyq0c77pXrVDPOZhZC5N2oOzHG2DJPiTZqDFGPd4dSe+4LBWgXMrJQdtTughiTZn4YNU3UnvsSY5BoU2w7tee+pCD/wG+C5HcVwM2eEsKR+mPEoLZDx7Y5g2uiDPJlchQYZb46Twy+HG6jLa7CtUUNsvHiZkiqTGGJLz3MM4gJ1Afz+mhu7HXp4/Ug2OTAt0H69QDTv6choiCSZ1JvyqVVAIfDAUfLj/PqmOaPL6BnrJeQ2nKaGKzqr2HbnMG1RQ2CSahIojZnVd1Zw9bWX9gAo5NfaQXA9O4JbyyDaCa7ua+JWgWwTlthy5VtpP2auYi2Akz++gnh+REuYzHJDamQ3ppB2PcsjhhMMJ9k25zBtSUJElkYBbYZG7UMUNp6G8IuhRPzjPKeXnYZx+D1OcKlrLWc7gZg3DIO183FdAugb6QfAnOCBcdhRBUkJHcTz5DFZiWfdodd8GrGZeD7IEzNTBEy2jKJwYahRrbNGVxbsiCYM/cziXmuHrx+KNiXi+hWdu0jHbU/p6b+ZsG+XEQVBF+pJqwTxDw+nbgT/VR1muAYBlGdWs9766htgDdDb+Fedy3dAvg8PkzWFKFxGNFM9uSqVLqLWZ2oSITthTvBhlZ6RviSLDQWI4ogoXlhMPJjhO4CoONDJ1vDqzwjfPsSU6ThjWUQxYJY1TFnFs+N/YZ4tobnjcVmoVWArsFu3lgGr0/2gyWHwG63U5sAde/reQYxhpZbtDqrs7XnXPp4/aYxtngP7xZd6F4Kn3rcPgdK5n4xBlGt7AvBb4L4zV9dv3n4IAVB+E2QeT0yFeNDbEQItee5fP61wl/liy96PJHvvXrzQD75MlSSJEmSllgy2R+XdUjEmrqvyQAAAABJRU5ErkJggg=="
+                />
+              </a>
+              <a class="export-btn" (click)="printPDF()">
+                <img
+                  height="40"
+                  width="40"
+                  title="Print PDF"
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAALWSURBVGhD7ZptT1JhHMbPB+h1n6EP0Qfoc/hCrblMRBvMVvKgmTiVDASUTEpxWibamM5UcqXC3Hwg3Xp6Y23VZrNaW1tr/7z0PnWgP4TiuePoubbr3eG+fr8XZ8AB5cSlJRBd6h6YkFpsivmjS3g4/o4kB5ti/uhiihQRUyRfTJEiYorki+FFyi93nC23tVP3wLg4Xl6wiW0wCJzDx5Ai5TbPmaprXVfqmkJetRZncORio4/qbk5S39QLqcUmtsGgZapq9DWAVWBnptYVcDtvDb/tG3tKg/HUXy3zzJNj9L3UYpNjASNYwSzw93Phaue5G72xDw8TacrVMs8Tao3vSC02ORa1YAa70FCUS87A9P2ZNfZitRWdC+yYnsUmx6IWzNUO/7TQUBSLuyfJXahtKYqg1qaePx/1jSASm1+j1fQcJZLJDC6wCw1jiKymZ4k+Rej7x8EMLsOJJJJLexJbbyYyuAwnkqsnV6SyQ74INjkWbQ8u0j7PjulZbHIs2h5YpG0oRdbwBjuoR7GFTY5F2wOLoO7IEp33LpCld/eN6PamLsXZ2MAWx5DdQ4mgIzPrFBxbJt9oSpfibGxw21wPLVJqNUVKrSdMZG6dPOFxsrf1k8XVTXXNIanFJrbBABaOsSARX3R6/8v/bmucfrobm5VabKr7YOEYCxLpjMR/H+Tw3qONrW2pxaa6DxaOsSCRkccrZPPcoQr7/xPBtt3Tv8fCMRYkom3fgynxtElesMmxaJslElzkLtI2l8jnr99oe+dLUcUZXAoScQUXhYaiVDf6u/pjz35yF6rNJbK4sknxRLKo4gwu/xIBc7XD7xUaeK7VdcraHHoenVxmX4DmEtEz+UTACmawC439VNa2nq5xBcbrr4dfNXREXmc3NPTohzhfWrDJsdS3hF9anIEYmAV+4Tn2v4/oebNLFdHzZpcqomdMkXwxRYqIKZIvx+ZvTqUdRfkF/e6cgF5V4jUAAAAASUVORK5CYII="
+                />
+              </a>
+            </div>
+            <div id="all-metadata-template-to-export">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>UID</th>
+                    <th>Name</th>
+                    <th>Short name</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let metadataInfo of loadedMetadataInfo['data']">
+                    <td>
+                      {{ metadataInfo.id }}
+                    </td>
+                    <td>
+                      {{ metadataInfo.name }}
+                    </td>
+                    <td>
+                      {{ metadataInfo.shortName }}
+                    </td>
+                    <td>
+                      {{ metadataInfo.description }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
