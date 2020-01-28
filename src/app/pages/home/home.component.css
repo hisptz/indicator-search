@@ -6,5 +6,10 @@
   display: none;
   margin-left: 15px;
   margin-bottom: -15px;
-  font-size: 0.7rem; color: #325E80
+  font-size: 0.7rem;
+  color: #325e80;
+}
+
+.selected-group-btn {
+  background-color: #c6d2dc;
 }

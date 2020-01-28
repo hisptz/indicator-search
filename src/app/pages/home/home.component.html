@@ -55,13 +55,64 @@
               [selectedItem]="selectedItem"
               (dictionaryItemId)="dictionaryItemId($event)"
               (metadataInfo)="metadataInfo($event)"
+              (metadataGroupsInfo)="metadataGroupsInfo($event)"
             ></ngx-dhis2-dictionary-list>
+          </div>
+          <div
+            *ngIf="isViewAllIndicatorDownloadTemplateSet && loadedMetadataInfo"
+          >
+            <div
+              class="card"
+              [ngClass]="{
+                'selected-group-btn': selectedTemplate == 'default'
+              }"
+              (click)="setDownloadTemplate('default')"
+              style="width: 15%; display: inline-block;margin-right: 10px; cursor: pointer;"
+            >
+              <!-- <img class="card-img-top" src="..." alt="Card image cap" /> -->
+              <div class="card-body">
+                <h5 class="card-title">Indicators with no groups</h5>
+                <p class="card-text">Indicators with no groups, just listed</p>
+              </div>
+            </div>
+
+            <div
+              class="card"
+              [ngClass]="{
+                'selected-group-btn': selectedTemplate == 'block-wise'
+              }"
+              (click)="setDownloadTemplate('block-wise')"
+              style="width: 15%;display: inline-block; margin-right: 10px; cursor: pointer;"
+            >
+              <!-- <img class="card-img-top" src="..." alt="Card image cap" /> -->
+              <div class="card-body">
+                <h5 class="card-title">By Block-wise Grouped</h5>
+                <p class="card-text">Indicators grouped bock-wise</p>
+              </div>
+            </div>
+
+            <div
+              class="card"
+              [ngClass]="{
+                'selected-group-btn': selectedTemplate == 'list-with-groups'
+              }"
+              (click)="setDownloadTemplate('list-with-groups')"
+              style="width: 15%;display: inline-block; cursor: pointer;"
+            >
+              <!-- <img class="card-img-top" src="..." alt="Card image cap" /> -->
+              <div class="card-body">
+                <h5 class="card-title">Indicators by with respective groups</h5>
+                <p class="card-text">
+                  Indicators listed with respective groups
+                </p>
+              </div>
+            </div>
           </div>
           <div
             class="download-template-block"
             *ngIf="isViewAllIndicatorDownloadTemplateSet && loadedMetadataInfo"
           >
-            <div style="float: right" *ngIf="!isprintSet">
+            <div style="float: right">
               <a
                 class="export-btn"
                 style="float: left"
@@ -88,7 +139,13 @@
             <div id="all-metadata-template-to-export">
               <table class="table table-bordered">
                 <thead>
-                  <tr>
+                  <tr style="background-color: #edeff2">
+                    <th *ngIf="selectedTemplate == 'list-with-groups'">
+                      Group Id
+                    </th>
+                    <th *ngIf="selectedTemplate == 'list-with-groups'">
+                      Group Name
+                    </th>
                     <th>UID</th>
                     <th>Name</th>
                     <th>Short name</th>
@@ -96,20 +153,41 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let metadataInfo of loadedMetadataInfo['data']">
-                    <td>
-                      {{ metadataInfo.id }}
-                    </td>
-                    <td>
-                      {{ metadataInfo.name }}
-                    </td>
-                    <td>
-                      {{ metadataInfo.shortName }}
-                    </td>
-                    <td>
-                      {{ metadataInfo.description }}
-                    </td>
-                  </tr>
+                  <ng-template
+                    ngFor
+                    let-metadataInfo
+                    let-i="index"
+                    [ngForOf]="formattedMetadata"
+                  >
+                    <tr *ngIf="!metadataInfo.isGroup">
+                      <td *ngIf="selectedTemplate == 'list-with-groups'">
+                        {{ metadataInfo.groupId }}
+                      </td>
+                      <td *ngIf="selectedTemplate == 'list-with-groups'">
+                        {{ metadataInfo.groupName }}
+                      </td>
+                      <td>
+                        {{ metadataInfo.id }}
+                      </td>
+                      <td>
+                        {{ metadataInfo.name }}
+                      </td>
+                      <td>
+                        {{ metadataInfo.shortName }}
+                      </td>
+                      <td>
+                        {{ metadataInfo.description }}
+                      </td>
+                    </tr>
+                    <tr
+                      *ngIf="metadataInfo.isGroup"
+                      style="background-color: #edeff2; font-weight:600; text-align: center"
+                    >
+                      <th [attr.colspan]="metadataInfo.colSpan">
+                        {{ metadataInfo.groupName }}
+                      </th>
+                    </tr>
+                  </ng-template>
                 </tbody>
               </table>
             </div>

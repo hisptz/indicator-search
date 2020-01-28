@@ -16,9 +16,12 @@ export class HomeComponent implements OnInit {
   metadataIdentifiersArr: any[] = [];
   systemInfo: any;
   loadedMetadataInfo: any;
+  loadedMetadataGroups: any;
   isViewAllIndicatorDownloadTemplateSet: Boolean = false;
   html: any;
   isprintSet: Boolean = false;
+  selectedTemplate: string = "default";
+  formattedMetadata: Array<any>;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -155,6 +158,11 @@ export class HomeComponent implements OnInit {
 
   metadataInfo(loadedMetadata) {
     this.loadedMetadataInfo = loadedMetadata;
+    this.formattedMetadata = loadedMetadata["data"];
+  }
+
+  metadataGroupsInfo(metadataGroups) {
+    this.loadedMetadataGroups = metadataGroups;
   }
 
   toggleDownloadTemplateAndDictionaryList() {
@@ -177,5 +185,57 @@ export class HomeComponent implements OnInit {
     setTimeout(function() {
       window.print();
     }, 500);
+  }
+
+  setDownloadTemplate(type) {
+    this.selectedTemplate = type;
+    if (type == "default") {
+      this.formattedMetadata = this.loadedMetadataInfo["data"];
+    } else if (type == "block-wise") {
+      this.formattedMetadata = [];
+      _.map(this.loadedMetadataGroups, indicatorGroup => {
+        this.formattedMetadata.push({
+          isGroup: true,
+          groupName: indicatorGroup.name,
+          colSpan: 4
+        });
+        _.map(this.loadedMetadataInfo["data"], metadata => {
+          if (
+            _.filter(metadata.indicatorGroups, { id: indicatorGroup.id })
+              .length > 0
+          ) {
+            let metadataObj = {
+              id: metadata.id,
+              name: metadata.name,
+              shortName: metadata.shortName,
+              description: metadata.description
+            };
+            this.formattedMetadata.push(metadataObj);
+          }
+        });
+      });
+    } else {
+      this.formattedMetadata = [];
+      _.map(this.loadedMetadataGroups, indicatorGroup => {
+        _.map(this.loadedMetadataInfo["data"], metadata => {
+          if (
+            _.filter(metadata.indicatorGroups, { id: indicatorGroup.id })
+              .length > 0
+          ) {
+            let metadataObj = {
+              groupId: indicatorGroup.id,
+              groupName: indicatorGroup.name,
+              id: metadata.id,
+              name: metadata.name,
+              shortName: metadata.shortName,
+              description: metadata.description
+            };
+            this.formattedMetadata.push(metadataObj);
+          }
+        });
+      });
+    }
+    console.log(this.loadedMetadataInfo);
+    console.log(this.loadedMetadataGroups);
   }
 }
