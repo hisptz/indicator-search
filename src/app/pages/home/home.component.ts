@@ -4,6 +4,9 @@ import * as _ from "lodash";
 import { NgxDhis2HttpClientService } from "@iapps/ngx-dhis2-http-client";
 import { ExportService } from "src/app/services/export.service";
 import { DatePipe } from "@angular/common";
+import { Store } from "@ngrx/store";
+import { AppState } from "src/app/store/app.reducers";
+import { LoadMetadataDefinitionsAction } from "src/app/store/metadata/metadata.actions";
 
 @Component({
   selector: "app-home",
@@ -23,6 +26,7 @@ export class HomeComponent implements OnInit {
   selectedTemplate: string = "default";
   formattedMetadata: Array<any>;
   constructor(
+    private store: Store<AppState>,
     private router: Router,
     private route: ActivatedRoute,
     private httpClient: NgxDhis2HttpClientService,
@@ -191,6 +195,24 @@ export class HomeComponent implements OnInit {
     this.selectedTemplate = type;
     if (type == "default") {
       this.formattedMetadata = this.loadedMetadataInfo["data"];
+      let parameters = [];
+      _.map(this.loadedMetadataInfo["data"], metadata => {
+        const numeratorParameters = {
+          id: metadata.id + "-nume",
+          type: "numerator",
+          expression: metadata.numerator
+        };
+
+        const denominatorParameters = {
+          id: metadata.id + "-deno",
+          type: "denominator",
+          expression: metadata.denominator
+        };
+        parameters.push(numeratorParameters);
+        parameters.push(denominatorParameters);
+      });
+      this.store.dispatch(new LoadMetadataDefinitionsAction(parameters));
+      // 'expressions/description?expression=' +encodeURIComponent(indicator.denominator);
     } else if (type == "block-wise") {
       this.formattedMetadata = [];
       _.map(this.loadedMetadataGroups, indicatorGroup => {
