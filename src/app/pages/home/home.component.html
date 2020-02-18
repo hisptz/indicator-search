@@ -11,7 +11,7 @@
               (click)="getSharedLink(metadataIdentifiers)"
               title="get shared link"
               style="cursor: pointer"
-              class="a-s-Ub-A-c"
+              class="a-s-Ub-A-c no-print"
               ><svg
                 class="a-s-fa-Ha-pa"
                 x="0px"
@@ -30,7 +30,7 @@
             <span id="copied-message">Link copied!</span>
           </h1>
         </div>
-        <div class="col-4">
+        <div class="col-4" *ngIf="loadedMetadataInfo">
           <a
             style="float: right; margin-top: 55px; margin-bottom: 10px; cursor: pointer; text-decoration: underline;"
             (click)="toggleDownloadTemplateAndDictionaryList()"
@@ -39,7 +39,9 @@
             <span *ngIf="!isViewAllIndicatorDownloadTemplateSet"
               >Download templates</span
             >
-            <span *ngIf="isViewAllIndicatorDownloadTemplateSet">Back</span>
+            <span class="no-print" *ngIf="isViewAllIndicatorDownloadTemplateSet"
+              >Back</span
+            >
           </a>
         </div>
       </div>
@@ -60,51 +62,64 @@
           </div>
           <div
             *ngIf="isViewAllIndicatorDownloadTemplateSet && loadedMetadataInfo"
+            class="row no-print"
           >
-            <div
-              class="card"
-              [ngClass]="{
-                'selected-group-btn': selectedTemplate == 'default'
-              }"
-              (click)="setDownloadTemplate('default')"
-              style="width: 15%; display: inline-block;margin-right: 10px; cursor: pointer;"
-            >
-              <!-- <img class="card-img-top" src="..." alt="Card image cap" /> -->
-              <div class="card-body">
-                <h5 class="card-title">Indicators with no groups</h5>
-                <p class="card-text">Indicators with no groups, just listed</p>
+            <div class="col-12">
+              <div class="width: 50%; float: left">
+                <a
+                  style="float: left; cursor: pointer; margin-right: 10px;padding: 4px; background-color: #edeff263;border-radius: 6px 6px 0 0;"
+                  [ngClass]="{
+                    'selected-group-btn': selectedTemplate == 'list-with-groups'
+                  }"
+                  (click)="setDownloadTemplate('list-with-groups')"
+                  title="List of indicators with groups"
+                >
+                  List with groups
+                  <!-- <img
+                    height="30"
+                    width="30"
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAABnklEQVRoge3ZPU8VQRTG8R8vmoCYaGIhlIQECgpDoVbGysKWhA9gKKhJKOgItY1fAuihsFdbjYmNhYXRmBDBILSESzG7ZrnsBS/cy+wk808ms9kzxfPM7pk9M0um2dzCfQzGFnJV7mIVu2jhYVw53VPO/DTm8TGilp4wiAGsSfSJDBf9yX+Ob/VLyHVJNqnbyUaaxvDlQ84w0BcVPaDdyDZ+4TCClkwmk8mkx1DlehyPMYbfceRcnzdCBdwq2o7uv/qNYAFPMIoVwcxCVEU9YEowshxbSDfUvT4vi/5DTayxG6t2ZnGAzQ7xVoPbP2bwE++FXEnSyJxwFPROWH47EVvspUb+1gQ+XWCocZTJvlgTO7hJIZlMJpNJknJjdRvP8QwP8F1CBWKVLWFjdSgYeKvBx6MXMY17xfW6YGYynpzuKUuUr5V7I/gjFJFJ8ho/sC9se+uIXeF2bNU8eCGU869wjKfOn8ontQA8EgQv1cSiz3ynVv6xqib2XNHvX20e4jGGI+zhm+BwQ2K/5cocmRBOGe/gM75EU5TJZPrCKcq+/8v0MaMyAAAAAElFTkSuQmCC"
+                  /> -->
+                </a>
+                <a
+                  style="float: left; cursor: pointer; margin-right: 10px;padding: 4px;background-color: #edeff263;border-radius: 6px 6px 0 0;"
+                  [ngClass]="{
+                    'selected-group-btn': selectedTemplate == 'block-wise'
+                  }"
+                  (click)="setDownloadTemplate('block-wise')"
+                  title="Block wise listing of indicators"
+                >
+                  List grouped block-wise
+                  <!-- <img
+                    height="30"
+                    width="30"
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAAeUlEQVRoge3YSwrAIAxF0aR0/1tuRwUL0p+FXOSekQgBHwoJRkiS9F02663sFGMyImKpPsVf1s5edvauHDf5tm60/vSCprkRg9AYhMYgNHZ2miedvapz39Xb2dEMQmMQGoPQOKLQ+PlAYxAag9AYhGaaII4okiTNZAdFbQ5HN+6vhAAAAABJRU5ErkJggg=="
+                  /> -->
+                </a>
               </div>
-            </div>
-
-            <div
-              class="card"
-              [ngClass]="{
-                'selected-group-btn': selectedTemplate == 'block-wise'
-              }"
-              (click)="setDownloadTemplate('block-wise')"
-              style="width: 15%;display: inline-block; margin-right: 10px; cursor: pointer;"
-            >
-              <!-- <img class="card-img-top" src="..." alt="Card image cap" /> -->
-              <div class="card-body">
-                <h5 class="card-title">By Block-wise Grouped</h5>
-                <p class="card-text">Indicators grouped bock-wise</p>
-              </div>
-            </div>
-
-            <div
-              class="card"
-              [ngClass]="{
-                'selected-group-btn': selectedTemplate == 'list-with-groups'
-              }"
-              (click)="setDownloadTemplate('list-with-groups')"
-              style="width: 15%;display: inline-block; cursor: pointer;"
-            >
-              <!-- <img class="card-img-top" src="..." alt="Card image cap" /> -->
-              <div class="card-body">
-                <h5 class="card-title">Indicators by with respective groups</h5>
-                <p class="card-text">
-                  Indicators listed with respective groups
-                </p>
+              <div style="width: 50%; float: right" class="no-print">
+                <a
+                  class="export-btn"
+                  style="float: right"
+                  (click)="
+                    exportMetadataInformation('all-metadata-template-to-export')
+                  "
+                >
+                  <img
+                    height="40"
+                    width="40"
+                    title="Export to excel"
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAANcSURBVGhD7Zl7SFNRHMdH//Rvf/VP0F/SH9E2N00rIyMhSy1HT42KSjRNDMGSms6R9jCR0mimCeKDHlZsvUTnIzMfSEUa6D9pCSlZkmm4xTS2X+ccz73eu11q89Huxv3Ch3HP75zd7/funnvu7pVJkiRJkiSulHrlCmVW0Fa5Tp2uyFZVKvSKlbQkXim1ylVKnTpanq3KQhiR+U8KnRq4rNUHrabdRSC9bBk6smvQEY5TZKuvos9GZHrM2bQQXgsSkBawfJ1WFSzPUSciwwZkphOZn3I26C7/PQgyq0c77pXrVDPOZhZC5N2oOzHG2DJPiTZqDFGPd4dSe+4LBWgXMrJQdtTughiTZn4YNU3UnvsSY5BoU2w7tee+pCD/wG+C5HcVwM2eEsKR+mPEoLZDx7Y5g2uiDPJlchQYZb46Twy+HG6jLa7CtUUNsvHiZkiqTGGJLz3MM4gJ1Afz+mhu7HXp4/Ug2OTAt0H69QDTv6choiCSZ1JvyqVVAIfDAUfLj/PqmOaPL6BnrJeQ2nKaGKzqr2HbnMG1RQ2CSahIojZnVd1Zw9bWX9gAo5NfaQXA9O4JbyyDaCa7ua+JWgWwTlthy5VtpP2auYi2Akz++gnh+REuYzHJDamQ3ppB2PcsjhhMMJ9k25zBtSUJElkYBbYZG7UMUNp6G8IuhRPzjPKeXnYZx+D1OcKlrLWc7gZg3DIO183FdAugb6QfAnOCBcdhRBUkJHcTz5DFZiWfdodd8GrGZeD7IEzNTBEy2jKJwYahRrbNGVxbsiCYM/cziXmuHrx+KNiXi+hWdu0jHbU/p6b+ZsG+XEQVBF+pJqwTxDw+nbgT/VR1muAYBlGdWs9766htgDdDb+Fedy3dAvg8PkzWFKFxGNFM9uSqVLqLWZ2oSITthTvBhlZ6RviSLDQWI4ogoXlhMPJjhO4CoONDJ1vDqzwjfPsSU6ThjWUQxYJY1TFnFs+N/YZ4tobnjcVmoVWArsFu3lgGr0/2gyWHwG63U5sAde/reQYxhpZbtDqrs7XnXPp4/aYxtngP7xZd6F4Kn3rcPgdK5n4xBlGt7AvBb4L4zV9dv3n4IAVB+E2QeT0yFeNDbEQItee5fP61wl/liy96PJHvvXrzQD75MlSSJEmSllgy2R+XdUjEmrqvyQAAAABJRU5ErkJggg=="
+                  />
+                </a>
+                <a style="float: right" class="export-btn" (click)="printPDF()">
+                  <img
+                    height="40"
+                    width="40"
+                    title="Print PDF"
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAALWSURBVGhD7ZptT1JhHMbPB+h1n6EP0Qfoc/hCrblMRBvMVvKgmTiVDASUTEpxWibamM5UcqXC3Hwg3Xp6Y23VZrNaW1tr/7z0PnWgP4TiuePoubbr3eG+fr8XZ8AB5cSlJRBd6h6YkFpsivmjS3g4/o4kB5ti/uhiihQRUyRfTJEiYorki+FFyi93nC23tVP3wLg4Xl6wiW0wCJzDx5Ai5TbPmaprXVfqmkJetRZncORio4/qbk5S39QLqcUmtsGgZapq9DWAVWBnptYVcDtvDb/tG3tKg/HUXy3zzJNj9L3UYpNjASNYwSzw93Phaue5G72xDw8TacrVMs8Tao3vSC02ORa1YAa70FCUS87A9P2ZNfZitRWdC+yYnsUmx6IWzNUO/7TQUBSLuyfJXahtKYqg1qaePx/1jSASm1+j1fQcJZLJDC6wCw1jiKymZ4k+Rej7x8EMLsOJJJJLexJbbyYyuAwnkqsnV6SyQ74INjkWbQ8u0j7PjulZbHIs2h5YpG0oRdbwBjuoR7GFTY5F2wOLoO7IEp33LpCld/eN6PamLsXZ2MAWx5DdQ4mgIzPrFBxbJt9oSpfibGxw21wPLVJqNUVKrSdMZG6dPOFxsrf1k8XVTXXNIanFJrbBABaOsSARX3R6/8v/bmucfrobm5VabKr7YOEYCxLpjMR/H+Tw3qONrW2pxaa6DxaOsSCRkccrZPPcoQr7/xPBtt3Tv8fCMRYkom3fgynxtElesMmxaJslElzkLtI2l8jnr99oe+dLUcUZXAoScQUXhYaiVDf6u/pjz35yF6rNJbK4sknxRLKo4gwu/xIBc7XD7xUaeK7VdcraHHoenVxmX4DmEtEz+UTACmawC439VNa2nq5xBcbrr4dfNXREXmc3NPTohzhfWrDJsdS3hF9anIEYmAV+4Tn2v4/oebNLFdHzZpcqomdMkXwxRYqIKZIvx+ZvTqUdRfkF/e6cgF5V4jUAAAAASUVORK5CYII="
+                  />
+                </a>
               </div>
             </div>
           </div>
@@ -112,84 +127,12 @@
             class="download-template-block"
             *ngIf="isViewAllIndicatorDownloadTemplateSet && loadedMetadataInfo"
           >
-            <div style="float: right">
-              <a
-                class="export-btn"
-                style="float: left"
-                (click)="
-                  exportMetadataInformation('all-metadata-template-to-export')
-                "
-              >
-                <img
-                  height="40"
-                  width="40"
-                  title="Export to excel"
-                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAANcSURBVGhD7Zl7SFNRHMdH//Rvf/VP0F/SH9E2N00rIyMhSy1HT42KSjRNDMGSms6R9jCR0mimCeKDHlZsvUTnIzMfSEUa6D9pCSlZkmm4xTS2X+ccz73eu11q89Huxv3Ch3HP75zd7/funnvu7pVJkiRJkiSulHrlCmVW0Fa5Tp2uyFZVKvSKlbQkXim1ylVKnTpanq3KQhiR+U8KnRq4rNUHrabdRSC9bBk6smvQEY5TZKuvos9GZHrM2bQQXgsSkBawfJ1WFSzPUSciwwZkphOZn3I26C7/PQgyq0c77pXrVDPOZhZC5N2oOzHG2DJPiTZqDFGPd4dSe+4LBWgXMrJQdtTughiTZn4YNU3UnvsSY5BoU2w7tee+pCD/wG+C5HcVwM2eEsKR+mPEoLZDx7Y5g2uiDPJlchQYZb46Twy+HG6jLa7CtUUNsvHiZkiqTGGJLz3MM4gJ1Afz+mhu7HXp4/Ug2OTAt0H69QDTv6choiCSZ1JvyqVVAIfDAUfLj/PqmOaPL6BnrJeQ2nKaGKzqr2HbnMG1RQ2CSahIojZnVd1Zw9bWX9gAo5NfaQXA9O4JbyyDaCa7ua+JWgWwTlthy5VtpP2auYi2Akz++gnh+REuYzHJDamQ3ppB2PcsjhhMMJ9k25zBtSUJElkYBbYZG7UMUNp6G8IuhRPzjPKeXnYZx+D1OcKlrLWc7gZg3DIO183FdAugb6QfAnOCBcdhRBUkJHcTz5DFZiWfdodd8GrGZeD7IEzNTBEy2jKJwYahRrbNGVxbsiCYM/cziXmuHrx+KNiXi+hWdu0jHbU/p6b+ZsG+XEQVBF+pJqwTxDw+nbgT/VR1muAYBlGdWs9766htgDdDb+Fedy3dAvg8PkzWFKFxGNFM9uSqVLqLWZ2oSITthTvBhlZ6RviSLDQWI4ogoXlhMPJjhO4CoONDJ1vDqzwjfPsSU6ThjWUQxYJY1TFnFs+N/YZ4tobnjcVmoVWArsFu3lgGr0/2gyWHwG63U5sAde/reQYxhpZbtDqrs7XnXPp4/aYxtngP7xZd6F4Kn3rcPgdK5n4xBlGt7AvBb4L4zV9dv3n4IAVB+E2QeT0yFeNDbEQItee5fP61wl/liy96PJHvvXrzQD75MlSSJEmSllgy2R+XdUjEmrqvyQAAAABJRU5ErkJggg=="
-                />
-              </a>
-              <a class="export-btn" (click)="printPDF()">
-                <img
-                  height="40"
-                  width="40"
-                  title="Print PDF"
-                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAALWSURBVGhD7ZptT1JhHMbPB+h1n6EP0Qfoc/hCrblMRBvMVvKgmTiVDASUTEpxWibamM5UcqXC3Hwg3Xp6Y23VZrNaW1tr/7z0PnWgP4TiuePoubbr3eG+fr8XZ8AB5cSlJRBd6h6YkFpsivmjS3g4/o4kB5ti/uhiihQRUyRfTJEiYorki+FFyi93nC23tVP3wLg4Xl6wiW0wCJzDx5Ai5TbPmaprXVfqmkJetRZncORio4/qbk5S39QLqcUmtsGgZapq9DWAVWBnptYVcDtvDb/tG3tKg/HUXy3zzJNj9L3UYpNjASNYwSzw93Phaue5G72xDw8TacrVMs8Tao3vSC02ORa1YAa70FCUS87A9P2ZNfZitRWdC+yYnsUmx6IWzNUO/7TQUBSLuyfJXahtKYqg1qaePx/1jSASm1+j1fQcJZLJDC6wCw1jiKymZ4k+Rej7x8EMLsOJJJJLexJbbyYyuAwnkqsnV6SyQ74INjkWbQ8u0j7PjulZbHIs2h5YpG0oRdbwBjuoR7GFTY5F2wOLoO7IEp33LpCld/eN6PamLsXZ2MAWx5DdQ4mgIzPrFBxbJt9oSpfibGxw21wPLVJqNUVKrSdMZG6dPOFxsrf1k8XVTXXNIanFJrbBABaOsSARX3R6/8v/bmucfrobm5VabKr7YOEYCxLpjMR/H+Tw3qONrW2pxaa6DxaOsSCRkccrZPPcoQr7/xPBtt3Tv8fCMRYkom3fgynxtElesMmxaJslElzkLtI2l8jnr99oe+dLUcUZXAoScQUXhYaiVDf6u/pjz35yF6rNJbK4sknxRLKo4gwu/xIBc7XD7xUaeK7VdcraHHoenVxmX4DmEtEz+UTACmawC439VNa2nq5xBcbrr4dfNXREXmc3NPTohzhfWrDJsdS3hF9anIEYmAV+4Tn2v4/oebNLFdHzZpcqomdMkXwxRYqIKZIvx+ZvTqUdRfkF/e6cgF5V4jUAAAAASUVORK5CYII="
-                />
-              </a>
-            </div>
             <div id="all-metadata-template-to-export">
-              <table class="table table-bordered">
-                <thead>
-                  <tr style="background-color: #edeff2">
-                    <th *ngIf="selectedTemplate == 'list-with-groups'">
-                      Group Id
-                    </th>
-                    <th *ngIf="selectedTemplate == 'list-with-groups'">
-                      Group Name
-                    </th>
-                    <th>UID</th>
-                    <th>Name</th>
-                    <th>Short name</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <ng-template
-                    ngFor
-                    let-metadataInfo
-                    let-i="index"
-                    [ngForOf]="formattedMetadata"
-                  >
-                    <tr *ngIf="!metadataInfo.isGroup">
-                      <td *ngIf="selectedTemplate == 'list-with-groups'">
-                        {{ metadataInfo.groupId }}
-                      </td>
-                      <td *ngIf="selectedTemplate == 'list-with-groups'">
-                        {{ metadataInfo.groupName }}
-                      </td>
-                      <td>
-                        {{ metadataInfo.id }}
-                      </td>
-                      <td>
-                        {{ metadataInfo.name }}
-                      </td>
-                      <td>
-                        {{ metadataInfo.shortName }}
-                      </td>
-                      <td>
-                        {{ metadataInfo.description }}
-                      </td>
-                    </tr>
-                    <tr
-                      *ngIf="metadataInfo.isGroup"
-                      style="background-color: #edeff2; font-weight:600; text-align: center"
-                    >
-                      <th [attr.colspan]="metadataInfo.colSpan">
-                        {{ metadataInfo.groupName }}
-                      </th>
-                    </tr>
-                  </ng-template>
-                </tbody>
-              </table>
+              <app-download-template
+                [selectedTemplate]="selectedTemplate"
+                [metadataGroups]="loadedMetadataGroups"
+                [metadataInfo]="loadedMetadataInfo"
+              ></app-download-template>
             </div>
           </div>
         </div>

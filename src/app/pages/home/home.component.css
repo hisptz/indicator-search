@@ -11,5 +11,12 @@
 }
 
 .selected-group-btn {
-  background-color: #c6d2dc;
+  border-bottom: solid 2px green;
+  font-weight: 600;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
 }

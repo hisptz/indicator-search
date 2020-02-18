@@ -1,0 +1,65 @@
+<!-- {{ formattedMetadata | json }} -->
+<table class="table table-bordered">
+  <thead>
+    <tr style="background-color: #edeff2">
+      <th>UID</th>
+      <th>Name</th>
+      <th>Short name</th>
+      <th>Description</th>
+      <th *ngIf="!isProgramIndicatorsSelected">Numerator Expression</th>
+      <th *ngIf="!isProgramIndicatorsSelected">Denominator Expression</th>
+      <th *ngIf="isProgramIndicatorsSelected">Expression</th>
+      <th *ngIf="isProgramIndicatorsSelected">Filter</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-template ngFor let-metadata let-i="index" [ngForOf]="formattedMetadata">
+      <tr *ngIf="!metadata.isGroup">
+        <td>
+          {{ metadata.id }}
+        </td>
+        <td>
+          {{ metadata.name }}
+        </td>
+        <td>
+          {{ metadata.shortName }}
+        </td>
+        <td>
+          {{ metadata.description }}
+        </td>
+        <td *ngIf="!isProgramIndicatorsSelected">
+          {{
+            (metadataDefnEntities$ | async)[metadata.id + "-nume"]
+              ? (metadataDefnEntities$ | async)[metadata.id + "-nume"][
+                  "expression"
+                ]["description"]
+              : "1"
+          }}
+        </td>
+        <td *ngIf="!isProgramIndicatorsSelected">
+          {{
+            (metadataDefnEntities$ | async)[metadata.id + "-deno"]
+              ? (metadataDefnEntities$ | async)[metadata.id + "-deno"][
+                  "expression"
+                ]["description"]
+              : "1"
+          }}
+        </td>
+        <td *ngIf="isProgramIndicatorsSelected">
+          {{ metadata.expression }}
+        </td>
+        <td *ngIf="isProgramIndicatorsSelected">
+          {{ metadata.expression }}
+        </td>
+      </tr>
+      <tr
+        *ngIf="metadata.isGroup"
+        style="background-color: #edeff2; font-weight:600; text-align: center"
+      >
+        <th [attr.colspan]="metadata.colSpan">
+          {{ metadata.groupName }}
+        </th>
+      </tr>
+    </ng-template>
+  </tbody>
+</table>

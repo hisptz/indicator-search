@@ -11,6 +11,8 @@ import {
 import { mergeMap, switchMap, map, tap } from "rxjs/operators";
 import { Store } from "@ngrx/store";
 import { AppState } from "../app.reducers";
+import { MetadataInfoService } from "src/app/services/metadata-info.service";
+import { formatMetadataExpression } from "src/app/helpers/metadata-processing.helpers";
 
 @Injectable()
 export class MetadataEffects {
@@ -20,18 +22,15 @@ export class MetadataEffects {
     switchMap(action => {
       return from(action["indIdWithExpression"]).pipe(
         mergeMap(parameter =>
-          this.httpClient
-            .get(
-              "expressions/description?expression=" +
-                encodeURIComponent(parameter["expression"])
-            )
+          this.metadataService
+            .loadMetadataInfo(parameter)
             .pipe(
               map(response =>
                 this.store.dispatch(
                   new AddLoadedMetadataDefinitionAction(
                     parameter["id"],
                     parameter["type"],
-                    response["description"]
+                    formatMetadataExpression(parameter, response)
                   )
                 )
               )
@@ -43,6 +42,7 @@ export class MetadataEffects {
   constructor(
     private store: Store<AppState>,
     private actions$: Actions,
-    private httpClient: NgxDhis2HttpClientService
+    private httpClient: NgxDhis2HttpClientService,
+    private metadataService: MetadataInfoService
   ) {}
 }

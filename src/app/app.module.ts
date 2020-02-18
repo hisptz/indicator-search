@@ -21,9 +21,12 @@ import { NgxDhis2DictionaryModule } from "@iapps/ngx-dhis2-dictionary";
 import { HttpClientModule } from "@angular/common/http";
 import { TreeModule } from "angular-tree-component";
 import { ExportService } from "./services/export.service";
+import { DownloadTemplateComponent } from './pages/home/containers/download-template/download-template.component';
+import { BlockWiseTemplateComponent } from './pages/home/containers/block-wise-template/block-wise-template.component';
+import { WithGroupsTemplateComponent } from './pages/home/containers/with-groups-template/with-groups-template.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent],
+  declarations: [AppComponent, HomeComponent, DownloadTemplateComponent, BlockWiseTemplateComponent, WithGroupsTemplateComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

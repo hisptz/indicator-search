@@ -6,7 +6,7 @@ import { ExportService } from "src/app/services/export.service";
 import { DatePipe } from "@angular/common";
 import { Store } from "@ngrx/store";
 import { AppState } from "src/app/store/app.reducers";
-import { LoadMetadataDefinitionsAction } from "src/app/store/metadata/metadata.actions";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-home",
@@ -23,8 +23,8 @@ export class HomeComponent implements OnInit {
   isViewAllIndicatorDownloadTemplateSet: Boolean = false;
   html: any;
   isprintSet: Boolean = false;
-  selectedTemplate: string = "default";
-  formattedMetadata: Array<any>;
+  selectedTemplate: string = "list-with-groups";
+  metadataDefnEntities$: Observable<any>;
   constructor(
     private store: Store<AppState>,
     private router: Router,
@@ -162,7 +162,6 @@ export class HomeComponent implements OnInit {
 
   metadataInfo(loadedMetadata) {
     this.loadedMetadataInfo = loadedMetadata;
-    this.formattedMetadata = loadedMetadata["data"];
   }
 
   metadataGroupsInfo(metadataGroups) {
@@ -187,77 +186,12 @@ export class HomeComponent implements OnInit {
 
   printPDF() {
     setTimeout(function() {
+      this.isprintSet = true;
       window.print();
     }, 500);
   }
 
   setDownloadTemplate(type) {
     this.selectedTemplate = type;
-    if (type == "default") {
-      this.formattedMetadata = this.loadedMetadataInfo["data"];
-      let parameters = [];
-      _.map(this.loadedMetadataInfo["data"], metadata => {
-        const numeratorParameters = {
-          id: metadata.id + "-nume",
-          type: "numerator",
-          expression: metadata.numerator
-        };
-
-        const denominatorParameters = {
-          id: metadata.id + "-deno",
-          type: "denominator",
-          expression: metadata.denominator
-        };
-        parameters.push(numeratorParameters);
-        parameters.push(denominatorParameters);
-      });
-      this.store.dispatch(new LoadMetadataDefinitionsAction(parameters));
-      // 'expressions/description?expression=' +encodeURIComponent(indicator.denominator);
-    } else if (type == "block-wise") {
-      this.formattedMetadata = [];
-      _.map(this.loadedMetadataGroups, indicatorGroup => {
-        this.formattedMetadata.push({
-          isGroup: true,
-          groupName: indicatorGroup.name,
-          colSpan: 4
-        });
-        _.map(this.loadedMetadataInfo["data"], metadata => {
-          if (
-            _.filter(metadata.indicatorGroups, { id: indicatorGroup.id })
-              .length > 0
-          ) {
-            let metadataObj = {
-              id: metadata.id,
-              name: metadata.name,
-              shortName: metadata.shortName,
-              description: metadata.description
-            };
-            this.formattedMetadata.push(metadataObj);
-          }
-        });
-      });
-    } else {
-      this.formattedMetadata = [];
-      _.map(this.loadedMetadataGroups, indicatorGroup => {
-        _.map(this.loadedMetadataInfo["data"], metadata => {
-          if (
-            _.filter(metadata.indicatorGroups, { id: indicatorGroup.id })
-              .length > 0
-          ) {
-            let metadataObj = {
-              groupId: indicatorGroup.id,
-              groupName: indicatorGroup.name,
-              id: metadata.id,
-              name: metadata.name,
-              shortName: metadata.shortName,
-              description: metadata.description
-            };
-            this.formattedMetadata.push(metadataObj);
-          }
-        });
-      });
-    }
-    console.log(this.loadedMetadataInfo);
-    console.log(this.loadedMetadataGroups);
   }
 }

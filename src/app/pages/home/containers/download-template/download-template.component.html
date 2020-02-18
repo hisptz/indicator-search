@@ -1,0 +1,18 @@
+<div *ngIf="selectedTemplate == 'block-wise'">
+  <app-block-wise-template
+    [metadataInfo]="metadataInfo"
+    [metadataGroups]="metadataGroups"
+    [referenceConstants]="referenceConstants"
+    [formulaPattern]="formulaPattern"
+    [replacingElement]="replacingElement"
+  ></app-block-wise-template>
+</div>
+<div *ngIf="selectedTemplate == 'list-with-groups'">
+  <app-with-groups-template
+    [metadataInfo]="metadataInfo"
+    [metadataGroups]="metadataGroups"
+    [referenceConstants]="referenceConstants"
+    [formulaPattern]="formulaPattern"
+    [replacingElement]="replacingElement"
+  ></app-with-groups-template>
+</div>
